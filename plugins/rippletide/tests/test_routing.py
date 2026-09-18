@@ -166,6 +166,7 @@ def test_explicit_preflight_phase_is_recorded_separately(router, project, monkey
     {"status": "selected", "route_id": "unregistered.execute"},
     {"status": "selected", "route_id": ["unregistered.execute"]},
     {"status": "selected", "route_id": "mcp.semantic_search", "score": float("nan")},
+    {"status": "defer", "reason_code": "UNRECOGNIZED_DEFER"},
     {"status": "something-else"},
     ["malformed"],
 ])

@@ -201,10 +201,10 @@ class Router:
         if result.get("status") != "defer":
             return finish("INVALID_MODEL_OUTPUT")
         reason = result.get("reason_code", "MODEL_ERROR")
-        known_reasons = {"MODEL_DEFER", "MODEL_ERROR", "MODEL_CRASH", "MODEL_NOT_READY", "ROUTER_TIMEOUT", "CONTEXT_TOO_LARGE", "LABEL_TOKEN_COLLISION", "TOO_MANY_CANDIDATES", "INVALID_MODEL_OUTPUT"}
+        known_reasons = {"MODEL_ERROR", "MODEL_CRASH", "MODEL_NOT_READY", "ROUTER_TIMEOUT", "CONTEXT_TOO_LARGE", "LABEL_TOKEN_COLLISION", "TOO_MANY_CANDIDATES", "INVALID_MODEL_OUTPUT"}
         if reason not in known_reasons:
             reason = "INVALID_MODEL_OUTPUT"
-        return finish(reason, source="model" if reason == "MODEL_DEFER" else "fallback", diagnostics=result)
+        return finish(reason, diagnostics=result)
 
     def status(self, project_root: str) -> dict:
         errors = []

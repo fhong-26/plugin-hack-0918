@@ -56,7 +56,7 @@ class Engine:
         self.engine = engine_mlx
         self.schema_type = StructuredSchema
         self.model, self.tokenizer = engine_mlx.get_engine()
-        all_labels = list(string.ascii_uppercase) + list(SEMANTIC_LABELS.values()) + ["defer"]
+        all_labels = list(string.ascii_uppercase) + list(SEMANTIC_LABELS.values())
         tokens = [self.tokenizer.encode(label, add_special_tokens=False) for label in all_labels]
         if any(len(ids) != 1 for ids in tokens) or len({ids[0] for ids in tokens}) != len(all_labels):
             raise RuntimeError("Pinned tokenizer does not provide distinct one-token routing labels")
@@ -66,11 +66,10 @@ class Engine:
         if not 1 <= len(candidates) <= 25:
             return {"status": "defer", "reason_code": "TOO_MANY_CANDIDATES"}
         labels = [SEMANTIC_LABELS.get(cap["id"], string.ascii_uppercase[index]) for index, cap in enumerate(candidates)]
-        choices = labels + ["defer"]
         catalog = "; ".join(f"{label} for {cap['description'].replace(chr(10), ' ')}" for label, cap in zip(labels, candidates))
         schema = self.schema_type({"route": {
-            "type": "enum", "choices": choices,
-            "description": f"Select {catalog}; defer only for an unrelated or unclear task.",
+            "type": "enum", "choices": labels,
+            "description": f"Select exactly one capability by comparing the primary verbs and intended output: {catalog}.",
         }})
         metadata = schema.compile_parallel_metadata(self.tokenizer)
         if any(metadata["has_collisions"]):
@@ -89,7 +88,7 @@ class Engine:
         result = self.engine.run_parallel_generation(context, schema, temperature=1.0)
         selected = result["parsed_json"]["route"]["value"]
         common = {
-            "prompt_version": "v1-semantic-labels",
+            "prompt_version": model_spec(DEFAULT_MODEL).prompt_version,
             "prompt_sha256": hashlib.sha256(json.dumps({
                 "prefix": self.tokenizer.encode(full_upstream_prompt(context, schema)),
                 "suffixes": metadata["suffixes_batch"].tolist(),
@@ -100,8 +99,6 @@ class Engine:
             "output_tokens": 0, "readout_tokens": 1,
             "inference_ms": result["elapsed_ms"],
         }
-        if selected == "defer":
-            return {"status": "defer", "reason_code": "MODEL_DEFER", **common}
         if selected not in labels:
             return {"status": "defer", "reason_code": "INVALID_MODEL_OUTPUT", **common}
         return {"status": "selected", "route_id": candidates[labels.index(selected)]["id"], "reason_code": "MODEL_SELECTION", **common}
