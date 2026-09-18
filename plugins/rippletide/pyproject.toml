@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rippletide"
+version = "0.1.0"
+description = "Local bounded capability routing for the Rippletide Codex plugin"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "mcp==2.2.0",
+  "pydantic>=2.12,<3",
+  "huggingface-hub>=1,<2",
+  "mlx-lm==0.31.3; sys_platform == 'darwin' and platform_machine == 'arm64'",
+]
+
+[project.scripts]
+rippletide = "rippletide.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8,<10"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rippletide"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["model: runs the pinned real MLX backend; opt in with --run-model"]

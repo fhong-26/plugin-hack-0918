@@ -1,0 +1,6 @@
+interface:
+  display_name: "Rippletide routing"
+  short_description: "Choose registered tools and specialists with local Qwen."
+  default_prompt: "Use $route-capabilities to help investigate this project."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,24 @@
+[project]
+name = "rippletide-semantic"
+version = "0.1.0"
+description = "Isolated upstream Chroma MCP integration for Rippletide user tests"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "chroma-mcp==0.2.6",
+  "chromadb==1.0.16",
+  "mcp==1.6.0",
+]
+
+[project.scripts]
+rippletide-semantic = "rippletide_semantic.cli:main"
+
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8.3,<9"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: downloads the local embedding model and calls the actual upstream MCP server"]

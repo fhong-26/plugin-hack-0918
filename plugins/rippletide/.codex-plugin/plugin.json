@@ -1,0 +1,19 @@
+{
+  "name": "rippletide",
+  "version": "0.1.0",
+  "description": "Local Qwen routing for registered tools, MCP integrations, and specialist agents.",
+  "author": {
+    "name": "Fan Hong"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rippletide",
+    "shortDescription": "Choose tools with local Qwen and project preferences.",
+    "longDescription": "Rippletide recommends registered search tools, connected MCP tools, and callable specialists. Codex keeps task reasoning and execution. Includes local routing evidence and explicit fallbacks.",
+    "developerName": "Fan Hong",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Use Rippletide to help investigate this project."
+  },
+  "mcpServers": "./.mcp.json"
+}

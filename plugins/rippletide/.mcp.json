@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "rippletide": {
+      "command": "python3",
+      "args": ["./scripts/launch.py"],
+      "cwd": ".",
+      "startup_timeout_sec": 120,
+      "tool_timeout_sec": 10
+    }
+  }
+}
