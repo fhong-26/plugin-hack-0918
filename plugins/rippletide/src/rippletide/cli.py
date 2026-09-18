@@ -4,8 +4,10 @@ import argparse
 import json
 import sys
 
-from rippletide.artifacts import setup_artifacts
+from rippletide.artifacts import read_artifacts, setup_artifacts
+from rippletide.catalog import DEFAULT_MODEL, MODELS, model_spec
 from rippletide.config import load_config, update_preferences
+from rippletide.identity import data_directory, model_identity
 from rippletide.router import Router
 
 
@@ -14,10 +16,15 @@ def main():
     sub = parser.add_subparsers(dest="command", required=True)
     setup = sub.add_parser("setup", help="Download, verify, and load the exact pinned engine and weights")
     setup.add_argument("--skip-warmup", action="store_true", help="Download only; readiness remains unverified")
-    sub.add_parser("serve", help="Run the persistent MCP server over standard input/output")
+    setup.add_argument("--model", choices=MODELS, help="Model alias; defaults to RIPPLETIDE_MODEL or qwen25-rlcd")
+    serving = sub.add_parser("serve", help="Run the persistent MCP server over standard input/output")
+    serving.add_argument("--model", choices=MODELS, help="One pinned local model for this server process")
+    sub.add_parser("models", help="List local model options and installed artifact readiness without loading")
     for name in ("status", "route", "report", "preferences"):
         command = sub.add_parser(name)
         command.add_argument("--project-root", required=True)
+        if name in {"status", "route"}:
+            command.add_argument("--model", choices=MODELS)
         if name == "route":
             command.add_argument("--request", required=True, help="A JSON routing request; project_root comes from --project-root")
         elif name == "report":
@@ -27,15 +34,30 @@ def main():
         elif name == "status":
             command.add_argument("--no-load", action="store_true", help="Inspect artifacts and configuration without loading the worker")
     args = parser.parse_args()
+    try:
+        selected_model = model_spec(getattr(args, "model", None)).alias
+    except ValueError as exc:
+        parser.error(str(exc))
     if args.command == "serve":
         from rippletide.server import serve
-        serve()
+        serve(model=selected_model)
         return
-    router = Router()
+    if args.command == "models":
+        records = []
+        for alias in MODELS:
+            try:
+                read_artifacts(data_directory(), model=alias)
+                installed = True
+            except (ValueError, OSError, KeyError):
+                installed = False
+            records.append({**model_identity(alias), "default": alias == DEFAULT_MODEL, "installed": installed})
+        print(json.dumps({"default": DEFAULT_MODEL, "selected": selected_model, "models": records}, indent=2))
+        return
+    router = Router(model=selected_model)
     exit_code = 0
     try:
         if args.command == "setup":
-            artifacts = setup_artifacts(router.data_dir)
+            artifacts = setup_artifacts(router.data_dir, model=router.model)
             ready = False if args.skip_warmup else router.worker.start(wait=True)
             result = {"installed": True, "ready": ready, "artifacts": artifacts, "worker": router.worker.status()}
             if not ready and not args.skip_warmup:

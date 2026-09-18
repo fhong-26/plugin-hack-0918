@@ -34,6 +34,7 @@ class ProjectConfig(BaseModel):
     version: Literal[1] = 1
     registry_version: str = "v1"
     run_id: str | None = None
+    phase: Literal["preflight", "task", "acceptance", "grading"] = "task"
     variant: Literal["A", "B", "C", "D"] = "D"
     log_path: str | None = None
     preferences: Preferences = Field(default_factory=Preferences)

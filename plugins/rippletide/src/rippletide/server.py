@@ -56,5 +56,5 @@ def create_server(router: Router | None = None) -> MCPServer:
     return server
 
 
-def serve():
-    create_server().run(transport="stdio")
+def serve(model: str | None = None):
+    create_server(Router(model=model)).run(transport="stdio")

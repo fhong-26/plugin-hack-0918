@@ -1,7 +1,10 @@
 """Immutable upstream identities. The engine repository does not contain weights."""
 
 import os
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
+
+from rippletide.catalog import model_spec
 
 ENGINE_ID = "harshatheg/Qwen-2.5-1B-RLCD"
 ENGINE_REVISION = "2af86848be75847ccb3553b0941cc51d6ef7e4e9"
@@ -20,9 +23,21 @@ def data_directory() -> Path:
     return Path(os.environ.get("RIPPLETIDE_DATA_DIR", "~/.local/share/rippletide")).expanduser().resolve()
 
 
-def model_identity() -> dict:
-    return {
-        "engine_id": ENGINE_ID, "engine_revision": ENGINE_REVISION,
-        "weights_id": WEIGHTS_ID, "weights_revision": WEIGHTS_REVISION,
+def model_identity(alias: str | None = None) -> dict:
+    spec = model_spec(alias)
+    identity = {
+        "model": spec.alias, "adapter": spec.adapter,
+        "engine_id": ENGINE_ID if spec.adapter == "rlcd" else "rippletide.direct-logit",
+        "engine_revision": ENGINE_REVISION if spec.adapter == "rlcd" else "v1",
+        "weights_id": spec.weights_id, "weights_revision": spec.revision,
         "backend": "mlx", "temperature": 1.0,
+        "quantization": spec.quantization, "prompt_version": spec.prompt_version,
+        "decoding": "allowed_token_argmax", "sampling": False,
+        "thinking_enabled": False,
     }
+    for package in ("mlx-lm", "mlx", "transformers"):
+        try:
+            identity[package.replace("-", "_") + "_version"] = version(package)
+        except PackageNotFoundError:
+            identity[package.replace("-", "_") + "_version"] = None
+    return identity

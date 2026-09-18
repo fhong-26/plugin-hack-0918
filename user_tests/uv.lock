@@ -403,6 +403,7 @@ name = "rippletide-uat"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "httpx2" },
     { name = "mcp" },
 ]
 
@@ -412,7 +413,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "mcp", specifier = "==2.2.0" }]
+requires-dist = [
+    { name = "httpx2", specifier = "==2.13.0" },
+    { name = "mcp", specifier = "==2.2.0" },
+]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = "==8.4.2" }]

@@ -1,12 +1,12 @@
 # Rippletide — Product Requirements Document
 
-Status: Draft v0.1 · Date: 2026-09-18
+Status: Draft v0.2 — paired evaluation · Date: 2026-09-18
 
 Source: [Original ChatGPT response](/Users/fanhong-rippletide/projects/plugin-hack-0918/chatgpt-response-prd-source.md).
 
 ## 1. Product description
 
-Rippletide is a Codex plugin that delegates routine tool choices to explicit rules and a small local model. It follows developer preferences while Codex handles task reasoning, tool arguments, execution, and coding. The MVP chooses how to search a repository. Its intended benefits are more consistent decisions, less wasted work, and lower task time and token usage.
+Rippletide is a Codex plugin that delegates registered code-search, MCP information-lookup, and specialist choices to explicit rules and a small local model. It follows developer preferences while Codex handles task reasoning, tool arguments, execution, and coding. Its intended benefits are more correct and consistent decisions, less wasted work, and lower task time and token usage.
 
 These benefits are hypotheses to validate, not current performance claims.
 
@@ -18,7 +18,7 @@ User story: “When Codex needs a capability, I want it to select an appropriate
 
 Initial problem: overlapping capabilities create repeated selection decisions that may consume unnecessary reasoning, produce inconsistent choices, and require user correction.
 
-Repository search is the first MVP use case. The broader product can extend to routing among tools from connected MCP servers and selecting callable specialist agents, limited to capabilities registered with Rippletide and available to Codex.
+Repository search is one use case. The implementation also covers connected MCP information tools and callable specialists, limited to capabilities explicitly registered with Rippletide and available to Codex. It does not route every edit, test, shell program, or external write.
 
 ## 3. MVP scope
 
@@ -30,12 +30,24 @@ Repository search is the first MVP use case. The broader product can extend to r
 - A bounded user acceptance pilot covering native tools, tools from at least two connected MCP servers, and two callable specialist agents. Register these specific capabilities for the pilot; repository search remains the first implementation use case.
 - Explicit user/project preferences, bounded model decisions, fallback to Codex, local decision logs, and a compact report available on request.
 - A reproducible evaluation harness comparing routing quality and complete coding tasks.
+- A bring-your-own-project paired runner: freeze a base commit, use separate branches/worktrees, run enabled/disabled sessions in parallel, and produce private raw evidence plus redacted presentation reports.
+- Supported-host routing checks for covered calls, with explicit fallback and disclosed unsupported paths; not a universal interceptor or security boundary.
 
 ### Required small model
 
 Use the user-selected [harshatheg/Qwen-2.5-1B-RLCD](https://huggingface.co/harshatheg/Qwen-2.5-1B-RLCD) project as the MVP inference backend. Its model card describes an MLX constrained-decoding engine configured with `mlx-community/Qwen2.5-1.5B-Instruct-4bit`; record that actual weight identity despite the project's “1B” name.
 
 The integration milestone must verify runnable artifacts, pin the engine and weight revisions, and demonstrate real inference. Keep the model loaded between requests. An unavailable backend produces a visible readiness failure or routing fallback; it must not silently select a different model. Published model-card benchmarks are not Rippletide acceptance results.
+
+Keep this backend as `qwen25-rlcd`, the default when no model is selected. Add opt-in
+native MLX backends `qwen3-0.6b`, `minicpm5-2b`, and `qwen3.5-4b`, with immutable
+artifact revisions and checksums. These are native MLX builds of the models listed
+by [OpenJev](https://openjev.com/), not its browser/GGUF artifacts or published
+measurements. Model selection is setup/process configuration, not a routing
+argument. Only the chosen model is loaded; failure never silently selects another.
+Keep the current default's adapter, weights, and existing installation compatible.
+The new adapters use their native templates and verified single-token choices
+with deterministic direct-logit selection; report backend and prompt versions.
 
 ### Excluded
 
@@ -48,13 +60,13 @@ Choose and document one semantic provider during the integration milestone. A co
 1. **Install and set up.** The developer installs Rippletide and completes a one-time model download/readiness check. Setup shows available search methods and any missing prerequisites.
 2. **Enable for a project.** The developer reviews detected settings and can set preferences such as “exact search first when a symbol is known.”
 3. **Ask Codex normally.** Example: “Find why expired sessions remain active and fix it.”
-4. **Get assisted search.** Rippletide recommends the search method. Codex supplies arguments, searches, and continues investigating. Routine recommendations need no additional user confirmation; existing execution permissions apply.
+4. **Get assisted choices.** Rippletide selects a registered tool or specialist. Codex supplies arguments and executes it. Supported-host hooks check that the matching decision precedes execution. Routine choices need no additional user confirmation; existing execution permissions apply.
 5. **Continue through uncertainty.** If Rippletide cannot decide or is unavailable, Codex continues independently without repeatedly requesting the same decision.
 6. **Correct and inspect.** The developer can make a one-off correction or explicitly save a project preference. An on-request report shows decisions, rule/model sources, fallbacks, overrides, and measured routing time.
 
 ## 5. Decision behavior and integration
 
-The MVP uses an explicit handoff: Codex identifies an immediate goal, calls Rippletide, then generates the selected tool's arguments or agent delegation instructions. Start with repository search and apply the same contract to the registered MCP tools and specialist agents in the user acceptance pilot. Recommendations are advisory; record overrides rather than claiming enforcement.
+The plugin uses an explicit handoff: Codex identifies an immediate goal, calls Rippletide, then generates the selected tool's arguments or agent delegation instructions. Pre-tool hooks require a matching, single-use decision for covered calls; missing or mismatched choices receive bounded automatic corrections. A defer authorizes one fallback in that operation family. Decisions are isolated by session, transcript, and turn; specialists cannot reuse a parent's receipt. Repeated noncompliance fails routing acceptance. Unsupported paths and hook failures remain visible, not counted as controlled execution.
 
 The documented `PreToolUse` hook already receives a tool name and its arguments. Consequently, this PRD does not depend on a hook pausing Codex between internal tool selection and argument generation. See the [official hooks documentation](https://learn.chatgpt.com/docs/hooks).
 
@@ -90,6 +102,12 @@ The registry covers explicitly integrated tools; automatic discovery of every na
 | T12 | Identical packet, versions, tool availability, and decoding settings | Repeated choices meet the consistency target below. |
 | T13 | Developer overrides a recommendation | Codex can continue; override is recorded separately from router acceptance. |
 | T14 | Complete an expired-session bug fix | Codex uses routing, finds relevant code, edits it, and passes independent task acceptance tests; full time and usage are captured. |
+| T15 | Omit, mismatch, reuse, expire, or cross-agent reuse a routing decision | Covered execution is blocked; a valid decision or explicit defer permits one matching action; retries are bounded. |
+| T16 | Select each optional model, then omit the option | Each exact artifact performs real inference and reuses its worker; omission still selects the unchanged default. Missing artifacts never trigger another model. |
+| T17 | Parallel enabled/disabled runs from a dirty original checkout | Both fresh worktrees start from the same frozen base; original changes remain untouched; tools, settings, and prompt match except routing. |
+| T18 | Parent/child usage, resumed counters, missing logs | No inherited-history or cumulative double-counting; missing coverage is marked incomplete. |
+| T19 | Correct tool/bad arguments, wrong tool/eventual recovery, several valid tools | Choice correctness, execution, and final task success remain separate; first-choice mistakes and unknown evidence stay visible. |
+| T20 | Judge and presentation exports | Anonymized post-run grading is provisional, auditable, and costed separately; exports escape/redact untrusted content and do not upload data. |
 
 ### 6.2 User acceptance tests in real Codex sessions
 
@@ -116,6 +134,39 @@ Count a required human intervention as an unplanned message or action needed to 
 The suite must demonstrate at least one real Qwen-selected decision followed by execution in each category: native tool, connected MCP tool, and callable agent. Include unresolved choices with multiple plausible candidates so rule-only successes cannot hide a broken model integration. Record skipped eligible routing decisions as failures of the plugin workflow, even when Codex independently completes the task.
 
 ## 7. Evaluation and success criteria
+
+### Paired user-test evidence
+
+Every paired report distinguishes **tool-choice correctness**, **invocation
+success**, **task correctness**, and **routing compliance**. A passing final fix
+does not certify earlier choices; Codex-alone is not the answer key. Judge the
+choice against the information available before that call, allowing multiple
+appropriate tools. Record correct/incorrect/uncertain/ungradable with evidence and
+grade coverage. Keep first-choice errors even when autonomously corrected.
+
+Fixture labels are approved acceptable-route sets kept outside the presented
+workspace. For arbitrary tasks, a separate read-only post-run Codex judge applies
+one frozen rubric to anonymized traces from both arms. Automated grades are
+provisional, not human-approved benchmark labels. Audit corrections append a new
+record without replacing original grades. Do not request hidden reasoning or use
+later outcomes as evidence that an earlier choice was justified. Judge model,
+rubric version, time, and tokens are recorded separately. Post-run grading is not
+a human intervention in execution.
+
+Preserve the delegated context, actual route source/model, host call identity,
+results, and unknown correlations. Baseline traces show actual tool choices, not
+invented internal reasoning. Report setup, execution, grading, cold/warm model
+timings, and parent/child token categories separately. Use private local raw logs
+and escaped/redacted offline HTML/Markdown/JSON presentation exports. No automatic
+upload. Cost estimates require actual pricing; tokens alone are not money.
+
+Parallel paired sessions are the demo default. Repeated sequential trials with
+alternating order are available for cleaner performance comparisons. Every new
+model comparison uses a fresh pair; do not load all local models concurrently.
+Independent checks are identical across arms; missing checks mean ungraded, not
+successful. External provider access remains read-only by default.
+
+### Full benchmark targets
 
 All thresholds below are proposed MVP targets, not measured results. Freeze them and the reference hardware before the final evaluation.
 
@@ -153,6 +204,10 @@ Engineering completion and product success are separate decisions: a working plu
 - [ ] Local traces and an on-request report show actual decisions and timings; unavailable usage/outcome data is identified.
 - [ ] The four-variant evaluation is reproducible, with fixtures, labels, settings, raw results, and a report showing pass/fail against every success criterion.
 - [ ] Installation, configuration, supported tools, limitations, disable/uninstall steps, and data locations are documented.
+- [ ] The paired runner supports ordinary existing-project tasks and the new-project fixture in separate fresh worktrees, retaining failures and original checkout changes.
+- [ ] Tool-choice correctness is reported for both arms with grade provenance, evaluated coverage, unknowns, and append-only audits; judge costs are separate.
+- [ ] The current default and three opt-in MLX models perform real pinned inference, with startup/reuse/timeout/identity evidence.
+- [ ] Covered native/MCP/agent hook behavior is verified on the pinned local Codex host; missing support blocks preflight, and runtime omissions invalidate routing acceptance.
 
 The MVP is engineering-complete when this checklist is satisfied. It is product-validated only when the success criteria are also met.
 

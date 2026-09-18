@@ -9,6 +9,120 @@ They return current and historical records with provenance; they do not return
 prewritten tool-choice answers. The specialist templates configure actual Codex
 agents. No model or specialist result is synthesized by this package.
 
+## Test an existing project
+
+The paired runner runs an ordinary task in **two new branches/worktrees from the
+same resolved commit**: Codex alone and Codex + the installed Rippletide plugin.
+The original checkout, including dirty files, is not changed or copied. The base
+must already exist locally; no implicit pull occurs. Pair runs are stored outside
+the repository under `~/.local/share/rippletide/uat/runs/` by default.
+
+Install the [root prerequisites](../README.md#setup), then configure once:
+
+```sh
+uv run --locked --project user_tests rippletide-uat configure --repo /absolute/project \
+  --bootstrap-argv '["uv","sync","--locked"]' \
+  --check-argv '["uv","run","pytest"]'
+uv run --locked --project user_tests rippletide-uat run --repo /absolute/project \
+  --task 'Fix the expiry-boundary bug and add regression coverage.' --base main
+```
+
+Commands are JSON argument arrays, not shell strings; choose commands appropriate
+to the project. Repeat either option for several commands. `configure --replace`
+explicitly updates an existing local profile. Missing checks leave task correctness
+ungraded. Tests inside the working project can be edited by the task agent, so
+their results are provisional. For stronger acceptance, explicitly approve an
+absolute external standalone grader with `--independent-check-argv`, using
+`{workspace}` for the target. The runner freezes and hashes that grader outside
+both presented workspaces. An external config/data file alone does not make a
+project-owned test independent; ordinary `--check-argv` stays provisional.
+
+Default tools are native filename/text search plus real reviewer and test
+specialists. Both arms receive the same tools, task and Codex settings. The local
+routing model is separate from the Codex task model:
+
+```sh
+uv run --locked --project user_tests rippletide-uat run --repo /absolute/project \
+  --task-file /absolute/task.md --router-model qwen3-0.6b --mode sequential --repeat 3
+```
+
+`parallel` is the default; its wall times include shared-machine contention. Use
+repeated sequential pairs before drawing performance conclusions. Fresh attempts
+never overwrite previous evidence. Setup, preflight and post-run judging are not
+included in task execution time/token totals. Missing child usage remains unknown;
+it is not counted as zero. No price estimate is inferred from token count alone.
+
+### Linear and other information MCPs
+
+Personal MCPs are **not** inherited automatically. Supply an approved JSON file
+with `--tool-config /absolute/approved-tools.json` when configuring the project.
+Start with [the read-only Linear example](examples/linear-readonly.example.json),
+replace `YOUR-ISSUE-ID`, and run `configure` from this repository root so its
+specialist template paths resolve. Add your project's bootstrap/check commands.
+Only read-only tools explicitly listed in `enabled_tools` may be connected. Each
+routable MCP capability needs an `id`, `kind`, `operations`, `description`,
+`invocation` (`server`, `tool`) and `input_schema`. The runner verifies actual tool
+schemas and availability before the task. For a Codex-managed OAuth connection,
+`mcp_preflight` declares one approved read call per server. The actual host must
+complete it in both arms using its existing authentication; supplied schemas
+are then labeled unverified rather than falsely attributed to `tools/list`.
+Include all desired specialists in this
+profile too; custom tool configuration replaces, rather than merges, the default.
+
+Example server entry (inside `mcp_servers`) for an explicitly provisioned token:
+
+```json
+{
+  "linear": {
+    "url": "https://mcp.linear.app/mcp",
+    "bearer_token_env_var": "RIPPLETIDE_LINEAR_TOKEN",
+    "enabled_tools": ["get_issue", "list_comments"]
+  }
+}
+```
+
+Do not put credentials in the JSON, repository, task prompt or command arguments.
+Authentication references are temporary; secrets are never copied into reports.
+Missing credentials or unsuccessful OAuth preflight must produce a setup-blocked
+result, not an apparent test pass. This is a read-only ticket experiment: no
+ticket updates, external writes, commits, pushes or PRs are performed.
+
+### Reports and correctness
+
+Open `RUN/report.html` for a presentation-safe comparison. Markdown and JSON
+versions are generated alongside it. They distinguish:
+
+- **Tool-choice correctness:** Was this a reasonable available capability for the
+  immediate goal? Several tools can be valid. Automated grades are provisional.
+- **Execution success:** Did the actual invocation succeed? Missing status is unknown.
+- **Task correctness:** Did the configured independent or project checks pass?
+- **Routing compliance:** Did a registered call follow its own preceding receipt?
+
+The independent post-run judge uses the same frozen rubric for both arms, with
+anonymized decision-time context in separate per-choice calls, so one card cannot
+reveal a later observation to another. The default budget covers up to 12 choices
+with two judge processes at a time; remaining choices are explicitly ungradable.
+Its token/time totals are separate. Missing
+context, a missing result, or an omitted grade stays uncertain/ungradable. This
+is not a claim that a model judge can prove optimal tool selection.
+
+Raw transcripts, full bounded router requests, hook records and normalized
+`evidence-private.json` are private local evidence and can contain source/ticket
+content. The default report omits prompts, arguments, results, credentials, paths
+and custom tool names; review any raw files before sharing them. A decision trace
+is an observable request/response and call, not hidden model reasoning.
+
+```sh
+uv run --locked --project user_tests rippletide-uat report --run RUN
+uv run --locked --project user_tests rippletide-uat audit-grade --run RUN \
+  --call-id 'CHOICE_ID_FROM_PRIVATE_EVIDENCE' --verdict correct \
+  --reason 'The documented authoritative source was available at this point.'
+```
+
+Human audits append to the original automated grades. Failed/stalled attempts and
+required interventions remain visible. A successful CLI exit alone never proves
+task correctness, low intervention, or a speed/cost advantage.
+
 ## Install and prepare
 
 Run from the repository root:

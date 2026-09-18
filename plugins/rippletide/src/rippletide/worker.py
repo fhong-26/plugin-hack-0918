@@ -2,6 +2,7 @@
 
 import argparse
 import contextlib
+import hashlib
 import json
 import string
 import sys
@@ -9,7 +10,8 @@ import time
 from pathlib import Path
 
 from rippletide.artifacts import read_artifacts, supported_platform
-from rippletide.identity import INPUT_TOKEN_LIMIT
+from rippletide.catalog import DEFAULT_MODEL, MODELS, model_spec
+from rippletide.identity import INPUT_TOKEN_LIMIT, model_identity
 
 SEMANTIC_LABELS = {
     "native.filename_search": "filename",
@@ -43,7 +45,7 @@ class Engine:
     def __init__(self, data_dir: Path):
         if not supported_platform():
             raise RuntimeError("Apple Silicon MLX is required")
-        artifacts = read_artifacts(data_dir, verify_source=True)
+        artifacts = read_artifacts(data_dir, verify_source=True, model=DEFAULT_MODEL)
         # Import MLX before upstream core.__init__: never allow its Torch fallback.
         import mlx.core  # noqa: F401
         import mlx_lm  # noqa: F401
@@ -88,9 +90,14 @@ class Engine:
         selected = result["parsed_json"]["route"]["value"]
         common = {
             "prompt_version": "v1-semantic-labels",
+            "prompt_sha256": hashlib.sha256(json.dumps({
+                "prefix": self.tokenizer.encode(full_upstream_prompt(context, schema)),
+                "suffixes": metadata["suffixes_batch"].tolist(),
+            }, separators=(",", ":")).encode()).hexdigest(),
             "score": result["parsed_json"]["route"]["prob"],
             "score_kind": "uncalibrated_candidate_softmax",
             "input_tokens": token_count, "observations_used": len(observations),
+            "output_tokens": 0, "readout_tokens": 1,
             "inference_ms": result["elapsed_ms"],
         }
         if selected == "defer":
@@ -103,6 +110,7 @@ class Engine:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", type=Path, required=True)
+    parser.add_argument("--model", choices=MODELS)
     args = parser.parse_args()
     protocol = sys.stdout
 
@@ -122,8 +130,14 @@ def main():
     started = time.perf_counter()
     try:
         with contextlib.redirect_stdout(sys.stderr):
-            engine = Engine(args.data_dir)
-        send({"type": "ready", "startup_ms": (time.perf_counter() - started) * 1000})
+            spec = model_spec(args.model)
+            if spec.adapter == "rlcd":
+                engine = Engine(args.data_dir)
+            else:
+                from rippletide.direct_logit import DirectLogitEngine
+                engine = DirectLogitEngine(args.data_dir, spec.alias)
+        send({"type": "ready", "startup_ms": (time.perf_counter() - started) * 1000,
+            "model_identity": model_identity(spec.alias)})
     except Exception as exc:
         send({"type": "startup_error", "error": str(exc)})
         return

@@ -1,0 +1,57 @@
+{
+  "mcp_servers": {
+    "linear": {
+      "url": "https://mcp.linear.app/mcp",
+      "enabled_tools": ["get_issue", "list_comments"]
+    }
+  },
+  "mcp_preflight": {
+    "linear": {"tool": "get_issue", "arguments": {"id": "YOUR-ISSUE-ID"}}
+  },
+  "capabilities": [
+    {
+      "id": "mcp.linear_issue",
+      "kind": "mcp",
+      "operations": ["knowledge_lookup"],
+      "description": "Read the full authoritative Linear ticket by identifier or URL.",
+      "invocation": {"server": "linear", "tool": "get_issue"},
+      "input_schema": {"type": "object", "properties": {"id": {"type": "string"}}, "required": ["id"]}
+    },
+    {
+      "id": "mcp.linear_comments",
+      "kind": "mcp",
+      "operations": ["knowledge_lookup"],
+      "description": "Read a Linear issue's discussion after its issue identifier is known.",
+      "invocation": {"server": "linear", "tool": "list_comments"},
+      "input_schema": {"type": "object", "properties": {"issueId": {"type": "string"}}, "required": ["issueId"]}
+    },
+    {
+      "id": "agent.reviewer",
+      "kind": "agent",
+      "operations": ["specialist_assignment"],
+      "description": "Inspect a bounded change for concrete implementation regressions.",
+      "invocation": {"agent_type": "rippletide_reviewer"},
+      "input_schema": {"type": "object", "properties": {"agent_type": {"const": "rippletide_reviewer"}, "message": {"type": "string"}}, "required": ["agent_type", "message"]}
+    },
+    {
+      "id": "agent.test_specialist",
+      "kind": "agent",
+      "operations": ["specialist_assignment"],
+      "description": "Inspect coverage, run relevant tests and identify missing regression cases.",
+      "invocation": {"agent_type": "rippletide_test_specialist"},
+      "input_schema": {"type": "object", "properties": {"agent_type": {"const": "rippletide_test_specialist"}, "message": {"type": "string"}}, "required": ["agent_type", "message"]}
+    }
+  ],
+  "agents": {
+    "rippletide_reviewer": {
+      "description": "Read-only bounded regression reviewer; no further delegation.",
+      "config_file": "user_tests/src/rippletide_uat/assets/agents/rippletide_reviewer.toml"
+    },
+    "rippletide_test_specialist": {
+      "description": "Read-only test and coverage specialist; no further delegation.",
+      "config_file": "user_tests/src/rippletide_uat/assets/agents/rippletide_test_specialist.toml"
+    }
+  },
+  "preferences": {},
+  "environment_names": []
+}

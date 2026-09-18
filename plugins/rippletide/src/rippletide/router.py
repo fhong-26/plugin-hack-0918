@@ -1,6 +1,7 @@
 """Rule-first advisory routing. This module never executes recommended targets."""
 
 import json
+import hashlib
 import math
 import os
 import time
@@ -14,6 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from rippletide.artifacts import read_artifacts, supported_platform
 from rippletide.config import ProjectConfig, is_available, load_config
+from rippletide.catalog import model_spec
 from rippletide.identity import ROUTE_TIMEOUT_SECONDS, data_directory, model_identity
 from rippletide.model import WorkerManager
 
@@ -29,16 +31,28 @@ class Request(BaseModel):
 
 
 def log_path(config: ProjectConfig, root: Path) -> Path:
+    if run_dir := os.environ.get("RIPPLETIDE_RUN_DIR"):
+        return Path(run_dir).expanduser().resolve() / "router-events.jsonl"
     path = Path(config.log_path).expanduser() if config.log_path else root / ".rippletide" / "decisions.jsonl"
     return path if path.is_absolute() else root / path
 
 
+def bounded_context(value: dict, limit: int = 32768) -> dict:
+    """Retain exact normal routing context; mark oversized rejected input honestly."""
+    serialized = json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
+    if len(serialized.encode("utf-8")) <= limit:
+        return {"value": value, "truncated": False}
+    return {"value": None, "truncated": True, "sha256": hashlib.sha256(serialized.encode()).hexdigest(),
+        "preview": serialized.encode()[:limit].decode("utf-8", errors="ignore")}
+
+
 def append_event(path: Path, event: dict):
-    path.parent.mkdir(parents=True, exist_ok=True)
+    path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     line = (json.dumps(event, ensure_ascii=False, allow_nan=False) + "\n").encode()
     # An advisory file lock keeps entire JSONL lines intact across processes.
     import fcntl
-    with path.open("ab", buffering=0) as stream:
+    descriptor = os.open(path, os.O_APPEND | os.O_CREAT | os.O_WRONLY, 0o600)
+    with os.fdopen(descriptor, "ab", buffering=0) as stream:
         # A competing writer must not make routing wait beyond its deadline.
         # If busy, the response explicitly reports log_error instead of claiming a trace was saved.
         fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -49,9 +63,12 @@ def append_event(path: Path, event: dict):
 
 
 class Router:
-    def __init__(self, *, data_dir: Path | None = None, worker=None):
+    def __init__(self, *, data_dir: Path | None = None, worker=None, model: str | None = None):
         self.data_dir = data_dir or data_directory()
-        self.worker = worker if worker is not None else WorkerManager(self.data_dir)
+        self.model = model_spec(model if model is not None else getattr(worker, "model", None)).alias
+        if worker is not None and getattr(worker, "model", self.model) != self.model:
+            raise ValueError("Configured router model does not match supplied worker")
+        self.worker = worker if worker is not None else WorkerManager(self.data_dir, model=self.model)
 
     def route(self, **parameters) -> dict:
         started = time.perf_counter()
@@ -60,6 +77,7 @@ class Router:
         root = Path(project_root).expanduser().resolve() if isinstance(project_root, str) and project_root else None
         decision_id = str(uuid.uuid4())
         request = None
+        candidates = []
 
         def finish(reason: str, *, selected=None, source="fallback", diagnostics=None):
             response = {
@@ -71,7 +89,7 @@ class Router:
                 "elapsed_ms": round((time.perf_counter() - started) * 1000, 3),
             }
             if diagnostics:
-                for key in ("score", "score_kind", "input_tokens", "observations_used", "inference_ms", "worker_pid", "worker_state", "prompt_version"):
+                for key in ("score", "score_kind", "input_tokens", "observations_used", "inference_ms", "worker_pid", "worker_state", "prompt_version", "prompt_sha256", "output_tokens", "readout_tokens", "label", "label_token_id"):
                     if key in diagnostics:
                         response[key] = diagnostics[key]
             summary = {
@@ -84,12 +102,19 @@ class Router:
             }
             if root and root.is_dir():
                 try:
+                    context = bounded_context(request.model_dump() if request else {})
+                    catalog = bounded_context({"candidates": [{"id": cap.id, "kind": cap.kind,
+                        "description": cap.description, "invocation": cap.invocation} for cap in candidates]})
                     append_event(log_path(config, root), {
                         "schema_version": 1, "event": "routing_decision",
                         "timestamp": datetime.now(timezone.utc).isoformat(),
-                        "run_id": config.run_id, "response": response,
-                        "phase": os.environ.get("RIPPLETIDE_PHASE", "task"),
-                        "request_summary": summary, "model_identity": model_identity(),
+                        "run_id": os.environ.get("RIPPLETIDE_RUN_ID") or config.run_id, "response": response,
+                        "phase": os.environ.get("RIPPLETIDE_PHASE", config.phase),
+                        "request_summary": summary, "request": context["value"],
+                        "request_capture": {key: value for key, value in context.items() if key != "value"},
+                        "candidates": catalog["value"]["candidates"] if catalog["value"] is not None else None,
+                        "candidate_capture": {key: value for key, value in catalog.items() if key != "value"},
+                        "model_identity": model_identity(self.model),
                         "elapsed_ms": response["elapsed_ms"], "variant": config.variant,
                         "actual_execution": "unknown",
                     })
@@ -192,7 +217,7 @@ class Router:
             configuration_valid = False
             errors.append(str(exc))
         try:
-            artifacts = read_artifacts(self.data_dir)
+            artifacts = read_artifacts(self.data_dir, model=self.model)
             installed = True
         except (ValueError, OSError, KeyError) as exc:
             artifacts, installed = {}, False
@@ -203,7 +228,7 @@ class Router:
             "routing_available": bool(available) and config.variant in {"C", "D"},
             "variant": config.variant, "registry_version": config.registry_version,
             "platform_supported": supported_platform(), "model_installed": installed,
-            "model_identity": model_identity(), "worker": worker,
+            "model_identity": model_identity(self.model), "worker": worker,
             "supported_capabilities": capabilities, "available_capabilities": available,
             "paths": {"data_dir": str(self.data_dir), "source": artifacts.get("source_path"), "weights": artifacts.get("weights_path"), "log": path},
             "errors": errors,

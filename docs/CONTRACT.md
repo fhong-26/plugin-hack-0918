@@ -8,7 +8,9 @@ This is the shared interface between the plugin and the independently packaged u
 - Plugin source/package: `plugins/rippletide/`, import package `rippletide`, executable `rippletide`.
 - Test kit: `user_tests/`, import package `rippletide_uat`, executable `rippletide-uat`.
 - Primary owns plugin manifest, skill, launcher, installation, root documentation and integration scripts. Router agent owns plugin `pyproject.toml`, lock, `src/`, and `tests/`. Test-kit agent owns `user_tests/`.
-- All source work remains on main. Subagents do not commit or edit each other's files.
+- The initial pilot was built on main. The paired-evaluation enhancement is built
+  in a separate worktree on `feat/routing-eval-models`; see [paired contract](PAIRED_CONTRACT.md).
+  Subagents do not commit or edit each other's files.
 
 ## Project configuration
 

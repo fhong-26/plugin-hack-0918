@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -64,6 +65,35 @@ def parser() -> argparse.ArgumentParser:
     live.add_argument("--linear-project-id")
     live.add_argument("--notion-page-id")
     live.add_argument("--session", type=Path)
+    configure = commands.add_parser("configure", help="Save an explicit paired-test project profile outside source control")
+    configure.add_argument("--repo", type=Path, required=True)
+    configure.add_argument("--bootstrap-argv", action="append", default=[], help='Repeatable JSON argv, e.g. ["uv","sync","--locked"]')
+    configure.add_argument("--check-argv", action="append", default=[], help='Repeatable project-check JSON argv; results are provisional, not independent grades')
+    configure.add_argument("--independent-check-argv", action="append", default=[], help='Explicitly approved external grader JSON argv, e.g. ["python","/path/grader.py","{workspace}"]')
+    configure.add_argument("--tool-config", type=Path, help="Approved MCP/agent/capability JSON; never a personal Codex config")
+    configure.add_argument("--model", help="Codex model; independent of the local routing model")
+    configure.add_argument("--effort", choices=["minimal", "low", "medium", "high", "xhigh"])
+    configure.add_argument("--replace", action="store_true")
+    run = commands.add_parser("run", help="Run matched Codex-alone and Rippletide tasks in fresh isolated worktrees")
+    run.add_argument("--repo", type=Path, required=True)
+    task = run.add_mutually_exclusive_group(required=True)
+    task.add_argument("--task")
+    task.add_argument("--task-file", type=Path)
+    run.add_argument("--base", default="main")
+    run.add_argument("--router-model", choices=["qwen25-rlcd", "qwen3-0.6b", "minicpm5-2b", "qwen3.5-4b"], default="qwen25-rlcd")
+    run.add_argument("--mode", choices=["parallel", "sequential"], default="parallel")
+    run.add_argument("--repeat", type=int, default=1)
+    run.add_argument("--output-root", type=Path)
+    run.add_argument("--codex", type=Path, help="Must be the pinned Codex 0.155.0; defaults to tools/codex/node_modules/.bin/codex")
+    run.add_argument("--timeout", type=float, default=600)
+    run.add_argument("--preflight-timeout", type=float, default=180)
+    run.add_argument("--check-timeout", type=float, default=180)
+    run.add_argument("--no-judge", action="store_true", help="Retain ungraded choices for a later manual audit")
+    audit = commands.add_parser("audit-grade", help="Append a human correctness judgment without replacing original evidence")
+    audit.add_argument("--run", type=Path, required=True)
+    audit.add_argument("--call-id", required=True)
+    audit.add_argument("--verdict", choices=["correct", "incorrect", "uncertain", "ungradable"], required=True)
+    audit.add_argument("--reason", required=True)
     return root
 
 
@@ -71,7 +101,27 @@ def main():
     args = parser().parse_args()
     exit_code = 0
     try:
-        if args.command == "prepare":
+        if args.command == "configure":
+            from .profiles import argv_value, configure
+            result = configure(args.repo, bootstrap=[argv_value(value) for value in args.bootstrap_argv],
+                               checks=[argv_value(value) for value in args.check_argv],
+                               independent_checks=[argv_value(value) for value in args.independent_check_argv], tool_config=args.tool_config,
+                               model=args.model, effort=args.effort, replace=args.replace)
+        elif args.command == "run":
+            from .paired import run_pairs
+            result = run_pairs(args.repo, args.task if args.task is not None else args.task_file.read_text(),
+                               base=args.base, router_model=args.router_model, mode=args.mode, repeat=args.repeat,
+                               output_root=args.output_root, codex=args.codex, timeout=args.timeout,
+                               preflight_timeout=args.preflight_timeout, check_timeout=args.check_timeout,
+                               judge=not args.no_judge)
+            exit_code = 0 if all(run["status"] == "completed" and "failed" not in run.get("acceptance_status", {}).values()
+                                 for run in result["runs"]) else 1
+        elif args.command == "audit-grade":
+            from .correctness import audit_grade
+            from .paired_evidence import report_pair
+            result = audit_grade(args.run.resolve(), args.call_id, args.verdict, args.reason)
+            report_pair(args.run.resolve())
+        elif args.command == "prepare":
             run = prepare(args.scenario, args.variant, args.output_root, args.plugin_root, run_id=args.run_id, failure=args.failure, comparison_scenario=args.comparison_scenario)
             manifest = read_json(run / "run.json")
             result = {"run": str(run), "workspace": manifest["workspace"], "prompt": manifest["scenario_definition"]["prompt"], "followup": manifest["scenario_definition"].get("followup"), "agent_preflight_prompt": str(run / "agent-preflight-prompt.txt"), "commands": {"check": [sys.executable, "-m", "rippletide_uat", "check", "--run", str(run)], "report": [sys.executable, "-m", "rippletide_uat", "report", "--run", str(run)]}, "note": "Agents are configured but require a fresh named-role invocation before verify-agents can mark them ready. Semantic search requires prepare-semantic. Model readiness belongs to the plugin setup."}
@@ -83,7 +133,11 @@ def main():
             result = check_run(args.run.resolve(), args.stage)
             exit_code = 0 if result["status"] == "passed" else 1
         elif args.command == "report":
-            result = report(args.run.resolve(), args.session)
+            if (args.run / "pair.json").is_file():
+                from .paired_evidence import report_pair
+                result = report_pair(args.run.resolve())
+            else:
+                result = report(args.run.resolve(), args.session)
         elif args.command == "verify-agents":
             result = verify_agents(args.run.resolve(), args.session.resolve())
             exit_code = 0 if result["ready"] else 1
@@ -131,7 +185,7 @@ def main():
             result = {"ready": ready, "status": "ready" if ready else "blocked", "providers": providers, "remote_actions_performed": False, "note": "Supply real read-only calls to the explicit disposable targets before claiming connection readiness. This does not certify seeded content or authorize remote writes."}
             exit_code = 0 if result["ready"] else 1
         print(json.dumps(result, indent=2, ensure_ascii=False))
-    except (ValueError, FileExistsError, FileNotFoundError, TimeoutError) as exc:
+    except (ValueError, OSError, TimeoutError, subprocess.SubprocessError) as exc:
         print(json.dumps({"error": str(exc), "type": type(exc).__name__}), file=sys.stderr)
         exit_code = 2
     raise SystemExit(exit_code)

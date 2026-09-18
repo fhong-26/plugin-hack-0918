@@ -11,9 +11,24 @@ import subprocess
 import sys
 
 
+def related_checkout_source(previous: Path, source: Path) -> bool:
+    """Only adopt staging from another worktree of this exact Git repository."""
+    if previous.name != "rippletide" or previous.parent.name != "plugins" or not previous.is_dir():
+        return False
+    roots = []
+    for plugin in (previous, source):
+        result = subprocess.run(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                                cwd=plugin, capture_output=True, text=True)
+        if result.returncode:
+            return False
+        roots.append(Path(result.stdout.strip()).resolve())
+    return roots[0] == roots[1]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--codex", help="Explicit Codex executable; defaults to the pinned local test host when installed")
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[1]
     source = repo / "plugins" / "rippletide"
@@ -27,11 +42,13 @@ def main() -> int:
         if not required.is_file():
             parser.error(f"Required file is missing: {required}")
     uv = shutil.which("uv")
-    codex = shutil.which("codex")
+    pinned = repo / "tools" / "codex" / "node_modules" / ".bin" / "codex"
+    codex = args.codex or (str(pinned) if pinned.is_file() else shutil.which("codex"))
     if not uv or not codex:
         parser.error("uv and codex must be available on PATH")
     if target.exists():
-        if not marker.is_file() or json.loads(marker.read_text()).get("source") != str(source):
+        previous = json.loads(marker.read_text()).get("source") if marker.is_file() else None
+        if previous != str(source) and not (previous and related_checkout_source(Path(previous), source)):
             parser.error(f"Refusing to replace a plugin not owned by this checkout: {target}")
     if marketplace.exists():
         # The personal marketplace helper validates the identifier before edits

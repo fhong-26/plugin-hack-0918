@@ -1,0 +1,6 @@
+{
+  "name": "rippletide-codex-host",
+  "private": true,
+  "description": "Pinned local test host; does not change the global Codex installation",
+  "dependencies": {"@openai/codex": "0.155.0"}
+}

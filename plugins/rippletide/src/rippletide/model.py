@@ -11,11 +11,15 @@ import time
 from pathlib import Path
 
 from rippletide.artifacts import read_artifacts, supported_platform
+from rippletide.catalog import model_spec
+from rippletide.identity import model_identity
 
 
 class WorkerManager:
-    def __init__(self, data_dir: Path):
+    def __init__(self, data_dir: Path, model: str | None = None):
         self.data_dir = data_dir
+        self.model = model_spec(model).alias
+        self._identity = model_identity(self.model)
         self._process = None
         self._state = "stopped"
         self._error = None
@@ -31,6 +35,7 @@ class WorkerManager:
             "state": self._state, "ready": self._state == "ready" and process is not None and process.poll() is None,
             "pid": process.pid if process is not None and process.poll() is None else None,
             "startup_ms": self._startup_ms, "error": self._error,
+            "model_identity": self._identity,
         }
 
     def start(self, *, wait: bool = False, timeout: float = 180) -> bool:
@@ -41,13 +46,13 @@ class WorkerManager:
                 try:
                     if not supported_platform():
                         raise RuntimeError("Apple Silicon macOS with MLX is required")
-                    read_artifacts(self.data_dir)
+                    read_artifacts(self.data_dir, model=self.model)
                     self._ready = threading.Event()
                     self._responses = queue.Queue()
                     self._error = None
                     self._state = "loading"
                     self._process = subprocess.Popen(
-                        [sys.executable, "-u", "-m", "rippletide.worker", "--data-dir", str(self.data_dir)],
+                        [sys.executable, "-u", "-m", "rippletide.worker", "--data-dir", str(self.data_dir), "--model", self.model],
                         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=None,
                         text=True, bufsize=1,
                     )
@@ -67,6 +72,9 @@ class WorkerManager:
                 if process is not self._process:
                     return
                 if message.get("type") == "ready":
+                    identity = message.get("model_identity")
+                    if identity != self._identity:
+                        raise ValueError("Loaded worker model identity does not match configured model")
                     self._startup_ms = message["startup_ms"]
                     self._state = "ready"
                     ready.set()
@@ -80,7 +88,7 @@ class WorkerManager:
                     raise ValueError("Unexpected worker protocol message")
         except (ValueError, OSError) as exc:
             if process is self._process:
-                self._error = f"Worker protocol error: {exc}"
+                self._stop("failed", f"Worker protocol error: {exc}")
         finally:
             if process is self._process and self._state not in {"stopped", "timed_out", "startup_timeout"}:
                 self._state = "failed"

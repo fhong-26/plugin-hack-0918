@@ -1,8 +1,36 @@
 # Rippletide
 
-Rippletide is a local Codex plugin that recommends a registered tool or specialist using explicit preferences first, then a small Qwen model. Codex supplies arguments, executes the choice, and interprets the result.
+Rippletide is a local Codex plugin that chooses registered tools and specialists using explicit preferences first, then a small model. Codex supplies arguments, executes the choice, and interprets the result. Hooks check that supported calls follow a fresh routing decision.
 
-**Status:** Working-pilot implementation. The runtime, real test services, and independent acceptance kit are here; see [pilot evidence](docs/PILOT_RESULTS.md) for what has actually passed and what remains unverified. This is not full benchmark validation.
+**Status:** Experimental pilot with a paired test runner, routing checks, and four local model options. The first fixture pair was slower with Rippletide; the Linear/AGE-1349 enabled attempt stopped after incorrect tool selections. [Paired evaluation evidence](docs/PAIRED_RESULTS.md) records these results and limitations. Faster/cheaper/better is not established. [Original pilot evidence](docs/PILOT_RESULTS.md) is historical.
+
+## Start a user test
+
+After [one-time setup](#setup), run from this repository:
+
+```sh
+# Once per project: approve tools and the commands that check a correct result.
+uv run --locked --project user_tests rippletide-uat configure --repo ~/projects/my-project \
+  --check-argv '["uv","run","pytest"]'
+
+# Each test: same task, same main commit, two NEW branches/worktrees in parallel.
+uv run --locked --project user_tests rippletide-uat run --repo ~/projects/my-project \
+  --task 'Fix the bug described in ...' --base main
+```
+
+The returned run directory contains `report.html`, `report.md`, and `report.json`:
+time, parent/child token usage, interventions, tool-choice correctness, task checks,
+and routing compliance. Private traces show Codex's requests, Rippletide's choices,
+and actual calls; presentation reports omit sensitive text. A separate automated
+judge supplies **provisional**, auditable correctness grades; its usage is separate.
+Project tests alone are not independent proof of correctness.
+
+Default tools are native search and two real specialists. Linear/other MCPs need a
+one-time explicit read-only tool profile; they are not inherited from your personal
+configuration. See [project onboarding and Linear](user_tests/README.md#test-an-existing-project).
+No push, PR, ticket update, or modification of your original checkout is performed.
+Use `--mode sequential --repeat 3` for repeated comparisons without simultaneous
+resource contention. One pair cannot establish speed, cost, or determinism.
 
 ## Start here
 
@@ -16,29 +44,48 @@ Rippletide is a local Codex plugin that recommends a registered tool or speciali
 
 The pilot routes repository searches, documentation/issue lookups, and bounded specialist assignments. Only explicitly registered and available capabilities are eligible. Preferences change only when the user asks.
 
-The proposed flow is:
+The flow is:
 
 1. Codex sends an immediate goal and up to two relevant observations to Rippletide.
 2. Rippletide checks tool availability and applies explicit preferences.
 3. If rules do not settle the choice, the small model selects an allowed route or defers.
-4. Codex receives the recommendation, supplies the tool arguments, and continues the task.
+4. Codex supplies arguments. A hook checks the next registered call against that decision, then Codex executes it.
 
-The router defers to Codex on uncertainty, an unavailable dependency, excessive context, or its two-second deadline. It is an explicit skill-driven handoff, not an interception of Codex's internal tool-selection loop. Recommendations alone are never counted as executed actions.
+The router defers to Codex on uncertainty, an unavailable dependency, excessive context, or its two-second deadline. Defer permits one fallback in the same operation family. Receipts are session/turn-scoped and single-use; missing or mismatched decisions trigger bounded corrections. This is a skill-driven handoff checked at supported tool boundaries, not universal interception of Codex's internal reasoning or arbitrary shell programs. Unregistered calls remain visible but are not claimed as routed. Recommendations alone never count as executed actions.
 
-## Small model and integration
+## Models
 
 The required backend is [harshatheg/Qwen-2.5-1B-RLCD](https://huggingface.co/harshatheg/Qwen-2.5-1B-RLCD), pinned to `2af86848be75847ccb3553b0941cc51d6ef7e4e9`. This repository supplies inference code, not weights. Its declared `mlx-community/Qwen2.5-1.5B-Instruct-4bit` dependency is pinned to `8b403126fc14f14cfc99bb4cfa72ecbc129ea677`. Both are downloaded explicitly; provenance and model files stay outside Git.
 
-Requirements: Apple Silicon macOS, Python 3.12, `uv`, and an authenticated Codex CLI. Package environments and lockfiles are separate; the official Chroma MCP's older SDK is isolated from the SDK v2 router and fixture servers.
+The default remains the original RLCD engine. Optional aliases are `qwen3-0.6b`,
+`minicpm5-2b`, and `qwen3.5-4b`, using pinned native MLX artifacts—not the exact GGUF
+builds distributed by OpenJev. Install once, then select for a run:
+
+```sh
+uv run --locked --project plugins/rippletide rippletide setup --model qwen3-0.6b
+uv run --locked --project user_tests rippletide-uat run --repo ~/projects/my-project \
+  --task 'Fix ...' --router-model qwen3-0.6b
+```
+
+See [model provenance and configuration](plugins/rippletide/README.md#model-options).
+
+## Setup
+
+Requirements: Apple Silicon macOS, Python 3.12, `uv`, Node/npm, and authenticated Codex. The paired runner uses repository-local Codex **0.155.0**, pinned for verified hook support. It does not replace your global CLI. Package environments and lockfiles are separate; the Chroma MCP's older SDK is isolated from the SDK v2 router and fixture servers.
+Other CLI/desktop host versions are not automatically certified; the runner checks
+actual hook delivery and execution before starting a measured task.
 
 ```sh
 uv sync --locked --project plugins/rippletide
 uv run --locked --project plugins/rippletide rippletide setup
 uv sync --locked --project user_tests
+npm ci --prefix tools/codex --ignore-scripts --no-audit --no-fund
 python3 scripts/install_plugin.py
 ```
 
 Installation stages an owned copy under `~/plugins/rippletide`, updates the personal marketplace through the plugin-creator scaffold, and installs through the Codex CLI. Previous owned copies are preserved on reinstall. Start a new session after installation. The fixture kit explicitly isolates A/B baselines from the installed plugin.
+
+## Seeded scenario tests
 
 ```sh
 uv run --locked --project user_tests rippletide-uat prepare --scenario U02 --variant D
@@ -66,6 +113,7 @@ uv run --directory plugins/rippletide --locked pytest --run-model
 uv run --directory user_tests --locked pytest
 RIPPLETIDE_SEMANTIC_INTEGRATION=1 uv run --directory integrations/chroma --locked pytest
 python3 -m unittest discover -s tests
+RIPPLETIDE_HOST_INTEGRATION=1 python3 -m unittest discover -s tests -p test_host_hooks.py
 ```
 
 Real-model and semantic-network checks are separately marked; their exact commands and observed results are recorded in the pilot report. Run tests from each package directory to avoid collecting deliberately buggy fixture projects.
