@@ -2,11 +2,17 @@
   "mcpServers": {
     "rippletide": {
       "command": "python3",
-      "args": ["./scripts/launch.py"],
+      "args": [
+        "./scripts/launch.py"
+      ],
       "cwd": ".",
-      "env_vars": ["RIPPLETIDE_MODEL", "RIPPLETIDE_DATA_DIR", "RIPPLETIDE_RUN_DIR", "RIPPLETIDE_RUN_ID", "RIPPLETIDE_PHASE", "RIPPLETIDE_PROJECT_ROOT"],
+      "env_vars": [
+        "RIPPLETIDE_MODEL",
+        "RIPPLETIDE_DATA_DIR"
+      ],
       "startup_timeout_sec": 120,
-      "tool_timeout_sec": 10
+      "tool_timeout_sec": 180,
+      "required": true
     }
   }
 }

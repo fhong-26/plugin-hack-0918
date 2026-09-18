@@ -28,7 +28,7 @@ def related_checkout_source(previous: Path, source: Path) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--codex", help="Explicit Codex executable; defaults to the pinned local test host when installed")
+    parser.add_argument("--codex", help="Explicit Codex executable; defaults to the locally built Jev host")
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[1]
     source = repo / "plugins" / "rippletide"
@@ -42,10 +42,10 @@ def main() -> int:
         if not required.is_file():
             parser.error(f"Required file is missing: {required}")
     uv = shutil.which("uv")
-    pinned = repo / "tools" / "codex" / "node_modules" / ".bin" / "codex"
-    codex = args.codex or (str(pinned) if pinned.is_file() else shutil.which("codex"))
+    pinned = repo / "build" / "codex-host" / "codex-rs" / "target" / "release" / "codex"
+    codex = args.codex or (str(pinned) if pinned.is_file() else None)
     if not uv or not codex:
-        parser.error("uv and codex must be available on PATH")
+        parser.error("Install uv and build the Jev host with python3 tools/codex/build.py, or pass --codex for an existing patched host")
     if target.exists():
         previous = json.loads(marker.read_text()).get("source") if marker.is_file() else None
         if previous != str(source) and not (previous and related_checkout_source(Path(previous), source)):

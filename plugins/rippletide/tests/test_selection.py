@@ -79,7 +79,7 @@ def test_pinned_model_selects_from_large_session_catalog():
     tools = [{"name": f"tool_{i}", "description": f"Read document {i}."} for i in range(35)]
     try:
         assert worker.start(wait=True), worker.status()
-        result = select_tool(worker, context="The user needs information in document 34.",
+        result = select_tool(worker, context="The user needs information in document 34.\n" + "Previous code and test output.\n" * 1000,
                              question="Which tool should run next?", tools=tools)
         assert result["status"] == "selected", result
         assert result["tool"] in {tool["name"] for tool in tools}
