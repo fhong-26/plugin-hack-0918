@@ -43,8 +43,10 @@ uv run --locked --project user_tests rippletide-uat benchmark run --cases B01 B0
 This creates fresh paired worktrees and synthetic tools, then checks calls/state
 against local contracts derived from pinned BFCL/ToolSandbox entries. No Linear,
 shopping or SMS account is used. See [benchmark setup and grading limits](user_tests/BENCHMARKS.md).
-These are adapted user tests, **not official benchmark scores**; live comparative
-results are still pending in the [experiment tracker](docs/BENCHMARK_EXPERIMENT_REPORT.md).
+These are adapted user tests, **not official benchmark scores**. The first five
+default-model pairs took 1.82× the summed task time and 2.09× the Codex tokens with
+Rippletide. Trace-accounting gaps leave automatic acceptance unknown; wrong
+selections were also observed. See the [experiment report](docs/BENCHMARK_EXPERIMENT_REPORT.md).
 
 ## Start here
 
@@ -52,7 +54,7 @@ results are still pending in the [experiment tracker](docs/BENCHMARK_EXPERIMENT_
 - [Plugin setup](plugins/rippletide/README.md): local engine, MCP operations, preferences.
 - [User-test kit](user_tests/README.md): fresh projects, real MCPs, specialist agents, U01–U09.
 - [Five benchmark-derived user scenarios](docs/BENCHMARK_USER_SCENARIOS.md): source cases, ground truth, implemented local adapters and remaining official-scorer work.
-- [Experiment tracker](docs/BENCHMARK_EXPERIMENT_REPORT.md): user needs, available tools, expected behavior and native Codex/Rippletide comparisons; results are not run yet.
+- [Experiment report](docs/BENCHMARK_EXPERIMENT_REPORT.md): scenarios, expected and observed behavior, default-model measurements, trace limitations and per-case reports.
 - [Shared contract](docs/CONTRACT.md): registry, routing API, event formats.
 - [Original ChatGPT response](chatgpt-response-prd-source.md): preserved source material.
 

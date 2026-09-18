@@ -1,8 +1,12 @@
 # Five benchmark-derived user tests
 
 Runnable local adapters and independent deterministic checks for five pinned
-cases. The real Codex-vs-Rippletide comparison has **not yet been run**. Unit and
-STDIO integration tests are harness verification, not measurements of the product.
+cases. The first five default-model Codex-vs-Rippletide pairs have been run:
+[experiment report](../docs/BENCHMARK_EXPERIMENT_REPORT.md). Rippletide was slower
+and used more Codex tokens in each pair. All automatic acceptance grades remain
+unknown because pure catalog discovery and failed-call hooks need improved trace
+accounting; the report separates observed behavior from certified grades.
+Unit and STDIO integration tests remain harness verification, not product measurements.
 
 ## Start
 

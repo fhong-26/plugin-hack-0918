@@ -1,8 +1,9 @@
 # Five ground-truth user-test scenarios
 
-Status: first implementation slice available for all five cases: local fixtures,
-reference/milestone checks, CLI and paired-run integration. No real B01–B05 Codex
-comparison has been run. Official upstream evaluator integration remains pending.
+Status: local fixtures, reference/milestone checks, CLI and paired-run integration
+implemented. Five real default-model pairs ran at `dac1c61`; trace-accounting gaps
+leave automatic acceptance unknown. Measurements and inspected behavior are in
+the experiment report. Official upstream evaluator integration remains pending.
 Prepared 2026-09-18 on `feat/benchmark-user-scenarios`, from `main` at
 `c8c59b074d47a1406d3a958137ea19a274319aea`.
 
@@ -12,9 +13,9 @@ Updated from `main` on 2026-09-18 by fast-forward to
 `origin/main` and this branch point to that commit. Draft documentation was
 preserved; no benchmark implementation or experiment was performed by this update.
 
-Track scenario definitions, expected/observed behavior and every future A/D
-attempt in the [experiment report](BENCHMARK_EXPERIMENT_REPORT.md). No B01–B05
-results are available yet; do not reuse another pilot's results as these cases.
+Track scenario definitions, expected/observed behavior and every A/D attempt in
+the [experiment report](BENCHMARK_EXPERIMENT_REPORT.md). The first B01–B05
+observations are recorded there; do not pool them with unrelated pilot results.
 
 ## Implementation checkpoint — 2026-09-18
 
@@ -276,12 +277,12 @@ that the test harness works correctly.
 
 | Order | Deliverable | Verification before moving on | Status |
 | --- | --- | --- | --- |
-| 0 | Scenario plan and human-readable experiment tracker | All five entries identify the user need, tools, expected behavior and separate A/D observations; no fabricated results. | Documented; no experiments run. |
+| 0 | Scenario plan and human-readable experiment tracker | All five entries identify the user need, tools, expected behavior and separate A/D observations; no fabricated results. | Documented; first five pairs now recorded. |
 | 1 | Pinned source manifest and B01/B02 fixture tools/graders | Golden calls pass; wrong tool/arguments fail; B02 cart attempt fails and unchanged state is checked; no network or oracle leakage. | Implemented and locally tested. Local reference-call checker; official AST integration pending. |
 | 2 | B03 multi-call fixtures and grading | Reordered correct calls pass; omitted, extra, duplicate or mis-parameterized calls fail; every observed call is retained. | Implemented and locally tested with local reference-call grading. |
 | 3 | B04/B05 ToolSandbox adapter, fixed time and isolated state | Golden milestone trajectories pass; broken prerequisites, wrong records/recipients and unsafe extra changes are reported; cloned clocks/state match. | Local deterministic adapters tested; original runtime, full seed state and official evaluator pending. |
-| 4 | Extend the imported paired runner with fixture-only routing and benchmark grading | Both arms have equivalent tools; local synthetic writes are allowed without relaxing remote policy; decision receipts, no-call outcomes and complete metrics are verified. | Integrated and component-tested; fresh installed-host comparison not yet run. |
-| 5 | First five paired experiments and report updates | Ten task attempts have independent results, traces, time/tokens/coverage and intervention ledgers; failed and blocked outcomes remain visible. | Not started. |
+| 4 | Extend the imported paired runner with fixture-only routing and benchmark grading | Both arms have equivalent tools; local synthetic writes are allowed without relaxing remote policy; decision receipts, no-call outcomes and complete metrics are verified. | Fresh installed-host tests ran; catalog-discovery and failed-call trace accounting need correction before acceptance can be certified. |
+| 5 | First five paired experiments and report updates | Ten task attempts have independent results, traces, time/tokens/coverage and intervention ledgers; failed and blocked outcomes remain visible. | Five pairs recorded at `dac1c61`; all automatic grades unknown, measured metrics and directly observed behaviors retained. |
 | 6 | Repeatability and performance follow-up | Up to three comparable pairs per case; versioned report explains differences without claiming full-benchmark validation. | After smoke/harness review. |
 
 Concrete integration points verified at `afab2bf`:

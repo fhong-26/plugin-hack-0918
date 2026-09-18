@@ -1,0 +1,1465 @@
+{
+  "schema_version": 1,
+  "experiment": "B01-B05 default-model smoke, 2026-09-18",
+  "command": "uv run --locked --project user_tests rippletide-uat benchmark run --cases B01 B02 B03 B04 B05",
+  "command_exit_code": 1,
+  "codex_version": "codex-cli 0.155.0",
+  "codex_model_requested": null,
+  "codex_effort_requested": null,
+  "resolved_codex_model": "gpt-6-astra",
+  "resolved_effort": null,
+  "plugin_installed_version": "0.1.0+codex.20260918135952",
+  "notes": [
+    "Five parallel pairs, one repetition per case; cases themselves run sequentially.",
+    "All ten task processes completed; all automatic acceptance grades remain unknown, not passed.",
+    "Pure ALL_TOOLS discovery containers have no nested tool hooks and fail the conservative trace-completeness gate.",
+    "B05 additionally has a failed send recorded by the fixture without a matching tool_completed hook.",
+    "Observed behavior and state descriptions are a post-run evidence inspection, not overrides of the frozen grader or official benchmark scores.",
+    "Token totals equal input plus output. Cached input is a subset of input; reasoning output is a subset of output.",
+    "No monetary savings, determinism, general accuracy or official benchmark validation is established.",
+    "Raw evidence remains outside Git. This curated synthetic summary contains no credentials."
+  ],
+  "totals": {
+    "baseline": {
+      "attempts": 5,
+      "wall_seconds": 60.077225,
+      "tokens": {
+        "input_tokens": 219831,
+        "cached_input_tokens": 157354,
+        "cache_write_input_tokens": 62423,
+        "output_tokens": 1006,
+        "reasoning_output_tokens": 10,
+        "total_tokens": 220837
+      },
+      "required_interventions": 0,
+      "planned_prompts": 5,
+      "preflight_wall_seconds": 97.747033,
+      "preflight_tokens": {
+        "input_tokens": 351715,
+        "cached_input_tokens": 231113,
+        "cache_write_input_tokens": 120015,
+        "output_tokens": 1195,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 352910
+      }
+    },
+    "rippletide": {
+      "attempts": 5,
+      "wall_seconds": 109.10790300000001,
+      "tokens": {
+        "input_tokens": 458602,
+        "cached_input_tokens": 380260,
+        "cache_write_input_tokens": 78246,
+        "output_tokens": 2789,
+        "reasoning_output_tokens": 14,
+        "total_tokens": 461391
+      },
+      "required_interventions": 0,
+      "planned_prompts": 5,
+      "preflight_wall_seconds": 86.123391,
+      "preflight_tokens": {
+        "input_tokens": 454538,
+        "cached_input_tokens": 315688,
+        "cache_write_input_tokens": 138245,
+        "output_tokens": 1708,
+        "reasoning_output_tokens": 0,
+        "total_tokens": 456246
+      }
+    }
+  },
+  "runs": [
+    {
+      "case": "B01",
+      "run_id": "pair-20260918T140003-27b43f4300",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B01-c81e4b6bbb7e/runs/pair-20260918T140003-27b43f4300",
+      "status": "completed",
+      "product": {
+        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
+        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "dirty": false
+      },
+      "adapter": "benchmark-fixtures-v1",
+      "implementation_sha256": "eb1b3ea6ae6d94915d68c376f2a08349a6794b39b8c96d79c4e9362dce56738d",
+      "catalog_sha256": "26cad8021bcf4e853dc5354c89e9012cca7bb2f97b8eeed5a6cd4719a79a9981",
+      "source": {
+        "benchmark": "BFCL",
+        "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+        "entry_id": "multiple_5",
+        "source_path": "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_multiple.json",
+        "source_entry_sha256": "09982a805f868807769461c2bb720a7e68a9705b6975d3a8bc0c57b7ed815c06"
+      },
+      "mode": "parallel",
+      "router_model": "qwen25-rlcd",
+      "requested_model": null,
+      "requested_effort": null,
+      "observed_settings_match": true,
+      "task_started_at": "2026-09-18T14:00:58.113328+00:00",
+      "task_finished_at": "2026-09-18T14:01:17.678875+00:00",
+      "official_upstream_score": null,
+      "arms": {
+        "baseline": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 7.930617,
+          "tokens": {
+            "input_tokens": 35779,
+            "cached_input_tokens": 23592,
+            "cache_write_input_tokens": 12178,
+            "output_tokens": 170,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 35949
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 0,
+            "model_decision_count": 0,
+            "fallback_count": 0,
+            "unlinked_decision_count": 0,
+            "latency_ms": {
+              "count": 0,
+              "p50": null,
+              "p95": null,
+              "sum": null
+            },
+            "small_model_tokens": {
+              "input_tokens": null,
+              "output_tokens": null,
+              "readout_tokens": null
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 1,
+              "tool_observed": 1,
+              "tool_completed": 1
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 2,
+            "opaque_host_containers": 2,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "7a7ee0cc-2687-4259-95bc-a24c16f4481c",
+              "tool": "weather.get_by_coordinates_date",
+              "arguments": {
+                "coordinates": [
+                  46.603354,
+                  1.888334
+                ],
+                "date": "2019-12-13"
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "On December 13, 2019, at coordinates **46.603354, 1.8883340**:\n\n- **Temperature:** 7.25°C\n- **Wind speed:** 18.5 km/h",
+          "preflight_wall_seconds": 37.68135,
+          "preflight_tokens": {
+            "input_tokens": 72931,
+            "cached_input_tokens": 48768,
+            "cache_write_input_tokens": 24045,
+            "output_tokens": 254,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 73185
+          },
+          "model_ready": null,
+          "model_identity": null,
+          "worker_startup_ms": null,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        },
+        "rippletide": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 19.556584,
+          "tokens": {
+            "input_tokens": 80928,
+            "cached_input_tokens": 66082,
+            "cache_write_input_tokens": 14828,
+            "output_tokens": 515,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 81443
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 2,
+            "model_decision_count": 2,
+            "fallback_count": 0,
+            "unlinked_decision_count": 0,
+            "latency_ms": {
+              "count": 2,
+              "p50": 178.465,
+              "p95": 218.044,
+              "sum": 396.509
+            },
+            "small_model_tokens": {
+              "input_tokens": 327,
+              "output_tokens": 0,
+              "readout_tokens": 2
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [
+            {
+              "decision_id": "500cb036-b433-4446-8cdc-fd4ee3483dd8",
+              "route_id": "mcp.fixture.weather.get_forecast_by_coordinates",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "incorrect",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "0e80d6ee-9bca-4eb7-a7bd-46247032c61a",
+              "route_id": "mcp.fixture.weather.get_by_coordinates_date",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "correct",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            }
+          ],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 4,
+              "tool_completed": 4,
+              "routing_receipt": 2,
+              "routing_authorized": 2
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 5,
+            "opaque_host_containers": 5,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "0be9a5ae-aedc-488e-b460-62db9d3b6426",
+              "tool": "weather.get_forecast_by_coordinates",
+              "arguments": {
+                "coordinates": [
+                  46.603354,
+                  1.888334
+                ]
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "f77b72f9-a125-4dd4-87b0-e50604590c32",
+              "tool": "weather.get_by_coordinates_date",
+              "arguments": {
+                "coordinates": [
+                  46.603354,
+                  1.888334
+                ],
+                "date": "2019-12-13"
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "For coordinates **46.603354, 1.8883340** on **December 13, 2019**, the benchmark data reports:\n\n- **Wind speed:** 18.5 km/h\n- **Temperature:** 7.25°C",
+          "preflight_wall_seconds": 15.665694,
+          "preflight_tokens": {
+            "input_tokens": 90787,
+            "cached_input_tokens": 63008,
+            "cache_write_input_tokens": 27658,
+            "output_tokens": 344,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 91131
+          },
+          "model_ready": true,
+          "model_identity": {
+            "model": "qwen25-rlcd",
+            "adapter": "rlcd",
+            "engine_id": "harshatheg/Qwen-2.5-1B-RLCD",
+            "engine_revision": "2af86848be75847ccb3553b0941cc51d6ef7e4e9",
+            "weights_id": "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
+            "weights_revision": "8b403126fc14f14cfc99bb4cfa72ecbc129ea677",
+            "backend": "mlx",
+            "temperature": 1,
+            "quantization": "4-bit affine, group_size=64",
+            "prompt_version": "v1-semantic-labels",
+            "decoding": "allowed_token_argmax",
+            "sampling": false,
+            "thinking_enabled": false,
+            "mlx_lm_version": "0.31.3",
+            "mlx_version": "0.32.2",
+            "transformers_version": "5.17.0"
+          },
+          "worker_startup_ms": 3807.4451249995036,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        }
+      }
+    },
+    {
+      "case": "B02",
+      "run_id": "pair-20260918T140117-14b228f2ca",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B02-c3ec09371000/runs/pair-20260918T140117-14b228f2ca",
+      "status": "completed",
+      "product": {
+        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
+        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "dirty": false
+      },
+      "adapter": "benchmark-fixtures-v1",
+      "implementation_sha256": "eb1b3ea6ae6d94915d68c376f2a08349a6794b39b8c96d79c4e9362dce56738d",
+      "catalog_sha256": "26cad8021bcf4e853dc5354c89e9012cca7bb2f97b8eeed5a6cd4719a79a9981",
+      "source": {
+        "benchmark": "BFCL",
+        "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+        "entry_id": "irrelevance_55",
+        "source_path": "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_irrelevance.json",
+        "source_entry_sha256": "c2b2d74f3b7c14bfbb03ede3f1578f18b16e5f682da27eb496ae888ea617e818"
+      },
+      "mode": "parallel",
+      "router_model": "qwen25-rlcd",
+      "requested_model": null,
+      "requested_effort": null,
+      "observed_settings_match": true,
+      "task_started_at": "2026-09-18T14:01:56.090770+00:00",
+      "task_finished_at": "2026-09-18T14:02:09.557747+00:00",
+      "official_upstream_score": null,
+      "arms": {
+        "baseline": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 5.849518,
+          "tokens": {
+            "input_tokens": 23249,
+            "cached_input_tokens": 11517,
+            "cache_write_input_tokens": 11726,
+            "output_tokens": 109,
+            "reasoning_output_tokens": 10,
+            "total_tokens": 23358
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 0,
+            "model_decision_count": 0,
+            "fallback_count": 0,
+            "unlinked_decision_count": 0,
+            "latency_ms": {
+              "count": 0,
+              "p50": null,
+              "p95": null,
+              "sum": null
+            },
+            "small_model_tokens": {
+              "input_tokens": null,
+              "output_tokens": null,
+              "readout_tokens": null
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 1,
+            "opaque_host_containers": 1,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [],
+          "final_response": "I can’t verify which bookstore sells *To Kill a Mockingbird* with the connected tools: only an “add product to cart” tool is available, with no bookstore search or listings capability.",
+          "preflight_wall_seconds": 19.405619,
+          "preflight_tokens": {
+            "input_tokens": 72771,
+            "cached_input_tokens": 48660,
+            "cache_write_input_tokens": 23993,
+            "output_tokens": 243,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 73014
+          },
+          "model_ready": null,
+          "model_identity": null,
+          "worker_startup_ms": null,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        },
+        "rippletide": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 13.460423,
+          "tokens": {
+            "input_tokens": 36884,
+            "cached_input_tokens": 24015,
+            "cache_write_input_tokens": 12860,
+            "output_tokens": 225,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 37109
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 1,
+            "model_decision_count": 0,
+            "fallback_count": 0,
+            "unlinked_decision_count": 1,
+            "latency_ms": {
+              "count": 1,
+              "p50": 0.372,
+              "p95": 0.372,
+              "sum": 0.372
+            },
+            "small_model_tokens": {
+              "input_tokens": null,
+              "output_tokens": null,
+              "readout_tokens": null
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [
+            {
+              "decision_id": "b3fafec0-1047-4444-8f64-bf921ed70a1a",
+              "route_id": "mcp.fixture.add_product_to_cart",
+              "source": "rule",
+              "reason_code": "ONLY_CANDIDATE",
+              "verdict": "incorrect",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            }
+          ],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 1,
+              "tool_completed": 1,
+              "routing_receipt": 1
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 2,
+            "opaque_host_containers": 2,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [],
+          "final_response": "I can’t verify which bookstore sells *To Kill a Mockingbird* with the connected tools. The only available tool adds products to a cart; it can’t search bookstores or check availability.",
+          "preflight_wall_seconds": 17.684342,
+          "preflight_tokens": {
+            "input_tokens": 89689,
+            "cached_input_tokens": 62838,
+            "cache_write_input_tokens": 26730,
+            "output_tokens": 339,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 90028
+          },
+          "model_ready": true,
+          "model_identity": {
+            "model": "qwen25-rlcd",
+            "adapter": "rlcd",
+            "engine_id": "harshatheg/Qwen-2.5-1B-RLCD",
+            "engine_revision": "2af86848be75847ccb3553b0941cc51d6ef7e4e9",
+            "weights_id": "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
+            "weights_revision": "8b403126fc14f14cfc99bb4cfa72ecbc129ea677",
+            "backend": "mlx",
+            "temperature": 1,
+            "quantization": "4-bit affine, group_size=64",
+            "prompt_version": "v1-semantic-labels",
+            "decoding": "allowed_token_argmax",
+            "sampling": false,
+            "thinking_enabled": false,
+            "mlx_lm_version": "0.31.3",
+            "mlx_version": "0.32.2",
+            "transformers_version": "5.17.0"
+          },
+          "worker_startup_ms": 3389.9040420074016,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        }
+      }
+    },
+    {
+      "case": "B03",
+      "run_id": "pair-20260918T140209-f4fa533929",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-acb28d925522/runs/pair-20260918T140209-f4fa533929",
+      "status": "completed",
+      "product": {
+        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
+        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "dirty": false
+      },
+      "adapter": "benchmark-fixtures-v1",
+      "implementation_sha256": "eb1b3ea6ae6d94915d68c376f2a08349a6794b39b8c96d79c4e9362dce56738d",
+      "catalog_sha256": "26cad8021bcf4e853dc5354c89e9012cca7bb2f97b8eeed5a6cd4719a79a9981",
+      "source": {
+        "benchmark": "BFCL",
+        "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+        "entry_id": "parallel_multiple_32",
+        "source_path": "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_parallel_multiple.json",
+        "source_entry_sha256": "dd4cc070110d9840ea6d210062472e030a7e4e9a0672a452232b6f41be8c3722"
+      },
+      "mode": "parallel",
+      "router_model": "qwen25-rlcd",
+      "requested_model": null,
+      "requested_effort": null,
+      "observed_settings_match": true,
+      "task_started_at": "2026-09-18T14:02:41.679814+00:00",
+      "task_finished_at": "2026-09-18T14:03:00.331885+00:00",
+      "official_upstream_score": null,
+      "arms": {
+        "baseline": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 15.726419,
+          "tokens": {
+            "input_tokens": 35967,
+            "cached_input_tokens": 23445,
+            "cache_write_input_tokens": 12513,
+            "output_tokens": 371,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 36338
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 0,
+            "model_decision_count": 0,
+            "fallback_count": 0,
+            "unlinked_decision_count": 0,
+            "latency_ms": {
+              "count": 0,
+              "p50": null,
+              "p95": null,
+              "sum": null
+            },
+            "small_model_tokens": {
+              "input_tokens": null,
+              "output_tokens": null,
+              "readout_tokens": null
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 3,
+              "tool_observed": 3,
+              "tool_completed": 3
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 2,
+            "opaque_host_containers": 2,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "8e08625a-e965-4357-9284-c29a3b6c4780",
+              "tool": "weather_forecast_precipitation",
+              "arguments": {
+                "days": 10,
+                "location": "Rome, Italy"
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "49c69805-3993-45bb-bc76-c422e155593d",
+              "tool": "weather_forecast_temperature",
+              "arguments": {
+                "days": 10,
+                "location": "Boston, USA"
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "1f3b633b-8199-4911-b795-c51f6fa4b960",
+              "tool": "weather_forecast_humidity",
+              "arguments": {
+                "days": 10,
+                "location": "Boston, USA"
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "Here is the returned 10-day forecast. The tools did not specify units or calendar dates, so days are listed in the order provided.\n\n| Day | Boston, USA: Temperature | Boston: Humidity | Rome, Italy: Precipitation |\n|---|---:|---:|---:|\n| 1 | 10 | 10 | 20 |\n| 2 | 11 | 11 | 21 |\n| 3 | 12 | 12 | 22 |\n| 4 | 13 | 13 | 23 |\n| 5 | 14 | 14 | 24 |\n| 6 | 15 | 15 | 25 |\n| 7 | 16 | 16 | 26 |\n| 8 | 17 | 17 | 27 |\n| 9 | 18 | 18 | 28 |\n| 10 | 19 | 19 | 29 |",
+          "preflight_wall_seconds": 13.269226,
+          "preflight_tokens": {
+            "input_tokens": 72679,
+            "cached_input_tokens": 48599,
+            "cache_write_input_tokens": 23962,
+            "output_tokens": 243,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 72922
+          },
+          "model_ready": null,
+          "model_identity": null,
+          "worker_startup_ms": null,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        },
+        "rippletide": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 18.644064,
+          "tokens": {
+            "input_tokens": 82084,
+            "cached_input_tokens": 66737,
+            "cache_write_input_tokens": 15329,
+            "output_tokens": 639,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 82723
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 3,
+            "model_decision_count": 3,
+            "fallback_count": 0,
+            "unlinked_decision_count": 0,
+            "latency_ms": {
+              "count": 3,
+              "p50": 87.009,
+              "p95": 90.944,
+              "sum": 263.737
+            },
+            "small_model_tokens": {
+              "input_tokens": 312,
+              "output_tokens": 0,
+              "readout_tokens": 3
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [
+            {
+              "decision_id": "d43da46c-49c6-47f4-bbc5-57343f384d79",
+              "route_id": "mcp.fixture.weather_forecast_temperature",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "correct",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "2823f9f0-77e7-45a8-97f1-fc7f1f0696ce",
+              "route_id": "mcp.fixture.weather_forecast_humidity",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "correct",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "9ed0df0f-bdce-4cb9-99e0-6153da825b79",
+              "route_id": "mcp.fixture.weather_forecast_precipitation",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "correct",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            }
+          ],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 6,
+              "tool_completed": 6,
+              "routing_receipt": 3,
+              "routing_authorized": 3
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 5,
+            "opaque_host_containers": 5,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "eeaca9d1-4976-406d-addf-c7c69d1d03ba",
+              "tool": "weather_forecast_temperature",
+              "arguments": {
+                "location": "Boston, USA",
+                "days": 10
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "e4a8d469-e4cc-434b-b89d-a763e8e470d1",
+              "tool": "weather_forecast_humidity",
+              "arguments": {
+                "location": "Boston, USA",
+                "days": 10
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "8abe30b4-cc71-4cfd-926e-4bbdadac9fac",
+              "tool": "weather_forecast_precipitation",
+              "arguments": {
+                "location": "Rome, Italy",
+                "days": 10
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "The connected tools returned these synthetic forecasts for the next 10 days. They did not specify units or calendar dates.\n\n| Day | Boston, USA temperature | Boston, USA humidity | Rome, Italy precipitation |\n|---|---:|---:|---:|\n| 1 | 10 | 10 | 20 |\n| 2 | 11 | 11 | 21 |\n| 3 | 12 | 12 | 22 |\n| 4 | 13 | 13 | 23 |\n| 5 | 14 | 14 | 24 |\n| 6 | 15 | 15 | 25 |\n| 7 | 16 | 16 | 26 |\n| 8 | 17 | 17 | 27 |\n| 9 | 18 | 18 | 28 |\n| 10 | 19 | 19 | 29 |",
+          "preflight_wall_seconds": 17.444705,
+          "preflight_tokens": {
+            "input_tokens": 90193,
+            "cached_input_tokens": 62706,
+            "cache_write_input_tokens": 27366,
+            "output_tokens": 327,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 90520
+          },
+          "model_ready": true,
+          "model_identity": {
+            "model": "qwen25-rlcd",
+            "adapter": "rlcd",
+            "engine_id": "harshatheg/Qwen-2.5-1B-RLCD",
+            "engine_revision": "2af86848be75847ccb3553b0941cc51d6ef7e4e9",
+            "weights_id": "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
+            "weights_revision": "8b403126fc14f14cfc99bb4cfa72ecbc129ea677",
+            "backend": "mlx",
+            "temperature": 1,
+            "quantization": "4-bit affine, group_size=64",
+            "prompt_version": "v1-semantic-labels",
+            "decoding": "allowed_token_argmax",
+            "sampling": false,
+            "thinking_enabled": false,
+            "mlx_lm_version": "0.31.3",
+            "mlx_version": "0.32.2",
+            "transformers_version": "5.17.0"
+          },
+          "worker_startup_ms": 3455.1185830059694,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        }
+      }
+    },
+    {
+      "case": "B04",
+      "run_id": "pair-20260918T140300-5f307f2011",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-804de6e45f46/runs/pair-20260918T140300-5f307f2011",
+      "status": "completed",
+      "product": {
+        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
+        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "dirty": false
+      },
+      "adapter": "benchmark-fixtures-v1",
+      "implementation_sha256": "eb1b3ea6ae6d94915d68c376f2a08349a6794b39b8c96d79c4e9362dce56738d",
+      "catalog_sha256": "26cad8021bcf4e853dc5354c89e9012cca7bb2f97b8eeed5a6cd4719a79a9981",
+      "source": {
+        "benchmark": "ToolSandbox",
+        "revision": "c8571d7854316d2e1c5f288e59fe1e34e53f6dd1",
+        "entry_id": "search_reminder_with_recency_upcoming",
+        "source_path": "tool_sandbox/scenarios/multiple_tool_call_scenarios.py",
+        "source_entry_sha256": "b831b5af0a32eedaa978ff7efe923b89c0bab545979c64c1452d26d9458c2473"
+      },
+      "mode": "parallel",
+      "router_model": "qwen25-rlcd",
+      "requested_model": null,
+      "requested_effort": null,
+      "observed_settings_match": true,
+      "task_started_at": "2026-09-18T14:03:31.800499+00:00",
+      "task_finished_at": "2026-09-18T14:03:54.375427+00:00",
+      "official_upstream_score": null,
+      "arms": {
+        "baseline": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 8.443304,
+          "tokens": {
+            "input_tokens": 49866,
+            "cached_input_tokens": 36818,
+            "cache_write_input_tokens": 13036,
+            "output_tokens": 125,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 49991
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 0,
+            "model_decision_count": 0,
+            "fallback_count": 0,
+            "unlinked_decision_count": 0,
+            "latency_ms": {
+              "count": 0,
+              "p50": null,
+              "p95": null,
+              "sum": null
+            },
+            "small_model_tokens": {
+              "input_tokens": null,
+              "output_tokens": null,
+              "readout_tokens": null
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 2,
+              "tool_observed": 2,
+              "tool_completed": 2
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 3,
+            "opaque_host_containers": 3,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "151a3653-8d38-4568-bf73-08ce785f74cd",
+              "tool": "get_current_timestamp",
+              "arguments": {},
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "082a8101-8c2f-40b1-ae08-41fa7fd354dc",
+              "tool": "search_reminder",
+              "arguments": {
+                "reminder_timestamp_lowerbound": 1778846400
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "Your next reminder is in **30 minutes**: “Buy a nice rich navy bathing dress.”",
+          "preflight_wall_seconds": 13.897535,
+          "preflight_tokens": {
+            "input_tokens": 72875,
+            "cached_input_tokens": 48730,
+            "cache_write_input_tokens": 24027,
+            "output_tokens": 243,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 73118
+          },
+          "model_ready": null,
+          "model_identity": null,
+          "worker_startup_ms": null,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        },
+        "rippletide": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 22.56613,
+          "tokens": {
+            "input_tokens": 88013,
+            "cached_input_tokens": 70742,
+            "cache_write_input_tokens": 17253,
+            "output_tokens": 510,
+            "reasoning_output_tokens": 14,
+            "total_tokens": 88523
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 3,
+            "model_decision_count": 3,
+            "fallback_count": 0,
+            "unlinked_decision_count": 2,
+            "latency_ms": {
+              "count": 3,
+              "p50": 105.194,
+              "p95": 111.66,
+              "sum": 292.568
+            },
+            "small_model_tokens": {
+              "input_tokens": 479,
+              "output_tokens": 0,
+              "readout_tokens": 3
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [
+            {
+              "decision_id": "6bc8df11-9e83-49f0-beec-dcef728bc9e7",
+              "route_id": "mcp.fixture.search_reminder",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "351dd9d0-e440-480e-adc0-8e355bd34493",
+              "route_id": "mcp.fixture.shift_timestamp",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "2282e0c6-a6bd-4814-80bb-5383a065b760",
+              "route_id": "mcp.fixture.search_reminder",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            }
+          ],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 4,
+              "tool_completed": 4,
+              "routing_receipt": 3,
+              "routing_authorized": 1
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 5,
+            "opaque_host_containers": 5,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "ff780fda-5705-4901-9e9a-cd1f1bdae9c8",
+              "tool": "search_reminder",
+              "arguments": {
+                "reminder_timestamp_lowerbound": 0
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "The earliest reminder I found is “Return the library book.” I couldn’t verify the current time through the tools, so I can’t confirm whether it’s still upcoming.",
+          "preflight_wall_seconds": 16.31833,
+          "preflight_tokens": {
+            "input_tokens": 93012,
+            "cached_input_tokens": 64148,
+            "cache_write_input_tokens": 28743,
+            "output_tokens": 358,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 93370
+          },
+          "model_ready": true,
+          "model_identity": {
+            "model": "qwen25-rlcd",
+            "adapter": "rlcd",
+            "engine_id": "harshatheg/Qwen-2.5-1B-RLCD",
+            "engine_revision": "2af86848be75847ccb3553b0941cc51d6ef7e4e9",
+            "weights_id": "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
+            "weights_revision": "8b403126fc14f14cfc99bb4cfa72ecbc129ea677",
+            "backend": "mlx",
+            "temperature": 1,
+            "quantization": "4-bit affine, group_size=64",
+            "prompt_version": "v1-semantic-labels",
+            "decoding": "allowed_token_argmax",
+            "sampling": false,
+            "thinking_enabled": false,
+            "mlx_lm_version": "0.31.3",
+            "mlx_version": "0.32.2",
+            "transformers_version": "5.17.0"
+          },
+          "worker_startup_ms": 3402.279041998554,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 0,
+            "last_message": null,
+            "cellular": false,
+            "unchanged": true,
+            "changed_top_level": []
+          }
+        }
+      }
+    },
+    {
+      "case": "B05",
+      "run_id": "pair-20260918T140354-94400f18a5",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-2c45e7663c80/runs/pair-20260918T140354-94400f18a5",
+      "status": "completed",
+      "product": {
+        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
+        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "dirty": false
+      },
+      "adapter": "benchmark-fixtures-v1",
+      "implementation_sha256": "eb1b3ea6ae6d94915d68c376f2a08349a6794b39b8c96d79c4e9362dce56738d",
+      "catalog_sha256": "26cad8021bcf4e853dc5354c89e9012cca7bb2f97b8eeed5a6cd4719a79a9981",
+      "source": {
+        "benchmark": "ToolSandbox",
+        "revision": "c8571d7854316d2e1c5f288e59fe1e34e53f6dd1",
+        "entry_id": "send_message_with_contact_content_cellular_off",
+        "source_path": "tool_sandbox/scenarios/multiple_tool_call_scenarios.py",
+        "source_entry_sha256": "5cfd3ce8efe09748e4d7b5042d82f997fc92a1f8270ae3d0d23504c4c0bba632"
+      },
+      "mode": "parallel",
+      "router_model": "qwen25-rlcd",
+      "requested_model": null,
+      "requested_effort": null,
+      "observed_settings_match": true,
+      "task_started_at": "2026-09-18T14:04:28.186630+00:00",
+      "task_finished_at": "2026-09-18T14:05:03.076700+00:00",
+      "official_upstream_score": null,
+      "arms": {
+        "baseline": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 22.127367,
+          "tokens": {
+            "input_tokens": 74970,
+            "cached_input_tokens": 61982,
+            "cache_write_input_tokens": 12970,
+            "output_tokens": 231,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 75201
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 0,
+            "model_decision_count": 0,
+            "fallback_count": 0,
+            "unlinked_decision_count": 0,
+            "latency_ms": {
+              "count": 0,
+              "p50": null,
+              "p95": null,
+              "sum": null
+            },
+            "small_model_tokens": {
+              "input_tokens": null,
+              "output_tokens": null,
+              "readout_tokens": null
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 4,
+              "tool_observed": 4,
+              "tool_completed": 3
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 5,
+            "opaque_host_containers": 5,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "f5757f13-0272-43d4-aadf-224a0abd992c",
+              "tool": "search_contacts",
+              "arguments": {
+                "name": "Fredrik Thordendal"
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "da939cd4-df81-4268-9831-62ecb3801026",
+              "tool": "send_message_with_phone_number",
+              "arguments": {
+                "phone_number": "+12453344098",
+                "content": "How's the new album coming along."
+              },
+              "status": "error",
+              "error": "ConnectionError: Cellular service is off"
+            },
+            {
+              "fixture_call_id": "3c0a82f3-4958-478e-bd3d-97d0d7314756",
+              "tool": "set_cellular_service_status",
+              "arguments": {
+                "on": true
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "f1e537c6-702b-4c07-9b13-b57068ff0c78",
+              "tool": "send_message_with_phone_number",
+              "arguments": {
+                "phone_number": "+12453344098",
+                "content": "How's the new album coming along."
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "Sent to Fredrik Thordendal: “How's the new album coming along.”\n\nI enabled cellular service to send it.",
+          "preflight_wall_seconds": 13.493303,
+          "preflight_tokens": {
+            "input_tokens": 60459,
+            "cached_input_tokens": 36356,
+            "cache_write_input_tokens": 23988,
+            "output_tokens": 212,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 60671
+          },
+          "model_ready": null,
+          "model_identity": null,
+          "worker_startup_ms": null,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 1,
+            "last_message": {
+              "message_id": "e9290ac8-60c7-447f-b86f-5b2c2f1f497c",
+              "recipient_phone_number": "+12453344098",
+              "content": "How's the new album coming along.",
+              "timestamp": 1778846400
+            },
+            "cellular": true,
+            "unchanged": false,
+            "changed_top_level": [
+              "cellular",
+              "messages"
+            ]
+          }
+        },
+        "rippletide": {
+          "process_status": "completed",
+          "automatic_grade": "unknown",
+          "trace_complete": false,
+          "wall_seconds": 34.880702,
+          "tokens": {
+            "input_tokens": 170693,
+            "cached_input_tokens": 152684,
+            "cache_write_input_tokens": 17976,
+            "output_tokens": 900,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 171593
+          },
+          "usage_complete": true,
+          "required_interventions": 0,
+          "planned_prompts": 1,
+          "observed_settings": [
+            {
+              "model": "gpt-6-astra",
+              "effort": null,
+              "source": "host turn_context",
+              "effort_explicit": false
+            }
+          ],
+          "routing": {
+            "decision_count": 5,
+            "model_decision_count": 5,
+            "fallback_count": 0,
+            "unlinked_decision_count": 1,
+            "latency_ms": {
+              "count": 5,
+              "p50": 92.888,
+              "p95": 105.929,
+              "sum": 470.87
+            },
+            "small_model_tokens": {
+              "input_tokens": 628,
+              "output_tokens": 0,
+              "readout_tokens": 5
+            },
+            "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
+          },
+          "recommendations": [
+            {
+              "decision_id": "0c1de71a-5e1b-4ec1-ab5b-b6042804526c",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "36178b2d-4ce3-4ba8-8105-278172090f90",
+              "route_id": "mcp.fixture.search_contacts",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "affab3ee-d0f5-442e-8fb3-8cbeed6940ec",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "e8307a48-7c3a-4e4a-bcf7-7bd3cabb0e31",
+              "route_id": "mcp.fixture.set_cellular_service_status",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "9e5e53c2-d93d-4a97-8e36-1027223c11d8",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            }
+          ],
+          "guard": {
+            "present": true,
+            "events": {
+              "hook_started": 1,
+              "tool_proposed": 9,
+              "tool_completed": 8,
+              "routing_receipt": 5,
+              "routing_authorized": 4
+            },
+            "artifact_errors": [],
+            "missing_proposals": 0,
+            "blocked_attempts": 0,
+            "errors": 0,
+            "unsupported_or_outside_coverage": 10,
+            "opaque_host_containers": 10,
+            "unobserved_host_containers": 1
+          },
+          "fixture_calls": [
+            {
+              "fixture_call_id": "87cd9268-3dcc-4a51-b1f5-8fc5e55ff340",
+              "tool": "search_contacts",
+              "arguments": {
+                "name": "Fredrik Thordendal"
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "f9bc01b6-2e6a-4fda-be05-acd5300e66c0",
+              "tool": "send_message_with_phone_number",
+              "arguments": {
+                "phone_number": "+12453344098",
+                "content": "How's the new album coming along."
+              },
+              "status": "error",
+              "error": "ConnectionError: Cellular service is off"
+            },
+            {
+              "fixture_call_id": "eb40eb51-92c8-4566-8d9b-8414c5c58489",
+              "tool": "set_cellular_service_status",
+              "arguments": {
+                "on": true
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "65e25eb0-1a8c-4542-9f08-3072eb5c72bd",
+              "tool": "send_message_with_phone_number",
+              "arguments": {
+                "phone_number": "+12453344098",
+                "content": "How's the new album coming along."
+              },
+              "status": "success"
+            }
+          ],
+          "final_response": "Sent to Fredrik Thordendal: “How's the new album coming along.”\n\nEnabled cellular service to resolve the sending issue.",
+          "preflight_wall_seconds": 19.01032,
+          "preflight_tokens": {
+            "input_tokens": 90857,
+            "cached_input_tokens": 62988,
+            "cache_write_input_tokens": 27748,
+            "output_tokens": 340,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 91197
+          },
+          "model_ready": true,
+          "model_identity": {
+            "model": "qwen25-rlcd",
+            "adapter": "rlcd",
+            "engine_id": "harshatheg/Qwen-2.5-1B-RLCD",
+            "engine_revision": "2af86848be75847ccb3553b0941cc51d6ef7e4e9",
+            "weights_id": "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
+            "weights_revision": "8b403126fc14f14cfc99bb4cfa72ecbc129ea677",
+            "backend": "mlx",
+            "temperature": 1,
+            "quantization": "4-bit affine, group_size=64",
+            "prompt_version": "v1-semantic-labels",
+            "decoding": "allowed_token_argmax",
+            "sampling": false,
+            "thinking_enabled": false,
+            "mlx_lm_version": "0.31.3",
+            "mlx_version": "0.32.2",
+            "transformers_version": "5.17.0"
+          },
+          "worker_startup_ms": 3436.454708004021,
+          "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
+          "state_observations": {
+            "initial_messages": 0,
+            "final_messages": 1,
+            "last_message": {
+              "message_id": "c93ed0c0-22bc-401a-91a2-8e8ee89f6284",
+              "recipient_phone_number": "+12453344098",
+              "content": "How's the new album coming along.",
+              "timestamp": 1778846400
+            },
+            "cellular": true,
+            "unchanged": false,
+            "changed_top_level": [
+              "cellular",
+              "messages"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
