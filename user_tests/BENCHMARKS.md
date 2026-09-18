@@ -1,11 +1,13 @@
 # Five benchmark-derived user tests
 
 Runnable local adapters and independent deterministic checks for five pinned
-cases. The first five default-model Codex-vs-Rippletide pairs have been run:
-[experiment report](../docs/BENCHMARK_EXPERIMENT_REPORT.md). Rippletide was slower
-and used more Codex tokens in each pair. All automatic acceptance grades remain
-unknown because pure catalog discovery and failed-call hooks need improved trace
-accounting; the report separates observed behavior from certified grades.
+cases. Two five-case default-model suites have been run, most recently after the
+main-branch no-defer change: [current report](../docs/BENCHMARK_EXPERIMENT_REPORT.md).
+In the latest suite Rippletide was slower in every pair and used more Codex tokens
+in four of five. All automatic acceptance grades remain unknown because pure
+catalog discovery and failed-call hooks need improved trace accounting. The
+report separates observed behavior, Codex preference overrides and certified grades;
+the previous report and all raw attempts are retained.
 Unit and STDIO integration tests remain harness verification, not product measurements.
 
 ## Start

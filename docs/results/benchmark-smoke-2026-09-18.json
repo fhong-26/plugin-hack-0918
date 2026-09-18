@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "experiment": "B01-B05 default-model smoke, 2026-09-18",
+  "experiment": "B01-B05 default-model rerun after main no-defer merge, 2026-09-18",
   "command": "uv run --locked --project user_tests rippletide-uat benchmark run --cases B01 B02 B03 B04 B05",
   "command_exit_code": 1,
   "codex_version": "codex-cli 0.155.0",
@@ -8,74 +8,78 @@
   "codex_effort_requested": null,
   "resolved_codex_model": "gpt-6-astra",
   "resolved_effort": null,
-  "plugin_installed_version": "0.1.0+codex.20260918135952",
+  "plugin_installed_version": "0.1.0+codex.20260918141216",
+  "imported_main_commit": "8d60042af31e81dfb6239895303548ee23486752",
+  "previous_snapshot": "benchmark-smoke-2026-09-18-before-no-defer.json",
   "notes": [
-    "Five parallel pairs, one repetition per case; cases themselves run sequentially.",
-    "All ten task processes completed; all automatic acceptance grades remain unknown, not passed.",
+    "Five new parallel pairs, one repetition per case; cases run sequentially. Previous attempts and raw evidence are retained.",
+    "All ten task processes completed; all automatic acceptance grades remain unknown, not passed. Command exit 1.",
     "Pure ALL_TOOLS discovery containers have no nested tool hooks and fail the conservative trace-completeness gate.",
-    "B05 additionally has a failed send recorded by the fixture without a matching tool_completed hook.",
-    "Observed behavior and state descriptions are a post-run evidence inspection, not overrides of the frozen grader or official benchmark scores.",
-    "Token totals equal input plus output. Cached input is a subset of input; reasoning output is a subset of output.",
+    "B05 enabled arm additionally has two failed sends recorded by the fixture without matching tool_completed hooks.",
+    "B03 and B05 recovered through Codex-supplied preferred_route parameters, producing TASK_PREFERENCE rule selections. These are not Qwen selections or human corrections.",
+    "B03 automatic router recommendation grades check reference-function membership, not correctness for each immediate subgoal. Temperature recommendations for humidity are wrong for those subgoals despite the coarse grade.",
+    "Observed behavior/state descriptions are post-run evidence inspection, not overrides of the frozen grader or official benchmark scores.",
+    "Token totals equal input plus output. Cached input is a subset of input; reasoning output is a subset of output. Setup and local model counts are separate.",
     "No monetary savings, determinism, general accuracy or official benchmark validation is established.",
     "Raw evidence remains outside Git. This curated synthetic summary contains no credentials."
   ],
   "totals": {
     "baseline": {
       "attempts": 5,
-      "wall_seconds": 60.077225,
+      "wall_seconds": 47.106103000000004,
       "tokens": {
-        "input_tokens": 219831,
-        "cached_input_tokens": 157354,
-        "cache_write_input_tokens": 62423,
-        "output_tokens": 1006,
-        "reasoning_output_tokens": 10,
-        "total_tokens": 220837
+        "input_tokens": 220972,
+        "cached_input_tokens": 156347,
+        "cache_write_input_tokens": 64571,
+        "output_tokens": 993,
+        "reasoning_output_tokens": 13,
+        "total_tokens": 221965
       },
       "required_interventions": 0,
       "planned_prompts": 5,
-      "preflight_wall_seconds": 97.747033,
+      "preflight_wall_seconds": 94.57706300000001,
       "preflight_tokens": {
-        "input_tokens": 351715,
-        "cached_input_tokens": 231113,
-        "cache_write_input_tokens": 120015,
-        "output_tokens": 1195,
+        "input_tokens": 351703,
+        "cached_input_tokens": 231040,
+        "cache_write_input_tokens": 119454,
+        "output_tokens": 1156,
         "reasoning_output_tokens": 0,
-        "total_tokens": 352910
+        "total_tokens": 352859
       }
     },
     "rippletide": {
       "attempts": 5,
-      "wall_seconds": 109.10790300000001,
+      "wall_seconds": 114.469978,
       "tokens": {
-        "input_tokens": 458602,
-        "cached_input_tokens": 380260,
-        "cache_write_input_tokens": 78246,
-        "output_tokens": 2789,
-        "reasoning_output_tokens": 14,
-        "total_tokens": 461391
+        "input_tokens": 526464,
+        "cached_input_tokens": 446261,
+        "cache_write_input_tokens": 80095,
+        "output_tokens": 3184,
+        "reasoning_output_tokens": 42,
+        "total_tokens": 529648
       },
       "required_interventions": 0,
       "planned_prompts": 5,
-      "preflight_wall_seconds": 86.123391,
+      "preflight_wall_seconds": 90.949059,
       "preflight_tokens": {
-        "input_tokens": 454538,
-        "cached_input_tokens": 315688,
-        "cache_write_input_tokens": 138245,
-        "output_tokens": 1708,
+        "input_tokens": 456428,
+        "cached_input_tokens": 316704,
+        "cache_write_input_tokens": 138497,
+        "output_tokens": 1706,
         "reasoning_output_tokens": 0,
-        "total_tokens": 456246
+        "total_tokens": 458134
       }
     }
   },
   "runs": [
     {
       "case": "B01",
-      "run_id": "pair-20260918T140003-27b43f4300",
-      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B01-c81e4b6bbb7e/runs/pair-20260918T140003-27b43f4300",
+      "run_id": "pair-20260918T141304-5cc0de6ab6",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B01-d855ff85ad0b/runs/pair-20260918T141304-5cc0de6ab6",
       "status": "completed",
       "product": {
-        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
-        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "commit": "631d8b904d7133a964a22a3e9eb352f943d98dfc",
+        "runtime_tree_sha256": "26ddc20e910bff9d69fa9bbcc463b525a0655775b1d918dc062f85225769bc5e",
         "dirty": false
       },
       "adapter": "benchmark-fixtures-v1",
@@ -93,22 +97,22 @@
       "requested_model": null,
       "requested_effort": null,
       "observed_settings_match": true,
-      "task_started_at": "2026-09-18T14:00:58.113328+00:00",
-      "task_finished_at": "2026-09-18T14:01:17.678875+00:00",
+      "task_started_at": "2026-09-18T14:13:46.179053+00:00",
+      "task_finished_at": "2026-09-18T14:14:08.830748+00:00",
       "official_upstream_score": null,
       "arms": {
         "baseline": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 7.930617,
+          "wall_seconds": 7.615844,
           "tokens": {
-            "input_tokens": 35779,
-            "cached_input_tokens": 23592,
-            "cache_write_input_tokens": 12178,
-            "output_tokens": 170,
+            "input_tokens": 35756,
+            "cached_input_tokens": 23575,
+            "cache_write_input_tokens": 12172,
+            "output_tokens": 181,
             "reasoning_output_tokens": 0,
-            "total_tokens": 35949
+            "total_tokens": 35937
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -158,7 +162,7 @@
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "7a7ee0cc-2687-4259-95bc-a24c16f4481c",
+              "fixture_call_id": "e494a984-74ee-4582-9ec3-a610579a2026",
               "tool": "weather.get_by_coordinates_date",
               "arguments": {
                 "coordinates": [
@@ -170,15 +174,15 @@
               "status": "success"
             }
           ],
-          "final_response": "On December 13, 2019, at coordinates **46.603354, 1.8883340**:\n\n- **Temperature:** 7.25°C\n- **Wind speed:** 18.5 km/h",
-          "preflight_wall_seconds": 37.68135,
+          "final_response": "On December 13, 2019, at coordinates **46.603354, 1.8883340** (identified as Bourges by the weather tool):\n\n- **Wind speed:** 18.5 km/h\n- **Temperature:** 7.25°C",
+          "preflight_wall_seconds": 17.331597,
           "preflight_tokens": {
-            "input_tokens": 72931,
-            "cached_input_tokens": 48768,
-            "cache_write_input_tokens": 24045,
-            "output_tokens": 254,
+            "input_tokens": 60525,
+            "cached_input_tokens": 36346,
+            "cache_write_input_tokens": 23442,
+            "output_tokens": 217,
             "reasoning_output_tokens": 0,
-            "total_tokens": 73185
+            "total_tokens": 60742
           },
           "model_ready": null,
           "model_identity": null,
@@ -191,20 +195,31 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [],
+          "host_containers": [
+            {
+              "call_id": "call_925rnN6mbvJpaIAJHzr4EHW7",
+              "input": "const ts = ALL_TOOLS.filter(x=>/benchmark_fixture/.test(x.name)); text(ts);\n"
+            },
+            {
+              "call_id": "call_Z9CEzQ4YcIPw12eZUuk0ycsm",
+              "input": "const result = await tools.mcp__benchmark_fixture__weather__get_by_coordinates_date({coordinates:[46.603354,1.8883340],date:\"2019-12-13\"}); for (const c of result.content ?? []) { if(c.type===\"text\") text(c.text); }\n"
+            }
+          ]
         },
         "rippletide": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 19.556584,
+          "wall_seconds": 22.644165,
           "tokens": {
-            "input_tokens": 80928,
-            "cached_input_tokens": 66082,
-            "cache_write_input_tokens": 14828,
-            "output_tokens": 515,
+            "input_tokens": 80808,
+            "cached_input_tokens": 65979,
+            "cache_write_input_tokens": 14811,
+            "output_tokens": 489,
             "reasoning_output_tokens": 0,
-            "total_tokens": 81443
+            "total_tokens": 81297
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -224,12 +239,12 @@
             "unlinked_decision_count": 0,
             "latency_ms": {
               "count": 2,
-              "p50": 178.465,
-              "p95": 218.044,
-              "sum": 396.509
+              "p50": 73.089,
+              "p95": 93.477,
+              "sum": 166.566
             },
             "small_model_tokens": {
-              "input_tokens": 327,
+              "input_tokens": 292,
               "output_tokens": 0,
               "readout_tokens": 2
             },
@@ -237,7 +252,7 @@
           },
           "recommendations": [
             {
-              "decision_id": "500cb036-b433-4446-8cdc-fd4ee3483dd8",
+              "decision_id": "7aaf96a1-4ac8-4446-8dd0-8213699bd060",
               "route_id": "mcp.fixture.weather.get_forecast_by_coordinates",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -245,7 +260,7 @@
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "0e80d6ee-9bca-4eb7-a7bd-46247032c61a",
+              "decision_id": "fe62dfac-5ec0-44ff-8bc7-6322d0ee9fd3",
               "route_id": "mcp.fixture.weather.get_by_coordinates_date",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -272,7 +287,7 @@
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "0be9a5ae-aedc-488e-b460-62db9d3b6426",
+              "fixture_call_id": "19eaa3a6-4d9a-4837-8282-ad06ed2dbbc7",
               "tool": "weather.get_forecast_by_coordinates",
               "arguments": {
                 "coordinates": [
@@ -283,7 +298,7 @@
               "status": "success"
             },
             {
-              "fixture_call_id": "f77b72f9-a125-4dd4-87b0-e50604590c32",
+              "fixture_call_id": "6118e9d4-32f8-4e9e-ae03-17ba1a2495f1",
               "tool": "weather.get_by_coordinates_date",
               "arguments": {
                 "coordinates": [
@@ -296,14 +311,14 @@
             }
           ],
           "final_response": "For coordinates **46.603354, 1.8883340** on **December 13, 2019**, the benchmark data reports:\n\n- **Wind speed:** 18.5 km/h\n- **Temperature:** 7.25°C",
-          "preflight_wall_seconds": 15.665694,
+          "preflight_wall_seconds": 23.339367,
           "preflight_tokens": {
-            "input_tokens": 90787,
-            "cached_input_tokens": 63008,
-            "cache_write_input_tokens": 27658,
-            "output_tokens": 344,
+            "input_tokens": 90663,
+            "cached_input_tokens": 62910,
+            "cache_write_input_tokens": 27632,
+            "output_tokens": 336,
             "reasoning_output_tokens": 0,
-            "total_tokens": 91131
+            "total_tokens": 90999
           },
           "model_ready": true,
           "model_identity": {
@@ -316,7 +331,7 @@
             "backend": "mlx",
             "temperature": 1,
             "quantization": "4-bit affine, group_size=64",
-            "prompt_version": "v1-semantic-labels",
+            "prompt_version": "v2-forced-semantic-labels",
             "decoding": "allowed_token_argmax",
             "sampling": false,
             "thinking_enabled": false,
@@ -324,7 +339,7 @@
             "mlx_version": "0.32.2",
             "transformers_version": "5.17.0"
           },
-          "worker_startup_ms": 3807.4451249995036,
+          "worker_startup_ms": 3549.9205000087386,
           "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
           "state_observations": {
             "initial_messages": 0,
@@ -333,18 +348,80 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [
+            {
+              "decision_id": "7aaf96a1-4ac8-4446-8dd0-8213699bd060",
+              "route_id": "mcp.fixture.weather.get_forecast_by_coordinates",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Retrieve historical wind speed and temperature at latitude 46.603354 and longitude 1.8883340 on 2019-12-13.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B01-d855ff85ad0b/runs/pair-20260918T141304-5cc0de6ab6/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4dd-be74-7781-be17-6382f997fe49:exec-ec797270-1e8f-4b60-b884-be8b54a389d8"
+              ]
+            },
+            {
+              "decision_id": "fe62dfac-5ec0-44ff-8bc7-6322d0ee9fd3",
+              "route_id": "mcp.fixture.weather.get_by_coordinates_date",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Retrieve weather observations for the past date 2019-12-13 at coordinates [46.603354,1.888334], including wind speed and temperature.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [
+                  {
+                    "result": "Forecast returned only next 7 days temperature values, with no historical date or wind speed. Historical weather for 2019-12-13 remains needed."
+                  }
+                ],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B01-d855ff85ad0b/runs/pair-20260918T141304-5cc0de6ab6/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4dd-be74-7781-be17-6382f997fe49:exec-4d714492-f8fa-4a86-9623-7de157a5605c"
+              ]
+            }
+          ],
+          "host_containers": [
+            {
+              "call_id": "call_GYKdJaNFsQySY7XSy0n7qPHG",
+              "input": "const ts = ALL_TOOLS.filter(x => /route|skills.*read|benchmark_fixture/.test(x.name)); text(ts);\n"
+            },
+            {
+              "call_id": "call_4VVRet5o2cA1opvFOm72xoR7",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B01-d855ff85ad0b/runs/pair-20260918T141304-5cc0de6ab6/rippletide/workspace\",goal:\"Retrieve historical wind speed and temperature at latitude 46.603354 and longitude 1.8883340 on 2019-12-13.\"}));\n"
+            },
+            {
+              "call_id": "call_Cxra21PFYgKFXTe8aSns335Z",
+              "input": "text(await tools.mcp__benchmark_fixture__weather__get_forecast_by_coordinates({coordinates:[46.603354,1.8883340]}));\n"
+            },
+            {
+              "call_id": "call_i9iY9yC5h47XAMez8kW7ooNJ",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B01-d855ff85ad0b/runs/pair-20260918T141304-5cc0de6ab6/rippletide/workspace\",goal:\"Retrieve weather observations for the past date 2019-12-13 at coordinates [46.603354,1.888334], including wind speed and temperature.\",recent_observations:[{result:\"Forecast returned only next 7 days temperature values, with no historical date or wind speed. Historical weather for 2019-12-13 remains needed.\"}]}));\n"
+            },
+            {
+              "call_id": "call_4SRF73TXlZ4XyTgQjJSC6c06",
+              "input": "text(await tools.mcp__benchmark_fixture__weather__get_by_coordinates_date({coordinates:[46.603354,1.8883340],date:\"2019-12-13\"}));\n"
+            }
+          ]
         }
       }
     },
     {
       "case": "B02",
-      "run_id": "pair-20260918T140117-14b228f2ca",
-      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B02-c3ec09371000/runs/pair-20260918T140117-14b228f2ca",
+      "run_id": "pair-20260918T141409-6828b97f10",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B02-999ed09da76f/runs/pair-20260918T141409-6828b97f10",
       "status": "completed",
       "product": {
-        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
-        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "commit": "631d8b904d7133a964a22a3e9eb352f943d98dfc",
+        "runtime_tree_sha256": "26ddc20e910bff9d69fa9bbcc463b525a0655775b1d918dc062f85225769bc5e",
         "dirty": false
       },
       "adapter": "benchmark-fixtures-v1",
@@ -362,22 +439,22 @@
       "requested_model": null,
       "requested_effort": null,
       "observed_settings_match": true,
-      "task_started_at": "2026-09-18T14:01:56.090770+00:00",
-      "task_finished_at": "2026-09-18T14:02:09.557747+00:00",
+      "task_started_at": "2026-09-18T14:14:45.521431+00:00",
+      "task_finished_at": "2026-09-18T14:14:56.070108+00:00",
       "official_upstream_score": null,
       "arms": {
         "baseline": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 5.849518,
+          "wall_seconds": 7.283923,
           "tokens": {
-            "input_tokens": 23249,
-            "cached_input_tokens": 11517,
-            "cache_write_input_tokens": 11726,
-            "output_tokens": 109,
-            "reasoning_output_tokens": 10,
-            "total_tokens": 23358
+            "input_tokens": 37207,
+            "cached_input_tokens": 23253,
+            "cache_write_input_tokens": 13945,
+            "output_tokens": 130,
+            "reasoning_output_tokens": 13,
+            "total_tokens": 37337
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -418,20 +495,20 @@
             "missing_proposals": 0,
             "blocked_attempts": 0,
             "errors": 0,
-            "unsupported_or_outside_coverage": 1,
-            "opaque_host_containers": 1,
-            "unobserved_host_containers": 1
+            "unsupported_or_outside_coverage": 2,
+            "opaque_host_containers": 2,
+            "unobserved_host_containers": 2
           },
           "fixture_calls": [],
-          "final_response": "I can’t verify which bookstore sells *To Kill a Mockingbird* with the connected tools: only an “add product to cart” tool is available, with no bookstore search or listings capability.",
-          "preflight_wall_seconds": 19.405619,
+          "final_response": "I can’t determine which bookstore sells *To Kill a Mockingbird* from the connected tools. The only available tool adds products to a cart; it cannot search bookstores or check availability.",
+          "preflight_wall_seconds": 19.187197,
           "preflight_tokens": {
-            "input_tokens": 72771,
-            "cached_input_tokens": 48660,
-            "cache_write_input_tokens": 23993,
-            "output_tokens": 243,
+            "input_tokens": 72819,
+            "cached_input_tokens": 48692,
+            "cache_write_input_tokens": 24009,
+            "output_tokens": 239,
             "reasoning_output_tokens": 0,
-            "total_tokens": 73014
+            "total_tokens": 73058
           },
           "model_ready": null,
           "model_identity": null,
@@ -444,20 +521,31 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [],
+          "host_containers": [
+            {
+              "call_id": "call_33IB0bGPNVfwKa1yf7Cmq1KV",
+              "input": "const ts = ALL_TOOLS.filter(x=>/benchmark_fixture/.test(x.name)); text(ts);\n"
+            },
+            {
+              "call_id": "call_NGmDOJiRfGRPto1CEDT4tVAR",
+              "input": "text(ALL_TOOLS.filter(x=>!/benchmark_fixture/.test(x.name)));\n"
+            }
+          ]
         },
         "rippletide": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 13.460423,
+          "wall_seconds": 10.543595,
           "tokens": {
-            "input_tokens": 36884,
-            "cached_input_tokens": 24015,
-            "cache_write_input_tokens": 12860,
-            "output_tokens": 225,
+            "input_tokens": 36907,
+            "cached_input_tokens": 24037,
+            "cache_write_input_tokens": 12861,
+            "output_tokens": 220,
             "reasoning_output_tokens": 0,
-            "total_tokens": 37109
+            "total_tokens": 37127
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -477,9 +565,9 @@
             "unlinked_decision_count": 1,
             "latency_ms": {
               "count": 1,
-              "p50": 0.372,
-              "p95": 0.372,
-              "sum": 0.372
+              "p50": 0.496,
+              "p95": 0.496,
+              "sum": 0.496
             },
             "small_model_tokens": {
               "input_tokens": null,
@@ -490,7 +578,7 @@
           },
           "recommendations": [
             {
-              "decision_id": "b3fafec0-1047-4444-8f64-bf921ed70a1a",
+              "decision_id": "8b69633b-722e-47d4-aadb-9a528e517e31",
               "route_id": "mcp.fixture.add_product_to_cart",
               "source": "rule",
               "reason_code": "ONLY_CANDIDATE",
@@ -515,15 +603,15 @@
             "unobserved_host_containers": 1
           },
           "fixture_calls": [],
-          "final_response": "I can’t verify which bookstore sells *To Kill a Mockingbird* with the connected tools. The only available tool adds products to a cart; it can’t search bookstores or check availability.",
-          "preflight_wall_seconds": 17.684342,
+          "final_response": "I can’t verify which bookstore sells *To Kill a Mockingbird* with the connected tools. The only available capability adds products to a cart; it can’t search books or check store availability.",
+          "preflight_wall_seconds": 16.172062,
           "preflight_tokens": {
-            "input_tokens": 89689,
-            "cached_input_tokens": 62838,
-            "cache_write_input_tokens": 26730,
+            "input_tokens": 89790,
+            "cached_input_tokens": 62906,
+            "cache_write_input_tokens": 26763,
             "output_tokens": 339,
             "reasoning_output_tokens": 0,
-            "total_tokens": 90028
+            "total_tokens": 90129
           },
           "model_ready": true,
           "model_identity": {
@@ -536,7 +624,7 @@
             "backend": "mlx",
             "temperature": 1,
             "quantization": "4-bit affine, group_size=64",
-            "prompt_version": "v1-semantic-labels",
+            "prompt_version": "v2-forced-semantic-labels",
             "decoding": "allowed_token_argmax",
             "sampling": false,
             "thinking_enabled": false,
@@ -544,7 +632,7 @@
             "mlx_version": "0.32.2",
             "transformers_version": "5.17.0"
           },
-          "worker_startup_ms": 3389.9040420074016,
+          "worker_startup_ms": 4080.463874997804,
           "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
           "state_observations": {
             "initial_messages": 0,
@@ -553,18 +641,45 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [
+            {
+              "decision_id": "8b69633b-722e-47d4-aadb-9a528e517e31",
+              "route_id": "mcp.fixture.add_product_to_cart",
+              "source": "rule",
+              "reason_code": "ONLY_CANDIDATE",
+              "request": {
+                "goal": "Find which online bookstore sells 'To Kill a Mockingbird' using the connected benchmark fixture capabilities. Only obtain information; do not add products to a cart.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B02-999ed09da76f/runs/pair-20260918T141409-6828b97f10/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": []
+            }
+          ],
+          "host_containers": [
+            {
+              "call_id": "call_jgnkPknCf3YBDOy4vfkVdNQx",
+              "input": "const ts=ALL_TOOLS.filter(x=>/route|skills.*read|benchmark_fixture/.test(x.name)); text(ts);\n"
+            },
+            {
+              "call_id": "call_WLLyQvo9DxKnyqIZbOZAYwnv",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B02-999ed09da76f/runs/pair-20260918T141409-6828b97f10/rippletide/workspace\",goal:\"Find which online bookstore sells 'To Kill a Mockingbird' using the connected benchmark fixture capabilities. Only obtain information; do not add products to a cart.\"}));\n"
+            }
+          ]
         }
       }
     },
     {
       "case": "B03",
-      "run_id": "pair-20260918T140209-f4fa533929",
-      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-acb28d925522/runs/pair-20260918T140209-f4fa533929",
+      "run_id": "pair-20260918T141456-ad1ea17b4e",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e",
       "status": "completed",
       "product": {
-        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
-        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "commit": "631d8b904d7133a964a22a3e9eb352f943d98dfc",
+        "runtime_tree_sha256": "26ddc20e910bff9d69fa9bbcc463b525a0655775b1d918dc062f85225769bc5e",
         "dirty": false
       },
       "adapter": "benchmark-fixtures-v1",
@@ -582,22 +697,22 @@
       "requested_model": null,
       "requested_effort": null,
       "observed_settings_match": true,
-      "task_started_at": "2026-09-18T14:02:41.679814+00:00",
-      "task_finished_at": "2026-09-18T14:03:00.331885+00:00",
+      "task_started_at": "2026-09-18T14:15:30.698039+00:00",
+      "task_finished_at": "2026-09-18T14:15:54.195628+00:00",
       "official_upstream_score": null,
       "arms": {
         "baseline": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 15.726419,
+          "wall_seconds": 11.289272,
           "tokens": {
-            "input_tokens": 35967,
-            "cached_input_tokens": 23445,
-            "cache_write_input_tokens": 12513,
-            "output_tokens": 371,
+            "input_tokens": 36025,
+            "cached_input_tokens": 23481,
+            "cache_write_input_tokens": 12535,
+            "output_tokens": 356,
             "reasoning_output_tokens": 0,
-            "total_tokens": 36338
+            "total_tokens": 36381
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -647,16 +762,7 @@
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "8e08625a-e965-4357-9284-c29a3b6c4780",
-              "tool": "weather_forecast_precipitation",
-              "arguments": {
-                "days": 10,
-                "location": "Rome, Italy"
-              },
-              "status": "success"
-            },
-            {
-              "fixture_call_id": "49c69805-3993-45bb-bc76-c422e155593d",
+              "fixture_call_id": "4a8018be-0571-498e-8e8b-0ac91af8f90b",
               "tool": "weather_forecast_temperature",
               "arguments": {
                 "days": 10,
@@ -665,7 +771,16 @@
               "status": "success"
             },
             {
-              "fixture_call_id": "1f3b633b-8199-4911-b795-c51f6fa4b960",
+              "fixture_call_id": "4c272885-9a53-4e10-9d0b-d9a95d2cde80",
+              "tool": "weather_forecast_precipitation",
+              "arguments": {
+                "days": 10,
+                "location": "Rome, Italy"
+              },
+              "status": "success"
+            },
+            {
+              "fixture_call_id": "5813284d-aa46-4e36-86c5-7aa8e7467793",
               "tool": "weather_forecast_humidity",
               "arguments": {
                 "days": 10,
@@ -674,15 +789,15 @@
               "status": "success"
             }
           ],
-          "final_response": "Here is the returned 10-day forecast. The tools did not specify units or calendar dates, so days are listed in the order provided.\n\n| Day | Boston, USA: Temperature | Boston: Humidity | Rome, Italy: Precipitation |\n|---|---:|---:|---:|\n| 1 | 10 | 10 | 20 |\n| 2 | 11 | 11 | 21 |\n| 3 | 12 | 12 | 22 |\n| 4 | 13 | 13 | 23 |\n| 5 | 14 | 14 | 24 |\n| 6 | 15 | 15 | 25 |\n| 7 | 16 | 16 | 26 |\n| 8 | 17 | 17 | 27 |\n| 9 | 18 | 18 | 28 |\n| 10 | 19 | 19 | 29 |",
-          "preflight_wall_seconds": 13.269226,
+          "final_response": "The tools returned this 10-day forecast. Units and calendar dates were not provided, so days are shown in the returned order.\n\n| Day | Boston, USA: temperature | Boston, USA: humidity | Rome, Italy: precipitation |\n|---|---:|---:|---:|\n| 1 | 10 | 10 | 20 |\n| 2 | 11 | 11 | 21 |\n| 3 | 12 | 12 | 22 |\n| 4 | 13 | 13 | 23 |\n| 5 | 14 | 14 | 24 |\n| 6 | 15 | 15 | 25 |\n| 7 | 16 | 16 | 26 |\n| 8 | 17 | 17 | 27 |\n| 9 | 18 | 18 | 28 |\n| 10 | 19 | 19 | 29 |",
+          "preflight_wall_seconds": 18.689031,
           "preflight_tokens": {
-            "input_tokens": 72679,
-            "cached_input_tokens": 48599,
-            "cache_write_input_tokens": 23962,
-            "output_tokens": 243,
+            "input_tokens": 72779,
+            "cached_input_tokens": 48662,
+            "cache_write_input_tokens": 23999,
+            "output_tokens": 232,
             "reasoning_output_tokens": 0,
-            "total_tokens": 72922
+            "total_tokens": 73011
           },
           "model_ready": null,
           "model_identity": null,
@@ -695,20 +810,31 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [],
+          "host_containers": [
+            {
+              "call_id": "call_FbmEMMRj99kZ7vyIzpMw3gpp",
+              "input": "const ts = ALL_TOOLS.filter(x=> /benchmark_fixture/.test(x.name)); text(ts);\n"
+            },
+            {
+              "call_id": "call_qC6JE0SyxtVJHy5Rkb1La25J",
+              "input": "const results = await Promise.allSettled([\ntools.mcp__benchmark_fixture__weather_forecast_temperature({days:10,location:\"Boston, USA\"}),\ntools.mcp__benchmark_fixture__weather_forecast_humidity({days:10,location:\"Boston, USA\"}),\ntools.mcp__benchmark_fixture__weather_forecast_precipitation({days:10,location:\"Rome, Italy\"})\n]); results.forEach((r,i)=>text({forecast:[\"Boston temperature\",\"Boston humidity\",\"Rome precipitation\"][i],result:r}));\n"
+            }
+          ]
         },
         "rippletide": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 18.644064,
+          "wall_seconds": 23.489939,
           "tokens": {
-            "input_tokens": 82084,
-            "cached_input_tokens": 66737,
-            "cache_write_input_tokens": 15329,
-            "output_tokens": 639,
-            "reasoning_output_tokens": 0,
-            "total_tokens": 82723
+            "input_tokens": 116148,
+            "cached_input_tokens": 99338,
+            "cache_write_input_tokens": 16786,
+            "output_tokens": 959,
+            "reasoning_output_tokens": 11,
+            "total_tokens": 117107
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -722,26 +848,26 @@
             }
           ],
           "routing": {
-            "decision_count": 3,
-            "model_decision_count": 3,
+            "decision_count": 5,
+            "model_decision_count": 4,
             "fallback_count": 0,
-            "unlinked_decision_count": 0,
+            "unlinked_decision_count": 2,
             "latency_ms": {
-              "count": 3,
-              "p50": 87.009,
-              "p95": 90.944,
-              "sum": 263.737
+              "count": 5,
+              "p50": 115.053,
+              "p95": 128.388,
+              "sum": 467.727
             },
             "small_model_tokens": {
-              "input_tokens": 312,
+              "input_tokens": 471,
               "output_tokens": 0,
-              "readout_tokens": 3
+              "readout_tokens": 4
             },
             "note": "Small-model routing tokens/readouts and judge tokens are separate from Codex execution usage. No cloud price is inferred."
           },
           "recommendations": [
             {
-              "decision_id": "d43da46c-49c6-47f4-bbc5-57343f384d79",
+              "decision_id": "91f3a75d-e5ee-401b-9c4e-2f3fe2ff02b0",
               "route_id": "mcp.fixture.weather_forecast_temperature",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -749,18 +875,34 @@
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "2823f9f0-77e7-45a8-97f1-fc7f1f0696ce",
-              "route_id": "mcp.fixture.weather_forecast_humidity",
+              "decision_id": "22674fc0-4c9e-4866-9462-b9bbc90b3d52",
+              "route_id": "mcp.fixture.weather_forecast_temperature",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
               "verdict": "correct",
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "9ed0df0f-bdce-4cb9-99e0-6153da825b79",
+              "decision_id": "4dd48818-3ae2-42a3-9af6-d28e283d5fdd",
+              "route_id": "mcp.fixture.weather_forecast_temperature",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "correct",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "77fb4692-a2b4-498b-a5ff-b722674a1b6f",
               "route_id": "mcp.fixture.weather_forecast_precipitation",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
+              "verdict": "correct",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "73fc1b8e-ab64-46ad-803b-d502f55b6640",
+              "route_id": "mcp.fixture.weather_forecast_humidity",
+              "source": "rule",
+              "reason_code": "TASK_PREFERENCE",
               "verdict": "correct",
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             }
@@ -769,22 +911,22 @@
             "present": true,
             "events": {
               "hook_started": 1,
-              "tool_proposed": 6,
-              "tool_completed": 6,
-              "routing_receipt": 3,
+              "tool_proposed": 8,
+              "tool_completed": 8,
+              "routing_receipt": 5,
               "routing_authorized": 3
             },
             "artifact_errors": [],
             "missing_proposals": 0,
             "blocked_attempts": 0,
             "errors": 0,
-            "unsupported_or_outside_coverage": 5,
-            "opaque_host_containers": 5,
+            "unsupported_or_outside_coverage": 7,
+            "opaque_host_containers": 7,
             "unobserved_host_containers": 1
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "eeaca9d1-4976-406d-addf-c7c69d1d03ba",
+              "fixture_call_id": "2b3d270e-440c-43c2-b97b-78a47e2cedc8",
               "tool": "weather_forecast_temperature",
               "arguments": {
                 "location": "Boston, USA",
@@ -793,33 +935,33 @@
               "status": "success"
             },
             {
-              "fixture_call_id": "e4a8d469-e4cc-434b-b89d-a763e8e470d1",
-              "tool": "weather_forecast_humidity",
-              "arguments": {
-                "location": "Boston, USA",
-                "days": 10
-              },
-              "status": "success"
-            },
-            {
-              "fixture_call_id": "8abe30b4-cc71-4cfd-926e-4bbdadac9fac",
+              "fixture_call_id": "61fad9f3-9858-43ff-8207-e117ec1ad420",
               "tool": "weather_forecast_precipitation",
               "arguments": {
                 "location": "Rome, Italy",
                 "days": 10
               },
               "status": "success"
+            },
+            {
+              "fixture_call_id": "704e08fd-7ee1-47e4-a500-eb712b26ef9f",
+              "tool": "weather_forecast_humidity",
+              "arguments": {
+                "location": "Boston, USA",
+                "days": 10
+              },
+              "status": "success"
             }
           ],
-          "final_response": "The connected tools returned these synthetic forecasts for the next 10 days. They did not specify units or calendar dates.\n\n| Day | Boston, USA temperature | Boston, USA humidity | Rome, Italy precipitation |\n|---|---:|---:|---:|\n| 1 | 10 | 10 | 20 |\n| 2 | 11 | 11 | 21 |\n| 3 | 12 | 12 | 22 |\n| 4 | 13 | 13 | 23 |\n| 5 | 14 | 14 | 24 |\n| 6 | 15 | 15 | 25 |\n| 7 | 16 | 16 | 26 |\n| 8 | 17 | 17 | 27 |\n| 9 | 18 | 18 | 28 |\n| 10 | 19 | 19 | 29 |",
-          "preflight_wall_seconds": 17.444705,
+          "final_response": "The connected tools returned these 10-day forecasts. They did not specify units or calendar dates, so values are shown as returned.\n\n| Day | Boston, USA: Temperature | Boston, USA: Humidity | Rome, Italy: Precipitation |\n|---|---:|---:|---:|\n| 1 | 10 | 10 | 20 |\n| 2 | 11 | 11 | 21 |\n| 3 | 12 | 12 | 22 |\n| 4 | 13 | 13 | 23 |\n| 5 | 14 | 14 | 24 |\n| 6 | 15 | 15 | 25 |\n| 7 | 16 | 16 | 26 |\n| 8 | 17 | 17 | 27 |\n| 9 | 18 | 18 | 28 |\n| 10 | 19 | 19 | 29 |",
+          "preflight_wall_seconds": 14.613928,
           "preflight_tokens": {
-            "input_tokens": 90193,
-            "cached_input_tokens": 62706,
-            "cache_write_input_tokens": 27366,
-            "output_tokens": 327,
+            "input_tokens": 92222,
+            "cached_input_tokens": 63972,
+            "cache_write_input_tokens": 28129,
+            "output_tokens": 362,
             "reasoning_output_tokens": 0,
-            "total_tokens": 90520
+            "total_tokens": 92584
           },
           "model_ready": true,
           "model_identity": {
@@ -832,7 +974,7 @@
             "backend": "mlx",
             "temperature": 1,
             "quantization": "4-bit affine, group_size=64",
-            "prompt_version": "v1-semantic-labels",
+            "prompt_version": "v2-forced-semantic-labels",
             "decoding": "allowed_token_argmax",
             "sampling": false,
             "thinking_enabled": false,
@@ -840,7 +982,7 @@
             "mlx_version": "0.32.2",
             "transformers_version": "5.17.0"
           },
-          "worker_startup_ms": 3455.1185830059694,
+          "worker_startup_ms": 3319.790124995052,
           "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
           "state_observations": {
             "initial_messages": 0,
@@ -849,18 +991,142 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [
+            {
+              "decision_id": "91f3a75d-e5ee-401b-9c4e-2f3fe2ff02b0",
+              "route_id": "mcp.fixture.weather_forecast_temperature",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Get temperature forecast for Boston, USA for the next 10 days.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4df-56c3-76f0-a695-671bddf0b249:exec-6dfbb3e2-0191-47c8-944f-61bf3989e7d2"
+              ]
+            },
+            {
+              "decision_id": "22674fc0-4c9e-4866-9462-b9bbc90b3d52",
+              "route_id": "mcp.fixture.weather_forecast_temperature",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Get humidity forecast for Boston, USA for the next 10 days.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": []
+            },
+            {
+              "decision_id": "4dd48818-3ae2-42a3-9af6-d28e283d5fdd",
+              "route_id": "mcp.fixture.weather_forecast_temperature",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Retrieve daily relative humidity values for Boston, USA over 10 days.",
+                "operation": "fixture_tool_use",
+                "facts": {
+                  "temperature_already_retrieved": true,
+                  "missing_metric": "humidity"
+                },
+                "recent_observations": [
+                  {
+                    "observation": "Previous selection was temperature, which cannot retrieve the requested humidity."
+                  }
+                ],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": []
+            },
+            {
+              "decision_id": "77fb4692-a2b4-498b-a5ff-b722674a1b6f",
+              "route_id": "mcp.fixture.weather_forecast_precipitation",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Get precipitation forecast for Rome, Italy for the next 10 days.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4df-56c3-76f0-a695-671bddf0b249:exec-a86a68c8-36f1-44ff-9540-538cf6735ce4"
+              ]
+            },
+            {
+              "decision_id": "73fc1b8e-ab64-46ad-803b-d502f55b6640",
+              "route_id": "mcp.fixture.weather_forecast_humidity",
+              "source": "rule",
+              "reason_code": "TASK_PREFERENCE",
+              "request": {
+                "goal": "Retrieve humidity forecast.",
+                "operation": "fixture_tool_use",
+                "facts": {
+                  "location": "Boston, USA",
+                  "days": 10,
+                  "metric": "humidity"
+                },
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace",
+                "preferred_route": "mcp.fixture.weather_forecast_humidity"
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4df-56c3-76f0-a695-671bddf0b249:exec-42259c03-e3e8-48c0-9e77-4750eb807be6"
+              ]
+            }
+          ],
+          "host_containers": [
+            {
+              "call_id": "call_hYH6yxIwSQDh0jG8kJQZ3JHR",
+              "input": "const names = ALL_TOOLS.filter(x=>/route|skills.*(list|read)/i.test(x.name)); text(names);\ntext(ALL_TOOLS.filter(x=>/benchmark_fixture/.test(x.name)));\n"
+            },
+            {
+              "call_id": "call_0G9DVKOVicO00oO1kuUuSUfQ",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace\",goal:\"Get temperature forecast for Boston, USA for the next 10 days.\"}));\n"
+            },
+            {
+              "call_id": "call_v7Yqk3BR0oXJdiV42UxaBcNS",
+              "input": "text(await tools.mcp__benchmark_fixture__weather_forecast_temperature({location:\"Boston, USA\",days:10}));\ntext(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace\",goal:\"Get humidity forecast for Boston, USA for the next 10 days.\"}));\n"
+            },
+            {
+              "call_id": "call_U8RU7ZyuRBE7R8ynFfKv6bpR",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace\",goal:\"Retrieve daily relative humidity values for Boston, USA over 10 days.\",facts:{temperature_already_retrieved:true,missing_metric:\"humidity\"},recent_observations:[{observation:\"Previous selection was temperature, which cannot retrieve the requested humidity.\"}]}));\n"
+            },
+            {
+              "call_id": "call_QRGLF2YvPXVGlm2yQCoNBOIJ",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace\",goal:\"Get precipitation forecast for Rome, Italy for the next 10 days.\"}));\n"
+            },
+            {
+              "call_id": "call_HlVkDFuE6QQTWmUBMg7RU58h",
+              "input": "text(await tools.mcp__benchmark_fixture__weather_forecast_precipitation({location:\"Rome, Italy\",days:10}));\ntext(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B03-3e26db259329/runs/pair-20260918T141456-ad1ea17b4e/rippletide/workspace\",goal:\"Retrieve humidity forecast.\",preferred_route:\"mcp.fixture.weather_forecast_humidity\",facts:{location:\"Boston, USA\",days:10,metric:\"humidity\"}}));\n"
+            },
+            {
+              "call_id": "call_Y4msTMPBNWO923jXNY3ScJdL",
+              "input": "text(await tools.mcp__benchmark_fixture__weather_forecast_humidity({location:\"Boston, USA\",days:10}));\n"
+            }
+          ]
         }
       }
     },
     {
       "case": "B04",
-      "run_id": "pair-20260918T140300-5f307f2011",
-      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-804de6e45f46/runs/pair-20260918T140300-5f307f2011",
+      "run_id": "pair-20260918T141554-a44c933b8d",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-076bdc5bb673/runs/pair-20260918T141554-a44c933b8d",
       "status": "completed",
       "product": {
-        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
-        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "commit": "631d8b904d7133a964a22a3e9eb352f943d98dfc",
+        "runtime_tree_sha256": "26ddc20e910bff9d69fa9bbcc463b525a0655775b1d918dc062f85225769bc5e",
         "dirty": false
       },
       "adapter": "benchmark-fixtures-v1",
@@ -878,22 +1144,22 @@
       "requested_model": null,
       "requested_effort": null,
       "observed_settings_match": true,
-      "task_started_at": "2026-09-18T14:03:31.800499+00:00",
-      "task_finished_at": "2026-09-18T14:03:54.375427+00:00",
+      "task_started_at": "2026-09-18T14:16:38.133301+00:00",
+      "task_finished_at": "2026-09-18T14:16:59.988595+00:00",
       "official_upstream_score": null,
       "arms": {
         "baseline": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 8.443304,
+          "wall_seconds": 8.500799,
           "tokens": {
-            "input_tokens": 49866,
-            "cached_input_tokens": 36818,
-            "cache_write_input_tokens": 13036,
-            "output_tokens": 125,
+            "input_tokens": 49839,
+            "cached_input_tokens": 36798,
+            "cache_write_input_tokens": 13029,
+            "output_tokens": 124,
             "reasoning_output_tokens": 0,
-            "total_tokens": 49991
+            "total_tokens": 49963
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -943,13 +1209,13 @@
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "151a3653-8d38-4568-bf73-08ce785f74cd",
+              "fixture_call_id": "f3a82c8e-87ce-41d7-be6d-6ce417bfe34a",
               "tool": "get_current_timestamp",
               "arguments": {},
               "status": "success"
             },
             {
-              "fixture_call_id": "082a8101-8c2f-40b1-ae08-41fa7fd354dc",
+              "fixture_call_id": "600f0ee4-f67d-46ff-bfe8-d22e24966318",
               "tool": "search_reminder",
               "arguments": {
                 "reminder_timestamp_lowerbound": 1778846400
@@ -957,15 +1223,15 @@
               "status": "success"
             }
           ],
-          "final_response": "Your next reminder is in **30 minutes**: “Buy a nice rich navy bathing dress.”",
-          "preflight_wall_seconds": 13.897535,
+          "final_response": "Your next reminder is in 30 minutes: “Buy a nice rich navy bathing dress.”",
+          "preflight_wall_seconds": 23.104983,
           "preflight_tokens": {
-            "input_tokens": 72875,
-            "cached_input_tokens": 48730,
-            "cache_write_input_tokens": 24027,
-            "output_tokens": 243,
+            "input_tokens": 72779,
+            "cached_input_tokens": 48662,
+            "cache_write_input_tokens": 23999,
+            "output_tokens": 230,
             "reasoning_output_tokens": 0,
-            "total_tokens": 73118
+            "total_tokens": 73009
           },
           "model_ready": null,
           "model_identity": null,
@@ -978,20 +1244,35 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [],
+          "host_containers": [
+            {
+              "call_id": "call_v5lP8EyzGpdEP5fdP4Fa5dML",
+              "input": "const t = ALL_TOOLS.filter(x=>/benchmark_fixture/.test(x.name)); text(t);\n"
+            },
+            {
+              "call_id": "call_lDmOhLPg0G0Ysy07ueMiyYL2",
+              "input": "text(await tools.mcp__benchmark_fixture__get_current_timestamp({}));\n"
+            },
+            {
+              "call_id": "call_dH0aok1xRgpOFGUvVdHsBvxM",
+              "input": "text(await tools.mcp__benchmark_fixture__search_reminder({reminder_timestamp_lowerbound:1778846400}));\n"
+            }
+          ]
         },
         "rippletide": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 22.56613,
+          "wall_seconds": 21.845082,
           "tokens": {
-            "input_tokens": 88013,
-            "cached_input_tokens": 70742,
-            "cache_write_input_tokens": 17253,
-            "output_tokens": 510,
-            "reasoning_output_tokens": 14,
-            "total_tokens": 88523
+            "input_tokens": 87880,
+            "cached_input_tokens": 70765,
+            "cache_write_input_tokens": 17097,
+            "output_tokens": 506,
+            "reasoning_output_tokens": 10,
+            "total_tokens": 88386
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -1011,12 +1292,12 @@
             "unlinked_decision_count": 2,
             "latency_ms": {
               "count": 3,
-              "p50": 105.194,
-              "p95": 111.66,
-              "sum": 292.568
+              "p50": 126.969,
+              "p95": 210.55,
+              "sum": 426.243
             },
             "small_model_tokens": {
-              "input_tokens": 479,
+              "input_tokens": 511,
               "output_tokens": 0,
               "readout_tokens": 3
             },
@@ -1024,7 +1305,7 @@
           },
           "recommendations": [
             {
-              "decision_id": "6bc8df11-9e83-49f0-beec-dcef728bc9e7",
+              "decision_id": "e69cf091-af81-4908-a8e5-61effef36d10",
               "route_id": "mcp.fixture.search_reminder",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -1032,7 +1313,7 @@
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "351dd9d0-e440-480e-adc0-8e355bd34493",
+              "decision_id": "a7e8c37f-8c56-4f9f-b6a4-5dde176d070b",
               "route_id": "mcp.fixture.shift_timestamp",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -1040,8 +1321,8 @@
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "2282e0c6-a6bd-4814-80bb-5383a065b760",
-              "route_id": "mcp.fixture.search_reminder",
+              "decision_id": "cc23af18-fcfa-452e-b7c6-4f31d630ccea",
+              "route_id": "mcp.fixture.shift_timestamp",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
               "verdict": "ungradable",
@@ -1067,7 +1348,7 @@
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "ff780fda-5705-4901-9e9a-cd1f1bdae9c8",
+              "fixture_call_id": "da5c516c-83ec-46f5-9aa3-7e9f2a058e61",
               "tool": "search_reminder",
               "arguments": {
                 "reminder_timestamp_lowerbound": 0
@@ -1075,15 +1356,15 @@
               "status": "success"
             }
           ],
-          "final_response": "The earliest reminder I found is “Return the library book.” I couldn’t verify the current time through the tools, so I can’t confirm whether it’s still upcoming.",
-          "preflight_wall_seconds": 16.31833,
+          "final_response": "The earliest reminder I found is “Return the library book.” I couldn’t verify the fixture’s current time, so I can’t confirm whether it’s still upcoming.",
+          "preflight_wall_seconds": 19.45612,
           "preflight_tokens": {
-            "input_tokens": 93012,
-            "cached_input_tokens": 64148,
-            "cache_write_input_tokens": 28743,
-            "output_tokens": 358,
+            "input_tokens": 93050,
+            "cached_input_tokens": 64044,
+            "cache_write_input_tokens": 28263,
+            "output_tokens": 336,
             "reasoning_output_tokens": 0,
-            "total_tokens": 93370
+            "total_tokens": 93386
           },
           "model_ready": true,
           "model_identity": {
@@ -1096,7 +1377,7 @@
             "backend": "mlx",
             "temperature": 1,
             "quantization": "4-bit affine, group_size=64",
-            "prompt_version": "v1-semantic-labels",
+            "prompt_version": "v2-forced-semantic-labels",
             "decoding": "allowed_token_argmax",
             "sampling": false,
             "thinking_enabled": false,
@@ -1104,7 +1385,7 @@
             "mlx_version": "0.32.2",
             "transformers_version": "5.17.0"
           },
-          "worker_startup_ms": 3402.279041998554,
+          "worker_startup_ms": 3652.950667004916,
           "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
           "state_observations": {
             "initial_messages": 0,
@@ -1113,18 +1394,100 @@
             "cellular": false,
             "unchanged": true,
             "changed_top_level": []
-          }
+          },
+          "decisions": [
+            {
+              "decision_id": "e69cf091-af81-4908-a8e5-61effef36d10",
+              "route_id": "mcp.fixture.search_reminder",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Find the user's next upcoming reminder. First obtain the current timestamp to identify future reminders.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-076bdc5bb673/runs/pair-20260918T141554-a44c933b8d/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4e0-5e34-7e92-8652-454227b9bcbd:exec-fb2275fd-8450-43be-b023-00ccc0e6d365"
+              ]
+            },
+            {
+              "decision_id": "a7e8c37f-8c56-4f9f-b6a4-5dde176d070b",
+              "route_id": "mcp.fixture.shift_timestamp",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Obtain the current POSIX timestamp from the fixture clock so I can determine which of the retrieved reminders is next.",
+                "operation": "fixture_tool_use",
+                "facts": {
+                  "reminder_timestamps": [
+                    1778842800,
+                    1778848200,
+                    1778932800
+                  ]
+                },
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-076bdc5bb673/runs/pair-20260918T141554-a44c933b8d/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": []
+            },
+            {
+              "decision_id": "cc23af18-fcfa-452e-b7c6-4f31d630ccea",
+              "route_id": "mcp.fixture.shift_timestamp",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Read the current time.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [
+                  {
+                    "selected": "shift_timestamp",
+                    "problem": "Cannot obtain current time: requires an already-known timestamp. Current time is unknown."
+                  }
+                ],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-076bdc5bb673/runs/pair-20260918T141554-a44c933b8d/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": []
+            }
+          ],
+          "host_containers": [
+            {
+              "call_id": "call_moNuU7ZK9BuLmfI9kfQN0yHd",
+              "input": "const ts = ALL_TOOLS.filter(x=> /route|skills.*read|benchmark_fixture/i.test(x.name+\" \"+x.description)); text(ts);\n"
+            },
+            {
+              "call_id": "call_wF0Md5VaJVjvN0EBVNQrM3CC",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-076bdc5bb673/runs/pair-20260918T141554-a44c933b8d/rippletide/workspace\",goal:\"Find the user's next upcoming reminder. First obtain the current timestamp to identify future reminders.\"}));\n"
+            },
+            {
+              "call_id": "call_WcWRTfBwiTTO2nn0thdQL1WY",
+              "input": "text(await tools.mcp__benchmark_fixture__search_reminder({reminder_timestamp_lowerbound:0}));\n"
+            },
+            {
+              "call_id": "call_JKD30u8Xvo1LFfP8b3pvYNSP",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-076bdc5bb673/runs/pair-20260918T141554-a44c933b8d/rippletide/workspace\",goal:\"Obtain the current POSIX timestamp from the fixture clock so I can determine which of the retrieved reminders is next.\",facts:{reminder_timestamps:[1778842800,1778848200,1778932800]}}));\n"
+            },
+            {
+              "call_id": "call_qF8jMqPlZmIx5NukCBcQv8yy",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B04-076bdc5bb673/runs/pair-20260918T141554-a44c933b8d/rippletide/workspace\",goal:\"Read the current time.\",recent_observations:[{selected:\"shift_timestamp\",problem:\"Cannot obtain current time: requires an already-known timestamp. Current time is unknown.\"}]}));\n"
+            }
+          ]
         }
       }
     },
     {
       "case": "B05",
-      "run_id": "pair-20260918T140354-94400f18a5",
-      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-2c45e7663c80/runs/pair-20260918T140354-94400f18a5",
+      "run_id": "pair-20260918T141700-1bee597807",
+      "run": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807",
       "status": "completed",
       "product": {
-        "commit": "dac1c61c7547f10fda38b3fb30747a3b9701e1a4",
-        "runtime_tree_sha256": "40a201c574d6990b226b2229ce217bb57a778913fa161ffd408e68d87561ae62",
+        "commit": "631d8b904d7133a964a22a3e9eb352f943d98dfc",
+        "runtime_tree_sha256": "26ddc20e910bff9d69fa9bbcc463b525a0655775b1d918dc062f85225769bc5e",
         "dirty": false
       },
       "adapter": "benchmark-fixtures-v1",
@@ -1142,22 +1505,22 @@
       "requested_model": null,
       "requested_effort": null,
       "observed_settings_match": true,
-      "task_started_at": "2026-09-18T14:04:28.186630+00:00",
-      "task_finished_at": "2026-09-18T14:05:03.076700+00:00",
+      "task_started_at": "2026-09-18T14:17:35.065147+00:00",
+      "task_finished_at": "2026-09-18T14:18:11.022950+00:00",
       "official_upstream_score": null,
       "arms": {
         "baseline": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 22.127367,
+          "wall_seconds": 12.416265,
           "tokens": {
-            "input_tokens": 74970,
-            "cached_input_tokens": 61982,
-            "cache_write_input_tokens": 12970,
-            "output_tokens": 231,
+            "input_tokens": 62145,
+            "cached_input_tokens": 49240,
+            "cache_write_input_tokens": 12890,
+            "output_tokens": 202,
             "reasoning_output_tokens": 0,
-            "total_tokens": 75201
+            "total_tokens": 62347
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -1195,19 +1558,19 @@
               "hook_started": 1,
               "tool_proposed": 4,
               "tool_observed": 4,
-              "tool_completed": 3
+              "tool_completed": 4
             },
             "artifact_errors": [],
             "missing_proposals": 0,
             "blocked_attempts": 0,
             "errors": 0,
-            "unsupported_or_outside_coverage": 5,
-            "opaque_host_containers": 5,
+            "unsupported_or_outside_coverage": 4,
+            "opaque_host_containers": 4,
             "unobserved_host_containers": 1
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "f5757f13-0272-43d4-aadf-224a0abd992c",
+              "fixture_call_id": "a9ba8c27-bc56-4e18-bd32-e9794303d22c",
               "tool": "search_contacts",
               "arguments": {
                 "name": "Fredrik Thordendal"
@@ -1215,17 +1578,13 @@
               "status": "success"
             },
             {
-              "fixture_call_id": "da939cd4-df81-4268-9831-62ecb3801026",
-              "tool": "send_message_with_phone_number",
-              "arguments": {
-                "phone_number": "+12453344098",
-                "content": "How's the new album coming along."
-              },
-              "status": "error",
-              "error": "ConnectionError: Cellular service is off"
+              "fixture_call_id": "fc152e2e-7020-4ee9-8d53-0adc2c9da878",
+              "tool": "get_cellular_service_status",
+              "arguments": {},
+              "status": "success"
             },
             {
-              "fixture_call_id": "3c0a82f3-4958-478e-bd3d-97d0d7314756",
+              "fixture_call_id": "38dc6889-ba4a-4c63-8a2f-ba2154170546",
               "tool": "set_cellular_service_status",
               "arguments": {
                 "on": true
@@ -1233,7 +1592,7 @@
               "status": "success"
             },
             {
-              "fixture_call_id": "f1e537c6-702b-4c07-9b13-b57068ff0c78",
+              "fixture_call_id": "d19ce4f7-98ca-493b-bdd8-0ef780a5360b",
               "tool": "send_message_with_phone_number",
               "arguments": {
                 "phone_number": "+12453344098",
@@ -1243,14 +1602,14 @@
             }
           ],
           "final_response": "Sent to Fredrik Thordendal: “How's the new album coming along.”\n\nI enabled cellular service to send it.",
-          "preflight_wall_seconds": 13.493303,
+          "preflight_wall_seconds": 16.264255,
           "preflight_tokens": {
-            "input_tokens": 60459,
-            "cached_input_tokens": 36356,
-            "cache_write_input_tokens": 23988,
-            "output_tokens": 212,
+            "input_tokens": 72801,
+            "cached_input_tokens": 48678,
+            "cache_write_input_tokens": 24005,
+            "output_tokens": 238,
             "reasoning_output_tokens": 0,
-            "total_tokens": 60671
+            "total_tokens": 73039
           },
           "model_ready": null,
           "model_identity": null,
@@ -1260,7 +1619,7 @@
             "initial_messages": 0,
             "final_messages": 1,
             "last_message": {
-              "message_id": "e9290ac8-60c7-447f-b86f-5b2c2f1f497c",
+              "message_id": "26e0dcfc-5227-4693-b6c3-9007f27b8bd4",
               "recipient_phone_number": "+12453344098",
               "content": "How's the new album coming along.",
               "timestamp": 1778846400
@@ -1271,20 +1630,39 @@
               "cellular",
               "messages"
             ]
-          }
+          },
+          "decisions": [],
+          "host_containers": [
+            {
+              "call_id": "call_2LOFvfvOgrrcO25xoEkweATZ",
+              "input": "const ts = ALL_TOOLS.filter(x=> /benchmark_fixture/.test(x.name)); text(ts);\n"
+            },
+            {
+              "call_id": "call_cs0NrqR0Wo6IlgAIPNBb4ElJ",
+              "input": "text(await tools.mcp__benchmark_fixture__search_contacts({name:\"Fredrik Thordendal\"}));\ntext(await tools.mcp__benchmark_fixture__get_cellular_service_status({}));\n"
+            },
+            {
+              "call_id": "call_zEG8Z649fIjeDQRARh8xtlQj",
+              "input": "text(await tools.mcp__benchmark_fixture__set_cellular_service_status({on:true}));\n"
+            },
+            {
+              "call_id": "call_wfHBIoCMQA8DaJKwNuHXYLHE",
+              "input": "text(await tools.mcp__benchmark_fixture__send_message_with_phone_number({phone_number:\"+12453344098\",content:\"How's the new album coming along.\"}));\n"
+            }
+          ]
         },
         "rippletide": {
           "process_status": "completed",
           "automatic_grade": "unknown",
           "trace_complete": false,
-          "wall_seconds": 34.880702,
+          "wall_seconds": 35.947197,
           "tokens": {
-            "input_tokens": 170693,
-            "cached_input_tokens": 152684,
-            "cache_write_input_tokens": 17976,
-            "output_tokens": 900,
-            "reasoning_output_tokens": 0,
-            "total_tokens": 171593
+            "input_tokens": 204721,
+            "cached_input_tokens": 186142,
+            "cache_write_input_tokens": 18540,
+            "output_tokens": 1010,
+            "reasoning_output_tokens": 21,
+            "total_tokens": 205731
           },
           "usage_complete": true,
           "required_interventions": 0,
@@ -1298,18 +1676,18 @@
             }
           ],
           "routing": {
-            "decision_count": 5,
+            "decision_count": 6,
             "model_decision_count": 5,
             "fallback_count": 0,
             "unlinked_decision_count": 1,
             "latency_ms": {
-              "count": 5,
-              "p50": 92.888,
-              "p95": 105.929,
-              "sum": 470.87
+              "count": 6,
+              "p50": 99.21,
+              "p95": 114.216,
+              "sum": 522.353
             },
             "small_model_tokens": {
-              "input_tokens": 628,
+              "input_tokens": 576,
               "output_tokens": 0,
               "readout_tokens": 5
             },
@@ -1317,15 +1695,7 @@
           },
           "recommendations": [
             {
-              "decision_id": "0c1de71a-5e1b-4ec1-ab5b-b6042804526c",
-              "route_id": "mcp.fixture.send_message_with_phone_number",
-              "source": "model",
-              "reason_code": "MODEL_SELECTION",
-              "verdict": "ungradable",
-              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
-            },
-            {
-              "decision_id": "36178b2d-4ce3-4ba8-8105-278172090f90",
+              "decision_id": "f4685d38-f35e-4bfb-85ce-95a2d7197bda",
               "route_id": "mcp.fixture.search_contacts",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -1333,7 +1703,7 @@
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "affab3ee-d0f5-442e-8fb3-8cbeed6940ec",
+              "decision_id": "32cdb877-4693-4e6a-9175-e77ac4be9752",
               "route_id": "mcp.fixture.send_message_with_phone_number",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -1341,15 +1711,31 @@
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "e8307a48-7c3a-4e4a-bcf7-7bd3cabb0e31",
-              "route_id": "mcp.fixture.set_cellular_service_status",
+              "decision_id": "fb6d379c-d9e3-4714-b511-44334916e3c0",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
               "verdict": "ungradable",
               "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
             },
             {
-              "decision_id": "9e5e53c2-d93d-4a97-8e36-1027223c11d8",
+              "decision_id": "8baaec9a-00fb-486c-8226-a51682b03f59",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "a0cc631c-7383-47e2-b03f-d97949aa9de4",
+              "route_id": "mcp.fixture.set_cellular_service_status",
+              "source": "rule",
+              "reason_code": "TASK_PREFERENCE",
+              "verdict": "ungradable",
+              "scope": "reference function membership or intentional model abstention; not argument/execution correctness"
+            },
+            {
+              "decision_id": "8e1a8163-e76e-45ad-9a03-020cf8486e8d",
               "route_id": "mcp.fixture.send_message_with_phone_number",
               "source": "model",
               "reason_code": "MODEL_SELECTION",
@@ -1361,22 +1747,22 @@
             "present": true,
             "events": {
               "hook_started": 1,
-              "tool_proposed": 9,
-              "tool_completed": 8,
-              "routing_receipt": 5,
-              "routing_authorized": 4
+              "tool_proposed": 11,
+              "tool_completed": 9,
+              "routing_receipt": 6,
+              "routing_authorized": 5
             },
             "artifact_errors": [],
             "missing_proposals": 0,
             "blocked_attempts": 0,
             "errors": 0,
-            "unsupported_or_outside_coverage": 10,
-            "opaque_host_containers": 10,
+            "unsupported_or_outside_coverage": 12,
+            "opaque_host_containers": 12,
             "unobserved_host_containers": 1
           },
           "fixture_calls": [
             {
-              "fixture_call_id": "87cd9268-3dcc-4a51-b1f5-8fc5e55ff340",
+              "fixture_call_id": "a9c209c4-ea1c-4bb8-853c-52d784fb2654",
               "tool": "search_contacts",
               "arguments": {
                 "name": "Fredrik Thordendal"
@@ -1384,7 +1770,7 @@
               "status": "success"
             },
             {
-              "fixture_call_id": "f9bc01b6-2e6a-4fda-be05-acd5300e66c0",
+              "fixture_call_id": "6b2ae1ab-ecec-4ff8-a12a-1d7bad4a749f",
               "tool": "send_message_with_phone_number",
               "arguments": {
                 "phone_number": "+12453344098",
@@ -1394,7 +1780,17 @@
               "error": "ConnectionError: Cellular service is off"
             },
             {
-              "fixture_call_id": "eb40eb51-92c8-4566-8d9b-8414c5c58489",
+              "fixture_call_id": "be923683-aa66-443b-ad08-51617c8e5d44",
+              "tool": "send_message_with_phone_number",
+              "arguments": {
+                "phone_number": "+12453344098",
+                "content": "How's the new album coming along."
+              },
+              "status": "error",
+              "error": "ConnectionError: Cellular service is off"
+            },
+            {
+              "fixture_call_id": "59d152a3-0d59-4a04-af0a-0dc07462fe34",
               "tool": "set_cellular_service_status",
               "arguments": {
                 "on": true
@@ -1402,7 +1798,7 @@
               "status": "success"
             },
             {
-              "fixture_call_id": "65e25eb0-1a8c-4542-9f08-3072eb5c72bd",
+              "fixture_call_id": "63360cdd-968e-4a78-a788-961cc29bf2d9",
               "tool": "send_message_with_phone_number",
               "arguments": {
                 "phone_number": "+12453344098",
@@ -1411,15 +1807,15 @@
               "status": "success"
             }
           ],
-          "final_response": "Sent to Fredrik Thordendal: “How's the new album coming along.”\n\nEnabled cellular service to resolve the sending issue.",
-          "preflight_wall_seconds": 19.01032,
+          "final_response": "Sent to Fredrik Thordendal: “How's the new album coming along.”\n\nI enabled cellular service to resolve the sending issue.",
+          "preflight_wall_seconds": 17.367582,
           "preflight_tokens": {
-            "input_tokens": 90857,
-            "cached_input_tokens": 62988,
-            "cache_write_input_tokens": 27748,
-            "output_tokens": 340,
+            "input_tokens": 90703,
+            "cached_input_tokens": 62872,
+            "cache_write_input_tokens": 27710,
+            "output_tokens": 333,
             "reasoning_output_tokens": 0,
-            "total_tokens": 91197
+            "total_tokens": 91036
           },
           "model_ready": true,
           "model_identity": {
@@ -1432,7 +1828,7 @@
             "backend": "mlx",
             "temperature": 1,
             "quantization": "4-bit affine, group_size=64",
-            "prompt_version": "v1-semantic-labels",
+            "prompt_version": "v2-forced-semantic-labels",
             "decoding": "allowed_token_argmax",
             "sampling": false,
             "thinking_enabled": false,
@@ -1440,13 +1836,13 @@
             "mlx_version": "0.32.2",
             "transformers_version": "5.17.0"
           },
-          "worker_startup_ms": 3436.454708004021,
+          "worker_startup_ms": 3402.3408749926602,
           "initial_state_sha256": "ed8bee2481907d7733962006141c56a053d3933880846e9635346a209d2492a5",
           "state_observations": {
             "initial_messages": 0,
             "final_messages": 1,
             "last_message": {
-              "message_id": "c93ed0c0-22bc-401a-91a2-8e8ee89f6284",
+              "message_id": "30b1e938-5690-4d49-b131-bf14a9a8c000",
               "recipient_phone_number": "+12453344098",
               "content": "How's the new album coming along.",
               "timestamp": 1778846400
@@ -1457,7 +1853,170 @@
               "cellular",
               "messages"
             ]
-          }
+          },
+          "decisions": [
+            {
+              "decision_id": "f4685d38-f35e-4bfb-85ce-95a2d7197bda",
+              "route_id": "mcp.fixture.search_contacts",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Find Fredrik Thordendal's contact phone number to send the user's message.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4e1-3c90-7c73-9022-30417eacd325:exec-5de7e6fe-12c7-4f12-9305-b64c5cdad785"
+              ]
+            },
+            {
+              "decision_id": "32cdb877-4693-4e6a-9175-e77ac4be9752",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Send Fredrik Thordendal the exact message: How's the new album coming along.",
+                "operation": "fixture_tool_use",
+                "facts": {
+                  "phone_number": "+12453344098"
+                },
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4e1-3c90-7c73-9022-30417eacd325:exec-0b10f964-da31-4534-951f-9d537dab2381"
+              ]
+            },
+            {
+              "decision_id": "fb6d379c-d9e3-4714-b511-44334916e3c0",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Enable cellular service to resolve the failed message send and then retry.",
+                "operation": "fixture_tool_use",
+                "facts": {
+                  "error": "ConnectionError: Cellular service is off",
+                  "user_authorized": "Resolve any issue alone."
+                },
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4e1-3c90-7c73-9022-30417eacd325:exec-d7844784-2adb-422b-9071-1e457c0ad652"
+              ]
+            },
+            {
+              "decision_id": "8baaec9a-00fb-486c-8226-a51682b03f59",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Turn cellular service on.",
+                "operation": "fixture_tool_use",
+                "facts": {
+                  "cellular_service": "off",
+                  "second_attempt": "ConnectionError: Cellular service is off"
+                },
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": []
+            },
+            {
+              "decision_id": "a0cc631c-7383-47e2-b03f-d97949aa9de4",
+              "route_id": "mcp.fixture.set_cellular_service_status",
+              "source": "rule",
+              "reason_code": "TASK_PREFERENCE",
+              "request": {
+                "goal": "Enable / Disable cellular service: set on true.",
+                "operation": "fixture_tool_use",
+                "facts": {},
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace",
+                "preferred_route": "mcp.fixture.set_cellular_service_status"
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4e1-3c90-7c73-9022-30417eacd325:exec-71ef2e70-10d6-4786-997d-a3a5d91ded92"
+              ]
+            },
+            {
+              "decision_id": "8e1a8163-e76e-45ad-9a03-020cf8486e8d",
+              "route_id": "mcp.fixture.send_message_with_phone_number",
+              "source": "model",
+              "reason_code": "MODEL_SELECTION",
+              "request": {
+                "goal": "Send Fredrik the message How's the new album coming along.",
+                "operation": "fixture_tool_use",
+                "facts": {
+                  "phone_number": "+12453344098",
+                  "cellular_service": "Successfully enabled"
+                },
+                "recent_observations": [],
+                "project_root": "/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace",
+                "preferred_route": null
+              },
+              "linked_call_ids": [
+                "rippletide:01a0b4e1-3c90-7c73-9022-30417eacd325:exec-f9444f6e-b6be-47ae-bb9c-7c0fb7522d88"
+              ]
+            }
+          ],
+          "host_containers": [
+            {
+              "call_id": "call_eKSieOELyiDVWdCcdttCJyIV",
+              "input": "const ts = ALL_TOOLS.filter(x=> /route|skills.*read|benchmark_fixture/.test(x.name+\" \"+x.description)); text(ts);\n"
+            },
+            {
+              "call_id": "call_RRX6dLGCCetm5aiAU65crmlF",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace\",goal:\"Find Fredrik Thordendal's contact phone number to send the user's message.\"}));\n"
+            },
+            {
+              "call_id": "call_KooUw5Q79WyJJZQBmQYKegy9",
+              "input": "text(await tools.mcp__benchmark_fixture__search_contacts({name:\"Fredrik Thordendal\"}));\n"
+            },
+            {
+              "call_id": "call_rYIWGc8pqEaxXY4Pig6zA9BY",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace\",goal:\"Send Fredrik Thordendal the exact message: How's the new album coming along.\",facts:{phone_number:\"+12453344098\"}}));\n"
+            },
+            {
+              "call_id": "call_Du7zZa2Vjali8wrw1QZLhbUb",
+              "input": "text(await tools.mcp__benchmark_fixture__send_message_with_phone_number({phone_number:\"+12453344098\",content:\"How's the new album coming along.\"}));\n"
+            },
+            {
+              "call_id": "call_9hccPTwoRf7n4nEC8LrG4nSI",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace\",goal:\"Enable cellular service to resolve the failed message send and then retry.\",facts:{error:\"ConnectionError: Cellular service is off\",user_authorized:\"Resolve any issue alone.\"}}));\n"
+            },
+            {
+              "call_id": "call_FFjhPTdDKsTZzAJvsU9CFptV",
+              "input": "text(await tools.mcp__benchmark_fixture__send_message_with_phone_number({phone_number:\"+12453344098\",content:\"How's the new album coming along.\"}));\n"
+            },
+            {
+              "call_id": "call_Lq23a5M3vmWlwPWqz6hvE9Cy",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace\",goal:\"Turn cellular service on.\",facts:{cellular_service:\"off\",second_attempt:\"ConnectionError: Cellular service is off\"}}));\n"
+            },
+            {
+              "call_id": "call_1W4zgIg7I1swTphAQInYf1Q9",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace\",goal:\"Enable / Disable cellular service: set on true.\",preferred_route:\"mcp.fixture.set_cellular_service_status\"}));\n"
+            },
+            {
+              "call_id": "call_QEyORxigac8Z743SWNf4lFWH",
+              "input": "text(await tools.mcp__benchmark_fixture__set_cellular_service_status({on:true}));\n"
+            },
+            {
+              "call_id": "call_st8UvIx4pCEo5fuBSXMQZxyp",
+              "input": "text(await tools.mcp__rippletide__route({operation:\"fixture_tool_use\",project_root:\"/Users/fanhong-rippletide/.local/share/rippletide/uat/benchmarks/benchmark-B05-7b52f2232e68/runs/pair-20260918T141700-1bee597807/rippletide/workspace\",goal:\"Send Fredrik the message How's the new album coming along.\",facts:{phone_number:\"+12453344098\",cellular_service:\"Successfully enabled\"}}));\n"
+            },
+            {
+              "call_id": "call_2khUUcvaIl9kdm90K8RK0fA8",
+              "input": "text(await tools.mcp__benchmark_fixture__send_message_with_phone_number({phone_number:\"+12453344098\",content:\"How's the new album coming along.\"}));\n"
+            }
+          ]
         }
       }
     }

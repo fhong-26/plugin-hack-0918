@@ -43,10 +43,11 @@ uv run --locked --project user_tests rippletide-uat benchmark run --cases B01 B0
 This creates fresh paired worktrees and synthetic tools, then checks calls/state
 against local contracts derived from pinned BFCL/ToolSandbox entries. No Linear,
 shopping or SMS account is used. See [benchmark setup and grading limits](user_tests/BENCHMARKS.md).
-These are adapted user tests, **not official benchmark scores**. The first five
-default-model pairs took 1.82× the summed task time and 2.09× the Codex tokens with
-Rippletide. Trace-accounting gaps leave automatic acceptance unknown; wrong
-selections were also observed. See the [experiment report](docs/BENCHMARK_EXPERIMENT_REPORT.md).
+These are adapted user tests, **not official benchmark scores**. The latest five
+default-model pairs, after the main-branch no-defer change, took 2.43× the summed
+task time and 2.39× the Codex tokens with Rippletide. Trace-accounting gaps leave
+automatic acceptance unknown; wrong selections and Codex preference overrides
+were observed. See the [current report and prior comparison](docs/BENCHMARK_EXPERIMENT_REPORT.md).
 
 ## Start here
 

@@ -1,9 +1,11 @@
 # Five ground-truth user-test scenarios
 
 Status: local fixtures, reference/milestone checks, CLI and paired-run integration
-implemented. Five real default-model pairs ran at `dac1c61`; trace-accounting gaps
-leave automatic acceptance unknown. Measurements and inspected behavior are in
-the experiment report. Official upstream evaluator integration remains pending.
+implemented. Five real default-model pairs ran at `dac1c61`, followed by five new
+pairs at `631d8b9` after importing main's no-defer change (`8d60042`). Trace-accounting
+gaps leave automatic acceptance unknown. The experiment report now presents the
+latest observations and links the previous archive. Official upstream evaluator
+integration remains pending.
 Prepared 2026-09-18 on `feat/benchmark-user-scenarios`, from `main` at
 `c8c59b074d47a1406d3a958137ea19a274319aea`.
 
@@ -282,7 +284,7 @@ that the test harness works correctly.
 | 2 | B03 multi-call fixtures and grading | Reordered correct calls pass; omitted, extra, duplicate or mis-parameterized calls fail; every observed call is retained. | Implemented and locally tested with local reference-call grading. |
 | 3 | B04/B05 ToolSandbox adapter, fixed time and isolated state | Golden milestone trajectories pass; broken prerequisites, wrong records/recipients and unsafe extra changes are reported; cloned clocks/state match. | Local deterministic adapters tested; original runtime, full seed state and official evaluator pending. |
 | 4 | Extend the imported paired runner with fixture-only routing and benchmark grading | Both arms have equivalent tools; local synthetic writes are allowed without relaxing remote policy; decision receipts, no-call outcomes and complete metrics are verified. | Fresh installed-host tests ran; catalog-discovery and failed-call trace accounting need correction before acceptance can be certified. |
-| 5 | First five paired experiments and report updates | Ten task attempts have independent results, traces, time/tokens/coverage and intervention ledgers; failed and blocked outcomes remain visible. | Five pairs recorded at `dac1c61`; all automatic grades unknown, measured metrics and directly observed behaviors retained. |
+| 5 | First five paired experiments and report updates | Ten task attempts have independent results, traces, time/tokens/coverage and intervention ledgers; failed and blocked outcomes remain visible. | Five pairs at `dac1c61` plus five rerun pairs at `631d8b9`; automatic grades unknown, metrics and observed behaviors retained in current/archived reports. |
 | 6 | Repeatability and performance follow-up | Up to three comparable pairs per case; versioned report explains differences without claiming full-benchmark validation. | After smoke/harness review. |
 
 Concrete integration points verified at `afab2bf`:
