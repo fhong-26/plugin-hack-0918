@@ -1,0 +1,553 @@
+diff --git a/codex-rs/core/src/session/turn.rs b/codex-rs/core/src/session/turn.rs
+index 5d5fa3a..f5c4e43 100644
+--- a/codex-rs/core/src/session/turn.rs
++++ b/codex-rs/core/src/session/turn.rs
+@@ -1578,11 +1578,12 @@ async fn run_sampling_request(
+         sess.services
+             .executed_tool_calls
+             .attach_to_prompt(&mut prompt_input, &mut executed_tool_calls_by_output);
+-        let prompt = build_prompt(
++        let mut prompt = build_prompt(
+             prompt_input,
+             step_context.as_ref(),
+             base_instructions.clone(),
+         );
++        crate::tools::jev::select(&step_context, &mut prompt, &cancellation_token).await?;
+         if crate::guardian::is_basic_session_source(&turn_context.session_source) {
+             crate::guardian::check_guardian_prompt_budget(
+                 &sess,
+diff --git a/codex-rs/core/src/tools/jev.rs b/codex-rs/core/src/tools/jev.rs
+new file mode 100644
+index 0000000..c81f496
+--- /dev/null
++++ b/codex-rs/core/src/tools/jev.rs
+@@ -0,0 +1,183 @@
++//! Let the installed local selector choose a tool before Codex generates arguments.
++
++use crate::client_common::Prompt;
++use crate::session::step_context::StepContext;
++use codex_protocol::error::CodexErr;
++use codex_protocol::error::Result;
++use codex_protocol::models::ResponseItem;
++use codex_tools::ResponsesApiNamespaceTool;
++use codex_tools::ToolName;
++use codex_tools::ToolSpec;
++use serde_json::json;
++use std::collections::BTreeMap;
++use std::sync::atomic::AtomicBool;
++use std::sync::atomic::Ordering;
++use tokio_util::sync::CancellationToken;
++
++pub(crate) struct Selection {
++    pub(crate) name: ToolName,
++    claimed: AtomicBool,
++}
++
++impl Selection {
++    pub(crate) fn claim(&self, name: &ToolName) -> bool {
++        self.name == name.clone().with_default_namespace()
++            && !self.claimed.swap(true, Ordering::SeqCst)
++    }
++}
++
++struct Candidate {
++    name: ToolName,
++    description: String,
++    spec: ToolSpec,
++}
++
++fn key(name: &ToolName) -> String {
++    if name.is_default_namespace() {
++        name.name.clone()
++    } else {
++        format!(
++            "{}.{}",
++            name.namespace.as_deref().unwrap_or("functions"),
++            name.name
++        )
++    }
++}
++
++fn catalog(specs: Vec<ToolSpec>) -> BTreeMap<String, Candidate> {
++    let mut candidates = BTreeMap::new();
++    for mut spec in specs {
++        let (name, description) = match &mut spec {
++            ToolSpec::Function(tool) => {
++                tool.defer_loading = None;
++                (ToolName::plain(&tool.name), tool.description.clone())
++            }
++            ToolSpec::Freeform(tool) => {
++                tool.defer_loading = None;
++                (ToolName::plain(&tool.name), tool.description.clone())
++            }
++            ToolSpec::Namespace(namespace) => {
++                for mut tool in namespace.tools.clone() {
++                    let (name, description) = match &mut tool {
++                        ResponsesApiNamespaceTool::Function(tool) => {
++                            tool.defer_loading = None;
++                            (tool.name.clone(), tool.description.clone())
++                        }
++                        ResponsesApiNamespaceTool::Custom(tool) => {
++                            tool.defer_loading = None;
++                            (tool.name.clone(), tool.description.clone())
++                        }
++                    };
++                    let name = ToolName::namespaced(&namespace.name, name).with_default_namespace();
++                    let mut selected = namespace.clone();
++                    selected.tools = vec![tool];
++                    candidates.insert(
++                        key(&name),
++                        Candidate {
++                            name,
++                            description,
++                            spec: ToolSpec::Namespace(selected),
++                        },
++                    );
++                }
++                continue;
++            }
++            ToolSpec::ToolSearch { description, .. } => {
++                (ToolName::plain("tool_search"), description.clone())
++            }
++            ToolSpec::WebSearch { .. } => (
++                ToolName::plain("web_search"),
++                "Search the web for information.".to_string(),
++            ),
++        };
++        candidates.insert(
++            key(&name),
++            Candidate {
++                name: name.with_default_namespace(),
++                description,
++                spec,
++            },
++        );
++    }
++    candidates
++}
++
++pub(crate) async fn select(
++    step: &StepContext,
++    prompt: &mut Prompt,
++    cancellation: &CancellationToken,
++) -> Result<()> {
++    let selectors = step
++        .mcp
++        .config()
++        .mcp_server_catalog
++        .configured_servers()
++        .into_iter()
++        .filter(|(name, config)| {
++            config.enabled
++                && config.disabled_reason.is_none()
++                && (name == "rippletide" || name.ends_with("_rippletide"))
++        })
++        .map(|(name, _)| name)
++        .collect::<Vec<_>>();
++    let selector = match selectors.as_slice() {
++        [] => return Ok(()),
++        [selector] => selector,
++        _ => {
++            return Err(CodexErr::Fatal(
++                "Multiple Rippletide selectors are enabled".to_string(),
++            ));
++        }
++    };
++    let mut candidates = catalog(step.tool_router.selection_specs(selector));
++    let tools = candidates.iter().map(|(name, candidate)| {
++        json!({"name": name, "description": if candidate.description.is_empty() { name } else { &candidate.description }})
++    }).collect::<Vec<_>>();
++    let question = prompt
++        .input
++        .iter()
++        .rev()
++        .find(|item| matches!(item, ResponseItem::Message { role, .. } if role == "user"));
++    let arguments = json!({
++        "context": serde_json::to_string(&json!({
++            "instructions": prompt.base_instructions.text,
++            "messages": prompt.input,
++        }))?,
++        "question": format!("Which tool should run next for this request? {}", serde_json::to_string(&question)?),
++        "tools": tools,
++    });
++    let call = step
++        .mcp
++        .prepare_call(selector, "route")
++        .ok_or_else(|| CodexErr::Fatal("Rippletide is unavailable".to_string()))?;
++    let result = tokio::select! {
++        _ = cancellation.cancelled() => return Err(CodexErr::TurnAborted),
++        result = call.call(Some(arguments), /*meta*/ None, /*timeout*/ None) => {
++            result.map_err(|error| CodexErr::Fatal(format!("Rippletide selection failed: {error}")))?
++        }
++    };
++    let response = result
++        .structured_content
++        .as_ref()
++        .ok_or_else(|| CodexErr::Fatal("Rippletide returned no selection".to_string()))?;
++    if result.is_error == Some(true) || response["status"] != "selected" {
++        return Err(CodexErr::Fatal(format!(
++            "Rippletide selection failed: {response}"
++        )));
++    }
++    let name = response["tool"].as_str().unwrap_or_default();
++    let selected = candidates
++        .remove(name)
++        .ok_or_else(|| CodexErr::Fatal("Rippletide selected an unavailable tool".to_string()))?;
++    step.tool_router.set_selection(Selection {
++        name: selected.name,
++        claimed: AtomicBool::new(false),
++    });
++    prompt.tools = vec![selected.spec].into();
++    prompt.parallel_tool_calls = false;
++    Ok(())
++}
++
++#[cfg(test)]
++#[path = "jev_tests.rs"]
++mod tests;
+diff --git a/codex-rs/core/src/tools/jev_tests.rs b/codex-rs/core/src/tools/jev_tests.rs
+new file mode 100644
+index 0000000..3ce084c
+--- /dev/null
++++ b/codex-rs/core/src/tools/jev_tests.rs
+@@ -0,0 +1,53 @@
++use super::*;
++use codex_tools::ResponsesApiNamespace;
++use codex_tools::ResponsesApiTool;
++use pretty_assertions::assert_eq;
++
++#[test]
++fn namespace_members_and_hosted_tools_are_individual_candidates() {
++    let tools = ["get_issue", "list_comments"].map(|name| {
++        ResponsesApiNamespaceTool::Function(ResponsesApiTool {
++            name: name.to_string(),
++            description: name.to_string(),
++            strict: false,
++            defer_loading: Some(true),
++            parameters: serde_json::from_value(json!({"type": "object", "properties": {}}))
++                .unwrap(),
++            output_schema: None,
++        })
++    });
++    let candidates = catalog(vec![
++        ToolSpec::Namespace(ResponsesApiNamespace {
++            name: "linear".to_string(),
++            description: "Issue tracker".to_string(),
++            tools: tools.to_vec(),
++        }),
++        ToolSpec::WebSearch {
++            external_web_access: None,
++            indexed_web_access: None,
++            filters: None,
++            user_location: None,
++            search_context_size: None,
++            search_content_types: None,
++        },
++    ]);
++    assert_eq!(
++        candidates.keys().cloned().collect::<Vec<_>>(),
++        vec!["linear.get_issue", "linear.list_comments", "web_search"]
++    );
++    let selected = serde_json::to_value(&candidates["linear.list_comments"].spec).unwrap();
++    assert_eq!(selected["tools"].as_array().unwrap().len(), 1);
++    assert_eq!(selected["tools"][0]["name"], "list_comments");
++    assert_eq!(selected["tools"][0].get("defer_loading"), None);
++}
++
++#[test]
++fn mismatches_do_not_consume_selection_and_matching_calls_consume_it_once() {
++    let selection = Selection {
++        name: ToolName::plain("apply_patch").with_default_namespace(),
++        claimed: AtomicBool::new(false),
++    };
++    assert!(!selection.claim(&ToolName::plain("exec_command")));
++    assert!(selection.claim(&ToolName::plain("apply_patch")));
++    assert!(!selection.claim(&ToolName::plain("apply_patch")));
++}
+diff --git a/codex-rs/core/src/tools/mod.rs b/codex-rs/core/src/tools/mod.rs
+index 7a65bc9..38db415 100644
+--- a/codex-rs/core/src/tools/mod.rs
++++ b/codex-rs/core/src/tools/mod.rs
+@@ -7,6 +7,7 @@ mod executed_tool_calls;
+ pub(crate) mod handlers;
+ pub(crate) mod hook_names;
+ pub(crate) mod hosted_spec;
++pub(crate) mod jev;
+ pub(crate) mod lifecycle;
+ pub(crate) mod network_approval;
+ pub(crate) mod orchestrator;
+diff --git a/codex-rs/core/src/tools/router.rs b/codex-rs/core/src/tools/router.rs
+index c3526fe..435dc10 100644
+--- a/codex-rs/core/src/tools/router.rs
++++ b/codex-rs/core/src/tools/router.rs
+@@ -78,6 +78,7 @@ pub struct ToolRouter {
+     code_mode_tool_names: BTreeMap<String, ToolName>,
+     tool_namespaces_info: Option<TurnToolNamespacesInfo>,
+     can_manage_children: bool,
++    selection: std::sync::Mutex<Option<super::jev::Selection>>,
+ }
+ 
+ #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+@@ -126,6 +127,7 @@ impl ToolRouter {
+             code_mode_tool_names,
+             tool_namespaces_info,
+             can_manage_children: false,
++            selection: std::sync::Mutex::new(None),
+         };
+         router.can_manage_children = !child_management_tools.is_empty()
+             && child_management_tools
+@@ -138,6 +140,30 @@ impl ToolRouter {
+         Arc::clone(&self.model_visible_specs)
+     }
+ 
++    pub(crate) fn selection_specs(&self, selector_server: &str) -> Vec<ToolSpec> {
++        self.registry
++            .entries()
++            .filter(|tool| {
++                tool.exposure != codex_tools::ToolExposure::Hidden
++                    && tool.runtime.mcp_server_name() != Some(selector_server)
++            })
++            .map(|tool| tool.runtime.spec())
++            .chain(
++                self.model_visible_specs
++                    .iter()
++                    .filter(|spec| matches!(spec, ToolSpec::WebSearch { .. }))
++                    .cloned(),
++            )
++            .collect()
++    }
++
++    pub(crate) fn set_selection(&self, selection: super::jev::Selection) {
++        *self
++            .selection
++            .lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner) = Some(selection);
++    }
++
+     pub(crate) fn tool_mode(&self) -> ToolMode {
+         self.tool_mode
+     }
+@@ -353,6 +379,17 @@ impl ToolRouter {
+         source: ToolCallSource,
+         terminal_outcome_reached: Option<Arc<AtomicBool>>,
+     ) -> Result<AnyToolResult, FunctionCallError> {
++        if let Some(selection) = self
++            .selection
++            .lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner)
++            .as_ref()
++            && !selection.claim(&call.tool_name)
++        {
++            return Err(FunctionCallError::RespondToModel(
++                "This call does not match the unused Jev selection.".to_string(),
++            ));
++        }
+         let ToolCall {
+             tool_name,
+             call_id,
+diff --git a/codex-rs/core/tests/suite/jev.rs b/codex-rs/core/tests/suite/jev.rs
+new file mode 100644
+index 0000000..2836c4f
+--- /dev/null
++++ b/codex-rs/core/tests/suite/jev.rs
+@@ -0,0 +1,187 @@
++//! Exercise the real sampling loop and MCP transport; no model or Jev weights required.
++#![allow(clippy::unwrap_used)]
++use codex_config::types::McpServerConfig;
++use codex_protocol::config_types::WebSearchMode;
++use core_test_support::responses;
++use core_test_support::test_codex::test_codex;
++use pretty_assertions::assert_eq;
++use serde_json::Value;
++use serde_json::json;
++use std::fs;
++use test_case::test_case;
++
++const SELECTOR: &str = r#"
++import json, sys
++mode, selection, log = sys.argv[1:]
++for line in sys.stdin:
++    request = json.loads(line)
++    if 'id' not in request:
++        continue
++    method = request['method']
++    if method == 'initialize':
++        result = {'protocolVersion': request['params']['protocolVersion'],
++                  'capabilities': {'tools': {}}, 'serverInfo': {'name': mode, 'version': '1'}}
++    elif method == 'tools/list':
++        result = {'tools': [{'name': 'route' if mode == 'selector' else 'lookup',
++                  'description': 'Select a tool' if mode == 'selector' else 'Look up a record',
++                  'inputSchema': {'type': 'object', 'properties': {}}}]}
++    elif method == 'tools/call':
++        args = request['params'].get('arguments', {})
++        if mode == 'selector':
++            with open(log, 'a') as stream:
++                stream.write(json.dumps(args) + '\n')
++            name = next((tool['name'] for tool in args['tools'] if tool['name'].endswith(selection)), selection)
++            result = {'content': [], 'structuredContent': {'status': 'selected', 'tool': name, 'score': 1.0}}
++        else:
++            result = {'content': [{'type': 'text', 'text': 'lookup executed'}]}
++    else:
++        result = {}
++    print(json.dumps({'jsonrpc': '2.0', 'id': request['id'], 'result': result}), flush=True)
++"#;
++
++#[test_case("update_plan"; "native")]
++#[test_case("lookup"; "mcp")]
++#[test_case("web_search"; "hosted")]
++#[test_case("unavailable_tool"; "invalid_selection")]
++#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++async fn jev_selects_before_argument_generation(selection: &'static str) -> anyhow::Result<()> {
++    let server = responses::start_mock_server().await;
++    let temp = tempfile::tempdir()?;
++    let script = temp.path().join("selector.py");
++    let log = temp.path().join("calls.jsonl");
++    fs::write(&script, SELECTOR)?;
++    let log_for_config = log.clone();
++    let fixture = test_codex()
++        .with_model("gpt-5.4")
++        .with_config(move |config| {
++            config.update_plan_enabled = true;
++            let mut servers = config.mcp_servers.get().clone();
++            for (name, mode) in [("rippletide", "selector"), ("records", "records")] {
++                let settings: McpServerConfig = serde_json::from_value(json!({
++                    "command": "python3",
++                    "args": [script, mode, selection, log_for_config],
++                    "required": true,
++                    "startup_timeout_sec": 10,
++                }))
++                .unwrap();
++                servers.insert(name.to_string(), settings);
++            }
++            config.mcp_servers.set(servers).unwrap();
++            config.web_search_mode.set(WebSearchMode::Cached).unwrap();
++        })
++        .build_with_auto_env(&server)
++        .await?;
++    let mut replies = Vec::new();
++    if selection == "update_plan" || selection == "lookup" {
++        let (name, arguments) = if selection == "update_plan" {
++            (
++                "update_plan",
++                r#"{"plan":[{"step":"checked","status":"completed"}]}"#,
++            )
++        } else {
++            ("mcp__records__lookup", "{}")
++        };
++        let mut events = vec![responses::ev_response_created("call")];
++        if selection == "update_plan" {
++            events.push(responses::ev_function_call_with_namespace(
++                "wrong",
++                "mcp__records",
++                "lookup",
++                "{}",
++            ));
++        }
++        events.push(if selection == "lookup" {
++            responses::ev_function_call_with_namespace(
++                "call-1",
++                "mcp__records",
++                "lookup",
++                arguments,
++            )
++        } else {
++            responses::ev_function_call("call-1", name, arguments)
++        });
++        if selection == "update_plan" {
++            events.push(responses::ev_function_call("duplicate", name, arguments));
++        }
++        events.push(responses::ev_completed("call"));
++        replies.push(responses::sse(events));
++    }
++    replies.push(responses::sse(vec![
++        responses::ev_response_created("final"),
++        responses::ev_assistant_message("message", "done"),
++        responses::ev_completed("final"),
++    ]));
++    let requests = if selection == "unavailable_tool" {
++        None
++    } else {
++        Some(responses::mount_sse_sequence(&server, replies).await)
++    };
++    fixture
++        .submit_turn("Look up the record and update the plan")
++        .await?;
++    let selections = fs::read_to_string(&log)?
++        .lines()
++        .map(serde_json::from_str::<Value>)
++        .collect::<Result<Vec<_>, _>>()?;
++    let candidates = selections[0]["tools"].as_array().unwrap();
++    let names = candidates
++        .iter()
++        .map(|tool| tool["name"].as_str().unwrap())
++        .collect::<Vec<_>>();
++    assert!(names.contains(&"update_plan"), "{names:?}");
++    assert!(names.contains(&"web_search"));
++    assert!(names.iter().any(|name| name.ends_with("lookup")));
++    assert!(!names.iter().any(|name| name.contains("rippletide")));
++    assert!(
++        selections[0]["question"]
++            .as_str()
++            .unwrap()
++            .contains("Look up the record")
++    );
++    let context: Value = serde_json::from_str(selections[0]["context"].as_str().unwrap())?;
++    assert!(!context["instructions"].as_str().unwrap().is_empty());
++    assert!(!context["messages"].as_array().unwrap().is_empty());
++    if selection == "unavailable_tool" {
++        assert!(
++            !server
++                .received_requests()
++                .await
++                .unwrap()
++                .iter()
++                .any(|request| request.url.path().ends_with("/responses")),
++            "invalid selection must stop before Codex samples"
++        );
++        return Ok(());
++    }
++    let requests = requests.unwrap().requests();
++    assert_eq!(requests.len(), selections.len());
++    for request in &requests {
++        let body = request.body_json();
++        assert_eq!(body["tools"].as_array().unwrap().len(), 1);
++        assert_eq!(body["parallel_tool_calls"], false);
++        let tool = &body["tools"][0];
++        if selection == "web_search" {
++            assert_eq!(tool["type"], "web_search");
++        } else if selection == "lookup" {
++            assert_eq!(tool["name"], "mcp__records");
++            assert_eq!(tool["tools"].as_array().unwrap().len(), 1);
++            assert_eq!(tool["tools"][0]["name"], "lookup");
++        } else {
++            assert!(tool["name"].as_str().unwrap().ends_with(selection));
++        }
++    }
++    if selection == "lookup" {
++        assert!(
++            requests[1].body_json()["input"]
++                .to_string()
++                .contains("lookup executed")
++        );
++    }
++    if selection == "update_plan" {
++        let history = requests[1].body_json()["input"].to_string();
++        assert_eq!(history.matches("Plan updated").count(), 1);
++        assert_eq!(history.matches("unused Jev selection").count(), 2);
++        assert!(!history.contains("lookup executed"));
++    }
++    Ok(())
++}
+diff --git a/codex-rs/core/tests/suite/mod.rs b/codex-rs/core/tests/suite/mod.rs
+index b266997..0846cf6 100644
+--- a/codex-rs/core/tests/suite/mod.rs
++++ b/codex-rs/core/tests/suite/mod.rs
+@@ -72,6 +72,8 @@ mod external_auth;
+ mod fork_thread;
+ mod git_enrichment;
+ mod guardian_authorization;
++#[cfg(unix)]
++mod jev;
+ // Uses the same command-approval harness as guardian_review below.
+ #[cfg(not(target_os = "windows"))]
+ mod guardian_context_budget;

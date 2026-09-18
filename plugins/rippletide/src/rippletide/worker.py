@@ -12,6 +12,7 @@ from pathlib import Path
 from rippletide.artifacts import read_artifacts, supported_platform
 from rippletide.catalog import DEFAULT_MODEL, MODELS, model_spec
 from rippletide.identity import INPUT_TOKEN_LIMIT, model_identity
+from rippletide.labels import context_limit, label_ids
 
 SEMANTIC_LABELS = {
     "native.filename_search": "filename",
@@ -26,6 +27,8 @@ SEMANTIC_LABELS = {
 
 def build_context(request: dict, candidates: list[dict], labels: list[str], observations: list[dict]) -> str:
     context = request["goal"]
+    if "context" in request:
+        context += "\nTask context (data): " + json.dumps(request["context"], ensure_ascii=False)
     if request.get("facts"):
         context += "\nTask facts (data): " + json.dumps(request["facts"], ensure_ascii=False, sort_keys=True)
     if observations:
@@ -56,6 +59,7 @@ class Engine:
         self.engine = engine_mlx
         self.schema_type = StructuredSchema
         self.model, self.tokenizer = engine_mlx.get_engine()
+        self.context_limit = context_limit(artifacts["weights_path"])
         all_labels = list(string.ascii_uppercase) + list(SEMANTIC_LABELS.values())
         tokens = [self.tokenizer.encode(label, add_special_tokens=False) for label in all_labels]
         if any(len(ids) != 1 for ids in tokens) or len({ids[0] for ids in tokens}) != len(all_labels):
@@ -63,10 +67,17 @@ class Engine:
 
     def predict(self, packet: dict) -> dict:
         candidates = packet["candidates"]
-        if not 1 <= len(candidates) <= 25:
+        strict = "context" in packet
+        if not candidates or (not strict and len(candidates) > 25):
             return {"status": "defer", "reason_code": "TOO_MANY_CANDIDATES"}
-        labels = [SEMANTIC_LABELS.get(cap["id"], string.ascii_uppercase[index]) for index, cap in enumerate(candidates)]
-        catalog = "; ".join(f"{label} for {cap['description'].replace(chr(10), ' ')}" for label, cap in zip(labels, candidates))
+        try:
+            labels = (list(label_ids(self.tokenizer, len(candidates))) if strict else
+                      [SEMANTIC_LABELS.get(cap["id"], string.ascii_uppercase[index]) for index, cap in enumerate(candidates)])
+        except ValueError:
+            return {"status": "defer", "reason_code": "LABEL_TOKEN_COLLISION"}
+        limit = self.context_limit if strict else INPUT_TOKEN_LIMIT
+        catalog = "; ".join(f"{label} for " + (f"{cap['id']}: " if strict else "") + cap["description"].replace("\n", " ")
+                            for label, cap in zip(labels, candidates))
         schema = self.schema_type({"route": {
             "type": "enum", "choices": labels,
             "description": f"Select exactly one capability by comparing the primary verbs and intended output: {catalog}.",
@@ -79,7 +90,7 @@ class Engine:
             context = build_context(packet, candidates, labels, observations)
             # Prefix plus actual suffix: both contribute to the complete model input.
             token_count = len(self.tokenizer.encode(full_upstream_prompt(context, schema))) + max(metadata["suffix_lengths"])
-            if token_count <= INPUT_TOKEN_LIMIT:
+            if token_count <= limit:
                 break
             if observations:
                 observations.pop(0)
@@ -88,7 +99,7 @@ class Engine:
         result = self.engine.run_parallel_generation(context, schema, temperature=1.0)
         selected = result["parsed_json"]["route"]["value"]
         common = {
-            "prompt_version": model_spec(DEFAULT_MODEL).prompt_version,
+            "prompt_version": model_spec(DEFAULT_MODEL).prompt_version + ("-session-tools-v1" if strict else ""),
             "prompt_sha256": hashlib.sha256(json.dumps({
                 "prefix": self.tokenizer.encode(full_upstream_prompt(context, schema)),
                 "suffixes": metadata["suffixes_batch"].tolist(),

@@ -153,7 +153,7 @@ class WorkerManager:
                 result = self._responses.get(timeout=max(0, deadline - time.perf_counter()))
                 return {**result, "worker_pid": process.pid}
             except (queue.Empty, TimeoutError):
-                self._stop("timed_out", "Routing exceeded its two-second deadline")
+                self._stop("timed_out", "Routing exceeded its inference deadline")
                 return {"status": "defer", "reason_code": "ROUTER_TIMEOUT"}
             except (BrokenPipeError, OSError, AttributeError):
                 self._stop("failed", "Model worker connection closed")
