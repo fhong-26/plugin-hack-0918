@@ -87,7 +87,7 @@ Response:
 }
 ```
 
-Defer: `status="defer"`, `route_id=null`, `invocation=null`, `input_schema=null`, `source` is `rule`, `model`, or `fallback`; stable reason code. Optional diagnostic fields may be added without breaking v1. A score is diagnostic, never a calibrated confidence claim.
+Defer: `status="defer"`, `route_id=null`, `invocation=null`, `input_schema=null`, `source` is `rule` or `fallback`; stable reason code. Successful model inference always selects an eligible route. Optional diagnostic fields may be added without breaking v1. A score is diagnostic, never a calibrated confidence claim.
 
 `status(project_root)` returns readiness, model source/weight revisions, worker state, supported/available capabilities, and paths. `report(project_root, limit=20)` summarizes local decisions; actual execution is `unknown` unless external evidence was imported. Neither tool should itself be routed.
 
@@ -117,4 +117,4 @@ Intervention record: `timestamp`, `category` (`required`, `setup`, `permission`,
 
 - Engine: `harshatheg/Qwen-2.5-1B-RLCD@2af86848be75847ccb3553b0941cc51d6ef7e4e9`.
 - Weights: `mlx-community/Qwen2.5-1.5B-Instruct-4bit@8b403126fc14f14cfc99bb4cfa72ecbc129ea677`.
-- Persistent isolated MLX worker; explicit backend selection, verified one-token enum labels, and a defer label. Include label descriptions in the prompt. Prevent stdout diagnostics from corrupting JSON protocol. Enforce an end-to-end two-second routing deadline after startup; readiness/loading and cold-start timing are separate. A timed-out worker cannot block later requests indefinitely.
+- Persistent isolated MLX worker; explicit backend selection and verified one-token enum labels for eligible routes only. Include label descriptions in the prompt. Prevent stdout diagnostics from corrupting JSON protocol. Enforce an end-to-end two-second routing deadline after startup; readiness/loading and cold-start timing are separate. A timed-out worker cannot block later requests indefinitely.

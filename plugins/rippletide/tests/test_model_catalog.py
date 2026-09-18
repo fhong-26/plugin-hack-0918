@@ -12,6 +12,7 @@ from rippletide.direct_logit import messages_for, prepare_input, validated_label
 from rippletide.identity import ENGINE_REVISION, SOURCE_FILES, model_identity
 from rippletide.model import WorkerManager
 from rippletide.router import Router, bounded_context
+from rippletide.worker import Engine
 
 
 def test_process_model_defaults_and_explicit_override(monkeypatch, tmp_path):
@@ -65,7 +66,7 @@ def test_tokenizer_validates_whole_single_token_labels():
         def decode(self, ids):
             return chr(ids[0])
 
-    assert validated_label_ids(Tokenizer())["Z"] == ord("Z")
+    assert validated_label_ids(Tokenizer())["Y"] == ord("Y")
     bad = Tokenizer()
     bad.encode = lambda *_, **__: [42, 43]
     with pytest.raises(ValueError, match="one-token"):
@@ -87,10 +88,39 @@ def test_chat_template_and_budget_drop_observations_not_essentials():
         "recent_observations": [{"detail": "x" * 3000}, {"detail": "most recent"}]}
     tokens, observations = prepare_input(Tokenizer(), packet)
     assert len(tokens) < 1024 and observations == packet["recent_observations"][1:]
-    assert "Z: Defer" in messages_for(packet, observations)[1]["content"]
+    prompt = messages_for(packet, observations)[1]["content"]
+    assert "Defer" not in prompt and "Z:" not in prompt
     packet["goal"] = "x" * 2000
     tokens, observations = prepare_input(Tokenizer(), packet)
     assert len(tokens) > 1024 and not observations
+
+
+def test_default_engine_schema_requires_a_candidate_selection():
+    captured = {}
+
+    class Schema:
+        def __init__(self, definition):
+            captured["definition"] = definition
+
+        def compile_parallel_metadata(self, _tokenizer):
+            return {"has_collisions": [False], "suffix_lengths": [1],
+                "suffixes_batch": SimpleNamespace(tolist=lambda: [[1], [2]])}
+
+        def to_parallel_schema_str(self):
+            return "forced route schema"
+
+    engine = Engine.__new__(Engine)
+    engine.schema_type = Schema
+    engine.tokenizer = SimpleNamespace(encode=lambda *_args, **_kwargs: [1])
+    engine.engine = SimpleNamespace(run_parallel_generation=lambda *_args, **_kwargs: {
+        "parsed_json": {"route": {"value": "docs", "prob": 0.75}}, "elapsed_ms": 1.0})
+    result = engine.predict({"goal": "Find the requirement", "candidates": [
+        {"id": "mcp.docs_search", "description": "Read documents"},
+        {"id": "mcp.tracker_search", "description": "Read issues"},
+    ]})
+
+    assert captured["definition"]["route"]["choices"] == ["docs", "issues"]
+    assert result["status"] == "selected" and result["route_id"] == "mcp.docs_search"
 
 
 def test_run_scoped_evidence_records_actual_bounded_context(project, configure, monkeypatch, tmp_path):

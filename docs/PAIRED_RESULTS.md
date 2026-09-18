@@ -6,6 +6,10 @@ source work was developed on `feat/routing-eval-models`, in a separate worktree
 based on main `c8c59b074d47a1406d3a958137ea19a274319aea`. These results were
 collected before the implementation was committed and merged.
 
+The defer counts and model-choice descriptions below record that historical run.
+The current implementation no longer offers defer as a successful model-inference
+choice; operational and rules-based fallbacks remain.
+
 ## What is implemented
 
 - Installed-plugin routing skill plus single-use, session/turn-scoped hook receipts
