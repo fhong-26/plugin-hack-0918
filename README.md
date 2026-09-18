@@ -89,6 +89,8 @@ requires the pre-change revision.
 - [Historical test kit](user_tests/README.md)
 - [Benchmark scenarios and provenance](docs/BENCHMARK_USER_SCENARIOS.md)
 - [Benchmark experiment report](docs/BENCHMARK_EXPERIMENT_REPORT.md)
+- [50-case conditional tool-choice benchmark](benchmark/README.md), whose saved
+  example compares the earlier Decision router with Codex
 
 Remove the installed plugin with `codex plugin remove rippletide@personal` and
 start a fresh session to disable routing. Model artifacts and retained test data

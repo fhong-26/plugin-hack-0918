@@ -1,0 +1,101 @@
+system,id,family,expected,selected,correct,error,elapsed_s,cost_usd
+Decision (Qwen3 reranker),LOC-01,local,exec_command,mcp__codex_app__read_thread_terminal,False,,9.214405749982689,0
+Decision (Qwen3 reranker),LOC-02,local,exec_command,apply_patch,False,,3.112364583008457,0
+Decision (Qwen3 reranker),LOC-03,local,exec_command,mcp__codex_app__open_in_codex,False,,3.360662416991545,0
+Decision (Qwen3 reranker),LOC-04,local,write_stdin,exec_command,False,,2.660026833997108,0
+Decision (Qwen3 reranker),LOC-05,local,write_stdin,exec_command,False,,3.4524158340063877,0
+Decision (Qwen3 reranker),LOC-06,local,view_image,view_image,True,,3.3202165410039015,0
+Decision (Qwen3 reranker),LOC-07,local,mcp__codex_app__open_in_codex,mcp__codex_app__open_in_codex,True,,3.210523416986689,0
+Decision (Qwen3 reranker),LOC-08,local,mcp__codex_app__read_thread_terminal,mcp__codex_app__read_thread_terminal,True,,3.3005133749975357,0
+Decision (Qwen3 reranker),LOC-09,local,mcp__codex_app__load_workspace_dependencies,mcp__codex_app__load_workspace_dependencies,True,,3.2405720419774298,0
+Decision (Qwen3 reranker),LOC-10,local,exec_command,mcp__codex_app__read_thread_terminal,False,,3.240296459000092,0
+Decision (Qwen3 reranker),CDX-01,codex,mcp__codex_app__list_threads,mcp__codex_app__list_archived_threads,False,,9.31353204199695,0
+Decision (Qwen3 reranker),CDX-02,codex,mcp__codex_app__read_thread,mcp__codex_app__list_threads,False,,10.243647499999497,0
+Decision (Qwen3 reranker),CDX-03,codex,mcp__codex_app__navigate_to_codex_page,mcp__codex_app__navigate_to_codex_page,True,,10.070833875011886,0
+Decision (Qwen3 reranker),CDX-04,codex,mcp__codex_app__list_projects,mcp__codex_app__create_thread,False,,9.717546290979953,0
+Decision (Qwen3 reranker),CDX-05,codex,mcp__codex_app__create_thread,mcp__codex_app__create_thread,True,,9.276752083009342,0
+Decision (Qwen3 reranker),CDX-06,codex,mcp__codex_app__create_worktree,mcp__codex_app__create_thread,False,,9.960982916003559,0
+Decision (Qwen3 reranker),CDX-07,codex,mcp__codex_app__fork_thread,mcp__codex_app__create_thread,False,,10.220664042019052,0
+Decision (Qwen3 reranker),CDX-08,codex,mcp__codex_app__attach_artifact,mcp__codex_app__open_in_codex,False,,10.96285074998741,0
+Decision (Qwen3 reranker),CDX-09,codex,mcp__codex_app__remove_artifact,mcp__codex_app__remove_artifact,True,,10.026787541020894,0
+Decision (Qwen3 reranker),CDX-10,codex,mcp__codex_app__wait_threads,mcp__codex_app__wait_threads,True,,10.571020584000507,0
+Decision (Qwen3 reranker),LIN-01,linear,mcp__linear__get_issue,mcp__linear__get_issue,True,,8.255266541003948,0
+Decision (Qwen3 reranker),LIN-02,linear,mcp__linear__list_issues,mcp__linear__list_issues,True,,8.439813667006092,0
+Decision (Qwen3 reranker),LIN-03,linear,mcp__linear__get_project,mcp__linear__get_project,True,,8.014592874998925,0
+Decision (Qwen3 reranker),LIN-04,linear,mcp__linear__list_comments,mcp__linear__list_comments,True,,8.051556291989982,0
+Decision (Qwen3 reranker),LIN-05,linear,mcp__linear__list_documents,mcp__linear__get_document,False,,9.199956291995477,0
+Decision (Qwen3 reranker),LIN-06,linear,mcp__linear__get_document,mcp__linear__get_document,True,,8.871740458009299,0
+Decision (Qwen3 reranker),LIN-07,linear,mcp__linear__list_diffs,mcp__linear__get_document,False,,9.629316542006563,0
+Decision (Qwen3 reranker),LIN-08,linear,mcp__linear__get_diff,mcp__linear__get_diff,True,,10.961844542005565,0
+Decision (Qwen3 reranker),LIN-09,linear,mcp__linear__get_diff_threads,mcp__linear__get_diff_threads,True,,10.346639042021707,0
+Decision (Qwen3 reranker),LIN-10,linear,mcp__linear__list_issue_statuses,mcp__linear__list_issue_statuses,True,,10.84918099999777,0
+Decision (Qwen3 reranker),SLK-01,slack,mcp__slack__slack_read_channel,mcp__slack__slack_read_thread,False,,14.039364708994981,0
+Decision (Qwen3 reranker),SLK-02,slack,mcp__slack__slack_read_thread,mcp__slack__slack_read_thread,True,,14.279147458000807,0
+Decision (Qwen3 reranker),SLK-03,slack,mcp__slack__slack_search_channels,mcp__slack__slack_search_channels,True,,10.997257666022051,0
+Decision (Qwen3 reranker),SLK-04,slack,mcp__slack__slack_search_public,mcp__slack__slack_search_public,True,,14.939672792010242,0
+Decision (Qwen3 reranker),SLK-05,slack,mcp__slack__slack_search_public_and_private,mcp__slack__slack_search_public_and_private,True,,11.500194540974917,0
+Decision (Qwen3 reranker),SLK-06,slack,mcp__slack__slack_read_file,mcp__slack__slack_read_file,True,,13.64857737501734,0
+Decision (Qwen3 reranker),SLK-07,slack,mcp__slack__slack_read_canvas,mcp__slack__slack_read_canvas,True,,13.346323167002993,0
+Decision (Qwen3 reranker),SLK-08,slack,mcp__slack__slack_search_users,mcp__slack__slack_search_users,True,,14.106525958981365,0
+Decision (Qwen3 reranker),SLK-09,slack,mcp__slack__slack_read_user_profile,mcp__slack__slack_read_user_profile,True,,14.052162874984788,0
+Decision (Qwen3 reranker),SLK-10,slack,mcp__slack__slack_list_channel_members,mcp__slack__slack_list_channel_members,True,,13.643847416999051,0
+Decision (Qwen3 reranker),NOT-01,notion,mcp__notion__notion_fetch,mcp__notion__notion_ai_search,False,,24.29759954099427,0
+Decision (Qwen3 reranker),NOT-02,notion,mcp__notion__notion_search,mcp__notion__notion_ai_search,False,,23.45174658400356,0
+Decision (Qwen3 reranker),NOT-03,notion,mcp__notion__notion_get_comments,mcp__notion__notion_get_comments,True,,27.231992707995232,0
+Decision (Qwen3 reranker),NOT-04,notion,mcp__notion__notion_get_users,mcp__notion__notion_get_users,True,,23.356191832979675,0
+Decision (Qwen3 reranker),NOT-05,notion,mcp__notion__notion_list_recent_pages,mcp__notion__notion_ai_search,False,,25.13427458301885,0
+Decision (Qwen3 reranker),NOT-06,notion,mcp__notion__notion_list_favorite_pages,mcp__notion__notion_list_favorite_pages,True,,26.872235874994658,0
+Decision (Qwen3 reranker),NOT-07,notion,mcp__notion__notion_ai_search,mcp__notion__notion_ai_search,True,,26.966266083007213,0
+Decision (Qwen3 reranker),NOT-08,notion,mcp__notion__notion_get_tool_access,mcp__notion__notion_fetch,False,,25.36489320799592,0
+Decision (Qwen3 reranker),NOT-09,notion,mcp__notion__notion_query_data_sources,mcp__notion__notion_query_multiple_data_sources,False,,32.98378749997937,0
+Decision (Qwen3 reranker),NOT-10,notion,mcp__notion__notion_get_async_task,mcp__notion__notion_get_async_task,True,,21.925589625025168,0
+Codex (GPT-6/high),LOC-01,local,exec_command,exec_command,True,,3.215030958992429,0.1613925
+Codex (GPT-6/high),LOC-02,local,exec_command,exec_command,True,,2.7760151669790503,0.1613675
+Codex (GPT-6/high),LOC-03,local,exec_command,exec_command,True,,4.002916540979641,0.161205
+Codex (GPT-6/high),LOC-04,local,write_stdin,write_stdin,True,,2.866698458994506,0.16043
+Codex (GPT-6/high),LOC-05,local,write_stdin,write_stdin,True,,3.0061976249853615,0.1616925
+Codex (GPT-6/high),LOC-06,local,view_image,view_image,True,,2.697312416974455,0.1602675
+Codex (GPT-6/high),LOC-07,local,mcp__codex_app__open_in_codex,mcp__codex_app__open_in_codex,True,,4.398126624990255,0.1608175
+Codex (GPT-6/high),LOC-08,local,mcp__codex_app__read_thread_terminal,mcp__codex_app__read_thread_terminal,True,,2.5904903750051744,0.16088
+Codex (GPT-6/high),LOC-09,local,mcp__codex_app__load_workspace_dependencies,mcp__codex_app__load_workspace_dependencies,True,,5.323973374994239,0.1608425
+Codex (GPT-6/high),LOC-10,local,exec_command,exec_command,True,,3.641661917004967,0.1613175
+Codex (GPT-6/high),CDX-01,codex,mcp__codex_app__list_threads,mcp__codex_app__list_threads,True,,3.7271332500095014,0.20438
+Codex (GPT-6/high),CDX-02,codex,mcp__codex_app__read_thread,mcp__codex_app__read_thread,True,,2.9469505000161007,0.2047425
+Codex (GPT-6/high),CDX-03,codex,mcp__codex_app__navigate_to_codex_page,mcp__codex_app__navigate_to_codex_page,True,,2.61174237501109,0.2041925
+Codex (GPT-6/high),CDX-04,codex,mcp__codex_app__list_projects,mcp__codex_app__list_projects,True,,4.281147708999924,0.204155
+Codex (GPT-6/high),CDX-05,codex,mcp__codex_app__create_thread,mcp__codex_app__create_thread,True,,2.7981227909913287,0.2048925
+Codex (GPT-6/high),CDX-06,codex,mcp__codex_app__create_worktree,mcp__codex_app__create_worktree,True,,2.8958907079941127,0.20443
+Codex (GPT-6/high),CDX-07,codex,mcp__codex_app__fork_thread,mcp__codex_app__fork_thread,True,,3.196053249994293,0.204805
+Codex (GPT-6/high),CDX-08,codex,mcp__codex_app__attach_artifact,mcp__codex_app__attach_artifact,True,,2.6809099170204718,0.20333
+Codex (GPT-6/high),CDX-09,codex,mcp__codex_app__remove_artifact,mcp__codex_app__remove_artifact,True,,2.9710157079971395,0.204355
+Codex (GPT-6/high),CDX-10,codex,mcp__codex_app__wait_threads,mcp__codex_app__wait_threads,True,,3.0178896670113318,0.2044675
+Codex (GPT-6/high),LIN-01,linear,mcp__linear__get_issue,mcp__linear__get_issue,True,,3.4145362499984913,0.1939175
+Codex (GPT-6/high),LIN-02,linear,mcp__linear__list_issues,mcp__linear__list_issues,True,,2.8210596659919247,0.19528
+Codex (GPT-6/high),LIN-03,linear,mcp__linear__get_project,mcp__linear__get_project,True,,3.4602616250049323,0.19398
+Codex (GPT-6/high),LIN-04,linear,mcp__linear__list_comments,mcp__linear__list_comments,True,,3.2369765829935204,0.1952675
+Codex (GPT-6/high),LIN-05,linear,mcp__linear__list_documents,mcp__linear__list_documents,True,,2.843418499978725,0.195355
+Codex (GPT-6/high),LIN-06,linear,mcp__linear__get_document,mcp__linear__get_document,True,,3.1680269589996897,0.193905
+Codex (GPT-6/high),LIN-07,linear,mcp__linear__list_diffs,mcp__linear__list_diffs,True,,3.0799327090207953,0.19458
+Codex (GPT-6/high),LIN-08,linear,mcp__linear__get_diff,mcp__linear__get_diff,True,,3.069390124990605,0.19408
+Codex (GPT-6/high),LIN-09,linear,mcp__linear__get_diff_threads,mcp__linear__get_diff_threads,True,,2.240229458984686,0.19383
+Codex (GPT-6/high),LIN-10,linear,mcp__linear__list_issue_statuses,mcp__linear__list_issue_statuses,True,,3.485154791007517,0.1951925
+Codex (GPT-6/high),SLK-01,slack,mcp__slack__slack_read_channel,mcp__slack__slack_read_channel,True,,3.933925499994075,0.2157175
+Codex (GPT-6/high),SLK-02,slack,mcp__slack__slack_read_thread,mcp__slack__slack_read_thread,True,,2.734444708999945,0.2145925
+Codex (GPT-6/high),SLK-03,slack,mcp__slack__slack_search_channels,mcp__slack__slack_search_channels,True,,2.8845784580043983,0.21458
+Codex (GPT-6/high),SLK-04,slack,mcp__slack__slack_search_public,mcp__slack__slack_search_public,True,,2.980859084025724,0.2144925
+Codex (GPT-6/high),SLK-05,slack,mcp__slack__slack_search_public_and_private,mcp__slack__slack_search_public_and_private,True,,3.471902457997203,0.2165925
+Codex (GPT-6/high),SLK-06,slack,mcp__slack__slack_read_file,mcp__slack__slack_read_file,True,,2.9070999170071445,0.215555
+Codex (GPT-6/high),SLK-07,slack,mcp__slack__slack_read_canvas,mcp__slack__slack_read_canvas,True,,4.710588167014066,0.2159675
+Codex (GPT-6/high),SLK-08,slack,mcp__slack__slack_search_users,mcp__slack__slack_search_users,True,,3.7494115000008605,0.21438
+Codex (GPT-6/high),SLK-09,slack,mcp__slack__slack_read_user_profile,mcp__slack__slack_read_user_profile,True,,2.7078757920244243,0.2146675
+Codex (GPT-6/high),SLK-10,slack,mcp__slack__slack_list_channel_members,mcp__slack__slack_list_channel_members,True,,3.830909500014968,0.21463
+Codex (GPT-6/high),NOT-01,notion,mcp__notion__notion_fetch,mcp__notion__notion_fetch,True,,5.087139082985232,0.2998675
+Codex (GPT-6/high),NOT-02,notion,mcp__notion__notion_search,mcp__notion__notion_search,True,,5.069963458983693,0.301905
+Codex (GPT-6/high),NOT-03,notion,mcp__notion__notion_get_comments,mcp__notion__notion_get_comments,True,,4.7098966669873334,0.3021925
+Codex (GPT-6/high),NOT-04,notion,mcp__notion__notion_get_users,mcp__notion__notion_get_users,True,,5.772417458007112,0.29993
+Codex (GPT-6/high),NOT-05,notion,mcp__notion__notion_list_recent_pages,mcp__notion__notion_list_recent_pages,True,,3.2208922500140034,0.301105
+Codex (GPT-6/high),NOT-06,notion,mcp__notion__notion_list_favorite_pages,mcp__notion__notion_list_favorite_pages,True,,2.8048388749884907,0.2997675
+Codex (GPT-6/high),NOT-07,notion,mcp__notion__notion_ai_search,mcp__notion__notion_ai_search,True,,5.171593999984907,0.299905
+Codex (GPT-6/high),NOT-08,notion,mcp__notion__notion_get_tool_access,mcp__notion__notion_get_tool_access,True,,5.939359749987489,0.30128
+Codex (GPT-6/high),NOT-09,notion,mcp__notion__notion_query_data_sources,mcp__notion__notion_query_data_sources,True,,5.831887042004382,0.30178
+Codex (GPT-6/high),NOT-10,notion,mcp__notion__notion_get_async_task,mcp__notion__notion_get_async_task,True,,2.9223632919893134,0.301155

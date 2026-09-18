@@ -1,0 +1,9 @@
+{
+  "provenance": "Verbatim excerpts from the user-provided Global Codex Guidance and the current developer instructions in this task; candidate-specific instructions are in the captured tool metadata.",
+  "instructions": [
+    "Reuse the user's persisted connections before proposing new authentication. Preferred existing routes are Linear, Notion, and Slack through their global MCP servers; GitHub through `gh`; Railway through `railway`; and Azure through `az`.",
+    "For Notion URLs or requests about Notion content, use the Notion MCP tools first, especially `notion-fetch` and `notion-search`.",
+    "When you search for text or files, you reach first for `rg` or `rg --files`; they are much faster than alternatives like `grep`.",
+    "Do not use tools to send messages to others (e.g. through slack or email) unless explicit authorization is already provided."
+  ]
+}

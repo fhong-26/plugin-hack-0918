@@ -1,0 +1,37 @@
+{
+  "accepted": true,
+  "rounds": 1,
+  "reviewers": [
+    {
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high",
+      "role": "blind then answer-aware",
+      "report": "reviews/blind-r1.md",
+      "status": "SATISFIED",
+      "sha256": "740fbdabaf878a9f1629800f677a03770ce7efd8714248d13f824ea6f8b66791"
+    },
+    {
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high",
+      "role": "answer-aware quality and method",
+      "report": "reviews/quality-r1.md",
+      "status": "SATISFIED",
+      "sha256": "89f3bf11634f14df6e497ecf25c1a83662ec7b4446799eb65f82dbdd6d79a5bf"
+    }
+  ],
+  "accepted_sha256": {
+    "GOAL.md": "939730eb260c799cb2cef015d87f82dc2c53eb738c1b477e9fd06c1237adb5f3",
+    "runtime-tools.json": "0e47488e3f401176aa2e370d1b6aaaa494a436e382d1672169828d9d72ddcff9",
+    "families.json": "cd3363f7e88aec04b35b0bc4f3fa6458ea4fb17f75f563fa55b7b37e6b587a61",
+    "host-policy.json": "f21bf1d1081f54bcf4099fff8697c2844d39532cd914220bf256c0862c85610d",
+    "tasks.jsonl": "77b26581dc3373576de6e88edd8100bc40d601b8fee8e096945c13cbea976e2a",
+    "answers.jsonl": "cda1db2b5d121d58f05e81deebf260e17920a58358ad0aff49921a2ec2c17802"
+  },
+  "required_fixes_remaining": 0,
+  "blind_review_agreement": {
+    "correct": 50,
+    "total": 50,
+    "interpretation": "review agreement only; not a performance evaluation"
+  },
+  "choices_sha256": "d346780fe11594445f2f6a4347f08d2f4b6af73e0d7a953b170cd618cc4e6dae"
+}

@@ -1,0 +1,1130 @@
+{
+  "schema_version": 1,
+  "benchmark_sha256": "77b26581dc3373576de6e88edd8100bc40d601b8fee8e096945c13cbea976e2a",
+  "recorded_at": "2026-09-18",
+  "scope": "Recorded Decision vs Codex tool-choice pilot, not results for the Rippletide plugin in this repository. API-equivalent estimate, not invoice or total agent cost. No argument generation or scenario execution.",
+  "systems": [
+    {
+      "name": "Decision (Qwen3 reranker)",
+      "metadata": {
+        "source": "Recorded 2026-09-18 run; not a fresh run of this repository",
+        "model": "Qwen/Qwen3-Reranker-0.6B",
+        "timing": "Decision MCP choose round trip including first model load",
+        "raw_predictions_sha256": "1184f9afbc0c3388ba8bd14a9707e0d41111159a254f2b5e8c46c55647822abd"
+      },
+      "predictions": [
+        {
+          "id": "LOC-01",
+          "tool_id": "mcp__codex_app__read_thread_terminal",
+          "elapsed_s": 9.214405749982689,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-02",
+          "tool_id": "apply_patch",
+          "elapsed_s": 3.112364583008457,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-03",
+          "tool_id": "mcp__codex_app__open_in_codex",
+          "elapsed_s": 3.360662416991545,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-04",
+          "tool_id": "exec_command",
+          "elapsed_s": 2.660026833997108,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-05",
+          "tool_id": "exec_command",
+          "elapsed_s": 3.4524158340063877,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-06",
+          "tool_id": "view_image",
+          "elapsed_s": 3.3202165410039015,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-07",
+          "tool_id": "mcp__codex_app__open_in_codex",
+          "elapsed_s": 3.210523416986689,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-08",
+          "tool_id": "mcp__codex_app__read_thread_terminal",
+          "elapsed_s": 3.3005133749975357,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-09",
+          "tool_id": "mcp__codex_app__load_workspace_dependencies",
+          "elapsed_s": 3.2405720419774298,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LOC-10",
+          "tool_id": "mcp__codex_app__read_thread_terminal",
+          "elapsed_s": 3.240296459000092,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-01",
+          "tool_id": "mcp__codex_app__list_archived_threads",
+          "elapsed_s": 9.31353204199695,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-02",
+          "tool_id": "mcp__codex_app__list_threads",
+          "elapsed_s": 10.243647499999497,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-03",
+          "tool_id": "mcp__codex_app__navigate_to_codex_page",
+          "elapsed_s": 10.070833875011886,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-04",
+          "tool_id": "mcp__codex_app__create_thread",
+          "elapsed_s": 9.717546290979953,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-05",
+          "tool_id": "mcp__codex_app__create_thread",
+          "elapsed_s": 9.276752083009342,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-06",
+          "tool_id": "mcp__codex_app__create_thread",
+          "elapsed_s": 9.960982916003559,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-07",
+          "tool_id": "mcp__codex_app__create_thread",
+          "elapsed_s": 10.220664042019052,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-08",
+          "tool_id": "mcp__codex_app__open_in_codex",
+          "elapsed_s": 10.96285074998741,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-09",
+          "tool_id": "mcp__codex_app__remove_artifact",
+          "elapsed_s": 10.026787541020894,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "CDX-10",
+          "tool_id": "mcp__codex_app__wait_threads",
+          "elapsed_s": 10.571020584000507,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-01",
+          "tool_id": "mcp__linear__get_issue",
+          "elapsed_s": 8.255266541003948,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-02",
+          "tool_id": "mcp__linear__list_issues",
+          "elapsed_s": 8.439813667006092,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-03",
+          "tool_id": "mcp__linear__get_project",
+          "elapsed_s": 8.014592874998925,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-04",
+          "tool_id": "mcp__linear__list_comments",
+          "elapsed_s": 8.051556291989982,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-05",
+          "tool_id": "mcp__linear__get_document",
+          "elapsed_s": 9.199956291995477,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-06",
+          "tool_id": "mcp__linear__get_document",
+          "elapsed_s": 8.871740458009299,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-07",
+          "tool_id": "mcp__linear__get_document",
+          "elapsed_s": 9.629316542006563,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-08",
+          "tool_id": "mcp__linear__get_diff",
+          "elapsed_s": 10.961844542005565,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-09",
+          "tool_id": "mcp__linear__get_diff_threads",
+          "elapsed_s": 10.346639042021707,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "LIN-10",
+          "tool_id": "mcp__linear__list_issue_statuses",
+          "elapsed_s": 10.84918099999777,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-01",
+          "tool_id": "mcp__slack__slack_read_thread",
+          "elapsed_s": 14.039364708994981,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-02",
+          "tool_id": "mcp__slack__slack_read_thread",
+          "elapsed_s": 14.279147458000807,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-03",
+          "tool_id": "mcp__slack__slack_search_channels",
+          "elapsed_s": 10.997257666022051,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-04",
+          "tool_id": "mcp__slack__slack_search_public",
+          "elapsed_s": 14.939672792010242,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-05",
+          "tool_id": "mcp__slack__slack_search_public_and_private",
+          "elapsed_s": 11.500194540974917,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-06",
+          "tool_id": "mcp__slack__slack_read_file",
+          "elapsed_s": 13.64857737501734,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-07",
+          "tool_id": "mcp__slack__slack_read_canvas",
+          "elapsed_s": 13.346323167002993,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-08",
+          "tool_id": "mcp__slack__slack_search_users",
+          "elapsed_s": 14.106525958981365,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-09",
+          "tool_id": "mcp__slack__slack_read_user_profile",
+          "elapsed_s": 14.052162874984788,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "SLK-10",
+          "tool_id": "mcp__slack__slack_list_channel_members",
+          "elapsed_s": 13.643847416999051,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-01",
+          "tool_id": "mcp__notion__notion_ai_search",
+          "elapsed_s": 24.29759954099427,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-02",
+          "tool_id": "mcp__notion__notion_ai_search",
+          "elapsed_s": 23.45174658400356,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-03",
+          "tool_id": "mcp__notion__notion_get_comments",
+          "elapsed_s": 27.231992707995232,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-04",
+          "tool_id": "mcp__notion__notion_get_users",
+          "elapsed_s": 23.356191832979675,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-05",
+          "tool_id": "mcp__notion__notion_ai_search",
+          "elapsed_s": 25.13427458301885,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-06",
+          "tool_id": "mcp__notion__notion_list_favorite_pages",
+          "elapsed_s": 26.872235874994658,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-07",
+          "tool_id": "mcp__notion__notion_ai_search",
+          "elapsed_s": 26.966266083007213,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-08",
+          "tool_id": "mcp__notion__notion_fetch",
+          "elapsed_s": 25.36489320799592,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-09",
+          "tool_id": "mcp__notion__notion_query_multiple_data_sources",
+          "elapsed_s": 32.98378749997937,
+          "cost_usd": 0,
+          "error": null
+        },
+        {
+          "id": "NOT-10",
+          "tool_id": "mcp__notion__notion_get_async_task",
+          "elapsed_s": 21.925589625025168,
+          "cost_usd": 0,
+          "error": null
+        }
+      ]
+    },
+    {
+      "name": "Codex (GPT-6/high)",
+      "metadata": {
+        "source": "Recorded 2026-09-18 run; not a fresh run of this repository",
+        "model": "gpt-6-astra",
+        "timing": "Codex whole turn; conversation setup excluded",
+        "raw_predictions_sha256": "83e3dd12c6f7fe5aedf74e614b2d65749482ade9dbffad197730259e007be608"
+      },
+      "predictions": [
+        {
+          "id": "LOC-01",
+          "tool_id": "exec_command",
+          "elapsed_s": 3.215030958992429,
+          "cost_usd": 0.1613925,
+          "error": null,
+          "usage": {
+            "totalTokens": 12831,
+            "inputTokens": 12804,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12801,
+            "outputTokens": 27,
+            "reasoningOutputTokens": 19
+          }
+        },
+        {
+          "id": "LOC-02",
+          "tool_id": "exec_command",
+          "elapsed_s": 2.7760151669790503,
+          "cost_usd": 0.1613675,
+          "error": null,
+          "usage": {
+            "totalTokens": 12835,
+            "inputTokens": 12810,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12807,
+            "outputTokens": 25,
+            "reasoningOutputTokens": 17
+          }
+        },
+        {
+          "id": "LOC-03",
+          "tool_id": "exec_command",
+          "elapsed_s": 4.002916540979641,
+          "cost_usd": 0.161205,
+          "error": null,
+          "usage": {
+            "totalTokens": 12828,
+            "inputTokens": 12805,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12802,
+            "outputTokens": 23,
+            "reasoningOutputTokens": 15
+          }
+        },
+        {
+          "id": "LOC-04",
+          "tool_id": "write_stdin",
+          "elapsed_s": 2.866698458994506,
+          "cost_usd": 0.16043,
+          "error": null,
+          "usage": {
+            "totalTokens": 12814,
+            "inputTokens": 12807,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12804,
+            "outputTokens": 7,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LOC-05",
+          "tool_id": "write_stdin",
+          "elapsed_s": 3.0061976249853615,
+          "cost_usd": 0.1616925,
+          "error": null,
+          "usage": {
+            "totalTokens": 12852,
+            "inputTokens": 12824,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12821,
+            "outputTokens": 28,
+            "reasoningOutputTokens": 19
+          }
+        },
+        {
+          "id": "LOC-06",
+          "tool_id": "view_image",
+          "elapsed_s": 2.697312416974455,
+          "cost_usd": 0.1602675,
+          "error": null,
+          "usage": {
+            "totalTokens": 12804,
+            "inputTokens": 12798,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12795,
+            "outputTokens": 6,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LOC-07",
+          "tool_id": "mcp__codex_app__open_in_codex",
+          "elapsed_s": 4.398126624990255,
+          "cost_usd": 0.1608175,
+          "error": null,
+          "usage": {
+            "totalTokens": 12821,
+            "inputTokens": 12806,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12803,
+            "outputTokens": 15,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LOC-08",
+          "tool_id": "mcp__codex_app__read_thread_terminal",
+          "elapsed_s": 2.5904903750051744,
+          "cost_usd": 0.16088,
+          "error": null,
+          "usage": {
+            "totalTokens": 12829,
+            "inputTokens": 12815,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12812,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LOC-09",
+          "tool_id": "mcp__codex_app__load_workspace_dependencies",
+          "elapsed_s": 5.323973374994239,
+          "cost_usd": 0.1608425,
+          "error": null,
+          "usage": {
+            "totalTokens": 12826,
+            "inputTokens": 12812,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12809,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LOC-10",
+          "tool_id": "exec_command",
+          "elapsed_s": 3.641661917004967,
+          "cost_usd": 0.1613175,
+          "error": null,
+          "usage": {
+            "totalTokens": 12837,
+            "inputTokens": 12814,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 12811,
+            "outputTokens": 23,
+            "reasoningOutputTokens": 15
+          }
+        },
+        {
+          "id": "CDX-01",
+          "tool_id": "mcp__codex_app__list_threads",
+          "elapsed_s": 3.7271332500095014,
+          "cost_usd": 0.20438,
+          "error": null,
+          "usage": {
+            "totalTokens": 16237,
+            "inputTokens": 16199,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16196,
+            "outputTokens": 38,
+            "reasoningOutputTokens": 23
+          }
+        },
+        {
+          "id": "CDX-02",
+          "tool_id": "mcp__codex_app__read_thread",
+          "elapsed_s": 2.9469505000161007,
+          "cost_usd": 0.2047425,
+          "error": null,
+          "usage": {
+            "totalTokens": 16266,
+            "inputTokens": 16228,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16225,
+            "outputTokens": 38,
+            "reasoningOutputTokens": 23
+          }
+        },
+        {
+          "id": "CDX-03",
+          "tool_id": "mcp__codex_app__navigate_to_codex_page",
+          "elapsed_s": 2.61174237501109,
+          "cost_usd": 0.2041925,
+          "error": null,
+          "usage": {
+            "totalTokens": 16243,
+            "inputTokens": 16212,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16209,
+            "outputTokens": 31,
+            "reasoningOutputTokens": 13
+          }
+        },
+        {
+          "id": "CDX-04",
+          "tool_id": "mcp__codex_app__list_projects",
+          "elapsed_s": 4.281147708999924,
+          "cost_usd": 0.204155,
+          "error": null,
+          "usage": {
+            "totalTokens": 16237,
+            "inputTokens": 16205,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16202,
+            "outputTokens": 32,
+            "reasoningOutputTokens": 17
+          }
+        },
+        {
+          "id": "CDX-05",
+          "tool_id": "mcp__codex_app__create_thread",
+          "elapsed_s": 2.7981227909913287,
+          "cost_usd": 0.2048925,
+          "error": null,
+          "usage": {
+            "totalTokens": 16272,
+            "inputTokens": 16232,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16229,
+            "outputTokens": 40,
+            "reasoningOutputTokens": 25
+          }
+        },
+        {
+          "id": "CDX-06",
+          "tool_id": "mcp__codex_app__create_worktree",
+          "elapsed_s": 2.8958907079941127,
+          "cost_usd": 0.20443,
+          "error": null,
+          "usage": {
+            "totalTokens": 16247,
+            "inputTokens": 16211,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16208,
+            "outputTokens": 36,
+            "reasoningOutputTokens": 20
+          }
+        },
+        {
+          "id": "CDX-07",
+          "tool_id": "mcp__codex_app__fork_thread",
+          "elapsed_s": 3.196053249994293,
+          "cost_usd": 0.204805,
+          "error": null,
+          "usage": {
+            "totalTokens": 16262,
+            "inputTokens": 16221,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16218,
+            "outputTokens": 41,
+            "reasoningOutputTokens": 26
+          }
+        },
+        {
+          "id": "CDX-08",
+          "tool_id": "mcp__codex_app__attach_artifact",
+          "elapsed_s": 2.6809099170204718,
+          "cost_usd": 0.20333,
+          "error": null,
+          "usage": {
+            "totalTokens": 16225,
+            "inputTokens": 16211,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16208,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "CDX-09",
+          "tool_id": "mcp__codex_app__remove_artifact",
+          "elapsed_s": 2.9710157079971395,
+          "cost_usd": 0.204355,
+          "error": null,
+          "usage": {
+            "totalTokens": 16253,
+            "inputTokens": 16221,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16218,
+            "outputTokens": 32,
+            "reasoningOutputTokens": 16
+          }
+        },
+        {
+          "id": "CDX-10",
+          "tool_id": "mcp__codex_app__wait_threads",
+          "elapsed_s": 3.0178896670113318,
+          "cost_usd": 0.2044675,
+          "error": null,
+          "usage": {
+            "totalTokens": 16259,
+            "inputTokens": 16226,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 16223,
+            "outputTokens": 33,
+            "reasoningOutputTokens": 18
+          }
+        },
+        {
+          "id": "LIN-01",
+          "tool_id": "mcp__linear__get_issue",
+          "elapsed_s": 3.4145362499984913,
+          "cost_usd": 0.1939175,
+          "error": null,
+          "usage": {
+            "totalTokens": 15481,
+            "inputTokens": 15470,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15467,
+            "outputTokens": 11,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LIN-02",
+          "tool_id": "mcp__linear__list_issues",
+          "elapsed_s": 2.8210596659919247,
+          "cost_usd": 0.19528,
+          "error": null,
+          "usage": {
+            "totalTokens": 15527,
+            "inputTokens": 15495,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15492,
+            "outputTokens": 32,
+            "reasoningOutputTokens": 18
+          }
+        },
+        {
+          "id": "LIN-03",
+          "tool_id": "mcp__linear__get_project",
+          "elapsed_s": 3.4602616250049323,
+          "cost_usd": 0.19398,
+          "error": null,
+          "usage": {
+            "totalTokens": 15486,
+            "inputTokens": 15475,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15472,
+            "outputTokens": 11,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LIN-04",
+          "tool_id": "mcp__linear__list_comments",
+          "elapsed_s": 3.2369765829935204,
+          "cost_usd": 0.1952675,
+          "error": null,
+          "usage": {
+            "totalTokens": 15523,
+            "inputTokens": 15490,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15487,
+            "outputTokens": 33,
+            "reasoningOutputTokens": 20
+          }
+        },
+        {
+          "id": "LIN-05",
+          "tool_id": "mcp__linear__list_documents",
+          "elapsed_s": 2.843418499978725,
+          "cost_usd": 0.195355,
+          "error": null,
+          "usage": {
+            "totalTokens": 15548,
+            "inputTokens": 15521,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15518,
+            "outputTokens": 27,
+            "reasoningOutputTokens": 14
+          }
+        },
+        {
+          "id": "LIN-06",
+          "tool_id": "mcp__linear__get_document",
+          "elapsed_s": 3.1680269589996897,
+          "cost_usd": 0.193905,
+          "error": null,
+          "usage": {
+            "totalTokens": 15480,
+            "inputTokens": 15469,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15466,
+            "outputTokens": 11,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LIN-07",
+          "tool_id": "mcp__linear__list_diffs",
+          "elapsed_s": 3.0799327090207953,
+          "cost_usd": 0.19458,
+          "error": null,
+          "usage": {
+            "totalTokens": 15483,
+            "inputTokens": 15455,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15452,
+            "outputTokens": 28,
+            "reasoningOutputTokens": 14
+          }
+        },
+        {
+          "id": "LIN-08",
+          "tool_id": "mcp__linear__get_diff",
+          "elapsed_s": 3.069390124990605,
+          "cost_usd": 0.19408,
+          "error": null,
+          "usage": {
+            "totalTokens": 15494,
+            "inputTokens": 15483,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15480,
+            "outputTokens": 11,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LIN-09",
+          "tool_id": "mcp__linear__get_diff_threads",
+          "elapsed_s": 2.240229458984686,
+          "cost_usd": 0.19383,
+          "error": null,
+          "usage": {
+            "totalTokens": 15471,
+            "inputTokens": 15459,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15456,
+            "outputTokens": 12,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "LIN-10",
+          "tool_id": "mcp__linear__list_issue_statuses",
+          "elapsed_s": 3.485154791007517,
+          "cost_usd": 0.1951925,
+          "error": null,
+          "usage": {
+            "totalTokens": 15511,
+            "inputTokens": 15476,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 15473,
+            "outputTokens": 35,
+            "reasoningOutputTokens": 20
+          }
+        },
+        {
+          "id": "SLK-01",
+          "tool_id": "mcp__slack__slack_read_channel",
+          "elapsed_s": 3.933925499994075,
+          "cost_usd": 0.2157175,
+          "error": null,
+          "usage": {
+            "totalTokens": 17144,
+            "inputTokens": 17106,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17103,
+            "outputTokens": 38,
+            "reasoningOutputTokens": 22
+          }
+        },
+        {
+          "id": "SLK-02",
+          "tool_id": "mcp__slack__slack_read_thread",
+          "elapsed_s": 2.734444708999945,
+          "cost_usd": 0.2145925,
+          "error": null,
+          "usage": {
+            "totalTokens": 17126,
+            "inputTokens": 17112,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17109,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "SLK-03",
+          "tool_id": "mcp__slack__slack_search_channels",
+          "elapsed_s": 2.8845784580043983,
+          "cost_usd": 0.21458,
+          "error": null,
+          "usage": {
+            "totalTokens": 17125,
+            "inputTokens": 17111,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17108,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "SLK-04",
+          "tool_id": "mcp__slack__slack_search_public",
+          "elapsed_s": 2.980859084025724,
+          "cost_usd": 0.2144925,
+          "error": null,
+          "usage": {
+            "totalTokens": 17118,
+            "inputTokens": 17104,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17101,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "SLK-05",
+          "tool_id": "mcp__slack__slack_search_public_and_private",
+          "elapsed_s": 3.471902457997203,
+          "cost_usd": 0.2165925,
+          "error": null,
+          "usage": {
+            "totalTokens": 17190,
+            "inputTokens": 17144,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17141,
+            "outputTokens": 46,
+            "reasoningOutputTokens": 28
+          }
+        },
+        {
+          "id": "SLK-06",
+          "tool_id": "mcp__slack__slack_read_file",
+          "elapsed_s": 2.9070999170071445,
+          "cost_usd": 0.215555,
+          "error": null,
+          "usage": {
+            "totalTokens": 17143,
+            "inputTokens": 17109,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17106,
+            "outputTokens": 34,
+            "reasoningOutputTokens": 18
+          }
+        },
+        {
+          "id": "SLK-07",
+          "tool_id": "mcp__slack__slack_read_canvas",
+          "elapsed_s": 4.710588167014066,
+          "cost_usd": 0.2159675,
+          "error": null,
+          "usage": {
+            "totalTokens": 17170,
+            "inputTokens": 17134,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17131,
+            "outputTokens": 36,
+            "reasoningOutputTokens": 20
+          }
+        },
+        {
+          "id": "SLK-08",
+          "tool_id": "mcp__slack__slack_search_users",
+          "elapsed_s": 3.7494115000008605,
+          "cost_usd": 0.21438,
+          "error": null,
+          "usage": {
+            "totalTokens": 17109,
+            "inputTokens": 17095,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17092,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "SLK-09",
+          "tool_id": "mcp__slack__slack_read_user_profile",
+          "elapsed_s": 2.7078757920244243,
+          "cost_usd": 0.2146675,
+          "error": null,
+          "usage": {
+            "totalTokens": 17129,
+            "inputTokens": 17114,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17111,
+            "outputTokens": 15,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "SLK-10",
+          "tool_id": "mcp__slack__slack_list_channel_members",
+          "elapsed_s": 3.830909500014968,
+          "cost_usd": 0.21463,
+          "error": null,
+          "usage": {
+            "totalTokens": 17126,
+            "inputTokens": 17111,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 17108,
+            "outputTokens": 15,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "NOT-01",
+          "tool_id": "mcp__notion__notion_fetch",
+          "elapsed_s": 5.087139082985232,
+          "cost_usd": 0.2998675,
+          "error": null,
+          "usage": {
+            "totalTokens": 23951,
+            "inputTokens": 23938,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23935,
+            "outputTokens": 13,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "NOT-02",
+          "tool_id": "mcp__notion__notion_search",
+          "elapsed_s": 5.069963458983693,
+          "cost_usd": 0.301905,
+          "error": null,
+          "usage": {
+            "totalTokens": 24003,
+            "inputTokens": 23953,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23950,
+            "outputTokens": 50,
+            "reasoningOutputTokens": 35
+          }
+        },
+        {
+          "id": "NOT-03",
+          "tool_id": "mcp__notion__notion_get_comments",
+          "elapsed_s": 4.7098966669873334,
+          "cost_usd": 0.3021925,
+          "error": null,
+          "usage": {
+            "totalTokens": 24080,
+            "inputTokens": 24048,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 24045,
+            "outputTokens": 32,
+            "reasoningOutputTokens": 16
+          }
+        },
+        {
+          "id": "NOT-04",
+          "tool_id": "mcp__notion__notion_get_users",
+          "elapsed_s": 5.772417458007112,
+          "cost_usd": 0.29993,
+          "error": null,
+          "usage": {
+            "totalTokens": 23953,
+            "inputTokens": 23939,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23936,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "NOT-05",
+          "tool_id": "mcp__notion__notion_list_recent_pages",
+          "elapsed_s": 3.2208922500140034,
+          "cost_usd": 0.301105,
+          "error": null,
+          "usage": {
+            "totalTokens": 23966,
+            "inputTokens": 23925,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23922,
+            "outputTokens": 41,
+            "reasoningOutputTokens": 24
+          }
+        },
+        {
+          "id": "NOT-06",
+          "tool_id": "mcp__notion__notion_list_favorite_pages",
+          "elapsed_s": 2.8048388749884907,
+          "cost_usd": 0.2997675,
+          "error": null,
+          "usage": {
+            "totalTokens": 23934,
+            "inputTokens": 23918,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23915,
+            "outputTokens": 16,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "NOT-07",
+          "tool_id": "mcp__notion__notion_ai_search",
+          "elapsed_s": 5.171593999984907,
+          "cost_usd": 0.299905,
+          "error": null,
+          "usage": {
+            "totalTokens": 23951,
+            "inputTokens": 23937,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23934,
+            "outputTokens": 14,
+            "reasoningOutputTokens": 0
+          }
+        },
+        {
+          "id": "NOT-08",
+          "tool_id": "mcp__notion__notion_get_tool_access",
+          "elapsed_s": 5.939359749987489,
+          "cost_usd": 0.30128,
+          "error": null,
+          "usage": {
+            "totalTokens": 23998,
+            "inputTokens": 23963,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23960,
+            "outputTokens": 35,
+            "reasoningOutputTokens": 18
+          }
+        },
+        {
+          "id": "NOT-09",
+          "tool_id": "mcp__notion__notion_query_data_sources",
+          "elapsed_s": 5.831887042004382,
+          "cost_usd": 0.30178,
+          "error": null,
+          "usage": {
+            "totalTokens": 24044,
+            "inputTokens": 24011,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 24008,
+            "outputTokens": 33,
+            "reasoningOutputTokens": 16
+          }
+        },
+        {
+          "id": "NOT-10",
+          "tool_id": "mcp__notion__notion_get_async_task",
+          "elapsed_s": 2.9223632919893134,
+          "cost_usd": 0.301155,
+          "error": null,
+          "usage": {
+            "totalTokens": 23985,
+            "inputTokens": 23949,
+            "cachedInputTokens": 0,
+            "cacheWriteInputTokens": 23946,
+            "outputTokens": 36,
+            "reasoningOutputTokens": 19
+          }
+        }
+      ]
+    }
+  ]
+}

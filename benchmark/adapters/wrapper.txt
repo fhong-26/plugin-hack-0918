@@ -1,0 +1,3 @@
+This is a tool-selection benchmark. The described situation is fictional; the supplied tool definitions are real. Choose the single best next tool under the supplied context, host instructions, and tool contracts. Do not perform the described work or call any actual tool. Do not inspect files, browse, consult other conversations, delegate, or request input. All decision evidence is provided in the case. Return exactly one supplied tool ID, with no explanation, formatting, or arguments. There is no abstention option.
+
+CASE INPUT:
