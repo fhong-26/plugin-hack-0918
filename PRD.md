@@ -12,11 +12,13 @@ These benefits are hypotheses to validate, not current performance claims.
 
 ## 2. User and problem
 
-Target user: a developer using Codex across repositories with different tools and conventions.
+Target user: a developer using Codex with multiple tools, MCP integrations, and callable agents.
 
-User story: “When Codex searches my codebase, I want it to choose an appropriate method and remember my preferences, so I spend less time correcting it.”
+User story: “When Codex needs a capability, I want it to select an appropriate tool or agent quickly and consistently, following my preferences.”
 
-Initial problem: repeated choices between filename, exact-text, and semantic search can produce inconsistent behavior or unnecessary calls.
+Initial problem: overlapping capabilities create repeated selection decisions that may consume unnecessary reasoning, produce inconsistent choices, and require user correction.
+
+Repository search is the first MVP use case. The broader product can extend to routing among tools from connected MCP servers and selecting callable specialist agents, limited to capabilities registered with Rippletide and available to Codex.
 
 ## 3. MVP scope
 
@@ -25,6 +27,7 @@ Initial problem: repeated choices between filename, exact-text, and semantic sea
 - An installable Codex plugin for local Apple Silicon Macs using MLX; document the supported Codex version and runtime requirements.
 - A routing skill and local Python router, exposed through an MCP tool. MCP is internal integration; the user installs Rippletide as a plugin. This packaging is supported by the [official plugin architecture](https://developers.openai.com/plugins/concepts/plugins).
 - Three registered search routes: filename/path search, lexical search using `rg`, and one existing semantic-search integration when configured and available.
+- A bounded user acceptance pilot covering native tools, tools from at least two connected MCP servers, and two callable specialist agents. Register these specific capabilities for the pilot; repository search remains the first implementation use case.
 - Explicit user/project preferences, bounded model decisions, fallback to Codex, local decision logs, and a compact report available on request.
 - A reproducible evaluation harness comparing routing quality and complete coding tasks.
 
@@ -51,13 +54,13 @@ Choose and document one semantic provider during the integration milestone. A co
 
 ## 5. Decision behavior and integration
 
-The MVP uses an explicit handoff: Codex identifies an immediate search goal, calls Rippletide, then generates the selected tool's arguments. Recommendations are advisory; record overrides rather than claiming enforcement.
+The MVP uses an explicit handoff: Codex identifies an immediate goal, calls Rippletide, then generates the selected tool's arguments or agent delegation instructions. Start with repository search and apply the same contract to the registered MCP tools and specialist agents in the user acceptance pilot. Recommendations are advisory; record overrides rather than claiming enforcement.
 
 The documented `PreToolUse` hook already receives a tool name and its arguments. Consequently, this PRD does not depend on a hook pausing Codex between internal tool selection and argument generation. See the [official hooks documentation](https://learn.chatgpt.com/docs/hooks).
 
 | Stage | Required behavior |
 | --- | --- |
-| Request | Codex supplies the immediate goal, optional symbol/path, and up to two recent search observations. It does not enumerate candidates. |
+| Request | Codex supplies the immediate goal, operation family, relevant facts such as a symbol/path or bounded specialist assignment, and up to two recent observations. It does not enumerate candidates. |
 | Context | The plugin adds registered available routes, short descriptions, project facts, and preferences. Cap the model input at 1,024 tokens; omit old observations first and defer if essential information cannot fit. |
 | Rules | Filter unavailable/disallowed routes. Honor explicit instructions for the current task, then project preferences, then user defaults. Select immediately when a rule settles the choice or only one suitable route remains. |
 | Model | For unresolved choices, use the required Qwen backend to select from the remaining route IDs or `defer`. Use fixed decoding settings; tune any acceptance threshold on development data only. Model scores are not assumed to be calibrated confidence. |
@@ -68,6 +71,8 @@ The documented `PreToolUse` hook already receives a tool name and its arguments.
 The registry covers explicitly integrated tools; automatic discovery of every native Codex tool is not assumed. Repository text and tool output are data and cannot change preferences or registered candidates. Feedback updates configuration only when the user explicitly asks for a lasting preference. MVP feedback does not retrain the model.
 
 ## 6. Test use cases
+
+### 6.1 Functional and integration tests
 
 | ID | Scenario | Expected result |
 | --- | --- | --- |
@@ -86,6 +91,30 @@ The registry covers explicitly integrated tools; automatic discovery of every na
 | T13 | Developer overrides a recommendation | Codex can continue; override is recorded separately from router acceptance. |
 | T14 | Complete an expired-session bug fix | Codex uses routing, finds relevant code, edits it, and passes independent task acceptance tests; full time and usage are captured. |
 
+### 6.2 User acceptance tests in real Codex sessions
+
+These tests exercise the installed plugin as a developer would use it. A tester supplies ordinary task prompts, observes the result, and checks the decision report afterward. The tester must not manually call the router, name the expected route, or keep reminding Codex to use Rippletide. One-time setup, normal Codex permissions, and deliberate preference corrections are allowed; routine routing should continue autonomously.
+
+Prepare one empty project folder, a resettable existing project with a known bug and acceptance checks, and a second project with different preferences. Connect and register real tools from at least two MCP servers, including overlapping retrieval capabilities, and two callable specialists such as a code reviewer and a test specialist. Record the exact providers, agent invocation interfaces, versions, and fixtures before testing. Missing integrations are blocked tests, not passes; mocked tool/model responses do not satisfy this suite.
+
+| ID | User scenario and example prompt | User-visible acceptance and routing evidence |
+| --- | --- | --- |
+| U01 | **Start a new project.** From an empty folder: “Build a small task tracker using the starter requirements and connected documentation.” Then: “Find where tasks are stored and add a completed filter.” | The app meets the prepared requirements and the filter works in a manual walkthrough. Rippletide participates in eligible tool choices during creation and the follow-up; absence of an initial codebase does not stall it. |
+| U02 | **Work in an existing project.** “Investigate the sample expired-session issue and fix it in this project.” Make the issue available through a connected tracker. | Codex retrieves the correct issue, finds the relevant code, and produces a fix that passes the fixture's acceptance checks. The report distinguishes MCP retrieval and repository-search decisions from actions outside routing scope. |
+| U03 | **Choose between MCP tools.** Provide two connected retrieval services with known, partially overlapping content: “Find the current session-expiration requirements and explain what the implementation should do.” | A suitable registered MCP tool is selected and actually called. The answer cites the seeded authoritative requirement; unnecessary duplicate searches and wrong-source retrievals are recorded. Repeat with the relevant content in the other service. |
+| U04 | **Choose a specialist agent.** With reviewer and test-specialist agents available: “Have a suitable specialist identify missing regression tests for this change.” Repeat with a code-review assignment. | Rippletide recommends an appropriate callable agent for each bounded assignment. Codex supplies the delegation instructions, the selected agent runs, and its result is used. A recommendation without an actual agent invocation is insufficient. |
+| U05 | **Complete a mixed workflow.** “Use the connected requirements to implement the session-expiration change, verify it, and obtain a specialist review.” | One task uses native tools, an MCP tool, and a callable agent. Relevant selections have traceable handoffs and results; the user does not have to choose each capability. The delivered change satisfies the prepared requirements. |
+| U06 | **Switch project preferences.** Run comparable search tasks in two projects with different saved preferences, then explicitly save a correction in one project and repeat. | Each project follows its own preferences; the correction persists in the intended scope and does not change the other project's behavior. |
+| U07 | **Lose a dependency.** Disconnect a registered MCP server or make an agent unavailable, then repeat a relevant task. Separately stop the Qwen backend. | Unavailable capabilities are excluded or their invocation failure is handled. Codex uses an appropriate alternative or explains the missing prerequisite, without repeated routing requests or claims that a missing tool/agent ran. Model failure follows the existing deadline/fallback contract. |
+| U08 | **Inspect without interrupting.** Complete an eligible task, then ask: “Show how Rippletide chose the tools and agents for this task.” | The report matches actual calls and identifies rules, Qwen decisions, fallbacks, and overrides. Inspection and feedback are optional; completing the task does not require opening the report. |
+| U09 | **Compare enabled and disabled.** Repeat U02 and U05 with Rippletide enabled and disabled, starting fresh sessions from identical project snapshots. | Both runs are judged against the same task outcome. Capture total time, token usage where available, failed/unnecessary calls, and user interventions. Disabled runs contain no Rippletide decisions. |
+
+For every run, retain the prompt, project starting state, enabled capabilities/preferences, Codex session reference, routing decisions, subsequent tool/agent calls, final artifact or answer, acceptance result, and any human interventions. Link calls to `decision_id` where possible; manually correlate the session and trace when needed. Distinguish a recommendation that was followed, a Codex override, a fallback, and a routing call that never occurred.
+
+Count a required human intervention as an unplanned message or action needed to unblock or correct the task: choosing a tool/agent, reminding Codex to use Rippletide, correcting a wrong decision, supplying missing clarification, or manually recovering/retrying a stalled workflow. Record each event and its cause. Track initial setup, the initial task prompt, planned follow-up tasks, normal permission approvals, and optional inspection/feedback separately. A correction needed for task success still counts even if the tester volunteers it. Report total user interactions alongside this narrower intervention measure.
+
+The suite must demonstrate at least one real Qwen-selected decision followed by execution in each category: native tool, connected MCP tool, and callable agent. Include unresolved choices with multiple plausible candidates so rule-only successes cannot hide a broken model integration. Record skipped eligible routing decisions as failures of the plugin workflow, even when Codex independently completes the task.
+
 ## 7. Evaluation and success criteria
 
 All thresholds below are proposed MVP targets, not measured results. Freeze them and the reference hardware before the final evaluation.
@@ -97,6 +126,8 @@ Use at least 200 held-out labeled decisions and 40 complete tasks across at leas
 | Measure | MVP target |
 | --- | --- |
 | Contract and preference correctness | 100% of responses validate; no unavailable/disallowed selections; all explicit-preference tests pass. |
+| User acceptance and autonomy | U01–U09 meet their acceptance conditions in real sessions. Each capability category has a verified Qwen decision followed by execution. Successful normal-path runs require no manual router invocation, route selection, or extra routing approval; record setup, normal permissions, and deliberate feedback separately. |
+| Low human intervention | At least 90% of eligible task runs complete successfully with zero required human interventions. Average at most 0.2 required interventions per attempted run, and no increase versus Codex alone on the same tasks. Measure across U01–U05 and the normal-operation benchmark tasks; define this cohort before testing and report deliberate failure/feedback scenarios separately. |
 | Decision quality | At least 90% of selected routes match a human-approved label, with selection on at least 80% of answerable held-out requests. Report model-only accuracy and all fallbacks separately. |
 | Model contribution | D selects at least 10 percentage points more answerable requests than C, while maintaining the decision-quality target. This tests whether Qwen adds value beyond rules. |
 | Repeatability | At least 99% agreement with each packet's modal decision across 10 runs of 100 fixed packets. Report ties and rule/model results separately. |
@@ -105,6 +136,8 @@ Use at least 200 held-out labeled decisions and 40 complete tasks across at leas
 | Time and token savings | D reduces median complete-task time and mean Codex tokens per completed task by at least 10% versus A. Include failed attempts, routing requests, retries, fallbacks, and all reported token categories; report results against B/C as well. |
 
 For time comparisons, use tasks completed by both variants and publish completion rates alongside them. Tokens per completed task equals all tokens spent in an evaluation variant, including failures, divided by completed tasks. Also report cached-token usage and estimated billed cost when available, plus local inference time and memory; token reductions alone do not establish monetary savings. Claims remain provisional when run-to-run uncertainty could erase the observed gain.
+
+For the intervention criterion, divide successful runs with zero required interventions by all attempted runs in the predefined cohort. Include failed, stalled, and abandoned runs in that denominator; silent failure does not count as autonomous success. Report intervention counts and completion rates for A–D using the same definitions and permission settings.
 
 Engineering completion and product success are separate decisions: a working plugin can miss the performance targets. If D offers no useful improvement over B/C, document that result before expanding scope or investing in training.
 
@@ -115,6 +148,8 @@ Engineering completion and product success are separate decisions: a working plu
 - [ ] All three routes work in the evaluation environment; availability filtering, preferences, and fallback behavior are implemented.
 - [ ] Codex completes the request → recommendation → argument generation → execution flow, including override and failure paths.
 - [ ] T01–T14 pass their functional assertions; repeatability/performance measurements are reported against their targets.
+- [ ] U01–U09 have been exercised by a tester in actual Codex sessions, with evidence and pass/fail results. Native-tool, MCP-tool, and agent handoffs are verified with the required Qwen backend; no missing integration is marked as passed.
+- [ ] The evaluation report includes required-intervention counts, total user interactions, successful completion without intervention, and a comparison with Codex alone against the low-human-intervention targets.
 - [ ] Local traces and an on-request report show actual decisions and timings; unavailable usage/outcome data is identified.
 - [ ] The four-variant evaluation is reproducible, with fixtures, labels, settings, raw results, and a report showing pass/fail against every success criterion.
 - [ ] Installation, configuration, supported tools, limitations, disable/uninstall steps, and data locations are documented.
@@ -123,7 +158,7 @@ The MVP is engineering-complete when this checklist is satisfied. It is product-
 
 ## 9. Delivery sequence
 
-1. **Integration proof:** verify the requested model artifacts and one full Codex routing handoff; select the semantic integration and reference hardware.
-2. **Functional MVP:** add the three routes, rules, model selection, preferences, fallback, and traces; pass functional tests.
-3. **Evaluation:** freeze datasets and settings, run A–D, and publish the result against the targets.
+1. **Integration proof:** verify the requested model artifacts and one full Codex routing handoff; select the semantic integration, pilot MCP servers and callable agents, and reference hardware.
+2. **Functional MVP:** add the three search routes, bounded pilot capability registrations, rules, model selection, preferences, fallback, and traces; pass functional tests.
+3. **Evaluation:** run the real-session user acceptance suite, freeze benchmark datasets and settings, run A–D, and publish results against the targets.
 4. **Next decision:** expand only where results support it. Fine-tuning on reviewed corrections and RL remain later work.
