@@ -1,0 +1,50 @@
+{"id": "LOC-01", "tool_id": "exec_command", "reason": "Search local source with rg; no running session or known target code.", "ambiguity": null}
+{"id": "LOC-02", "tool_id": "exec_command", "reason": "Read the unstaged diff and source through a local shell; opening a panel would not inspect it.", "ambiguity": null}
+{"id": "LOC-03", "tool_id": "exec_command", "reason": "Start the already identified focused test command; no session exists.", "ambiguity": null}
+{"id": "LOC-04", "tool_id": "write_stdin", "reason": "Collect the result from the existing active unified execution session.", "ambiguity": null}
+{"id": "LOC-05", "tool_id": "write_stdin", "reason": "Send the authorized demo selection to the existing PTY prompt.", "ambiguity": null}
+{"id": "LOC-06", "tool_id": "view_image", "reason": "Inspect pixels in the known existing local screenshot.", "ambiguity": null}
+{"id": "LOC-07", "tool_id": "mcp__codex_app__open_in_codex", "reason": "Show the known screenshot in the requested right-hand app panel.", "ambiguity": null}
+{"id": "LOC-08", "tool_id": "mcp__codex_app__read_thread_terminal", "reason": "Read the desktop app terminal output, which has no unified execution session.", "ambiguity": null}
+{"id": "LOC-09", "tool_id": "mcp__codex_app__load_workspace_dependencies", "reason": "Resolve the configured bundled runtimes before building the workbook.", "ambiguity": null}
+{"id": "LOC-10", "tool_id": "exec_command", "reason": "Read the known local TOML configuration file.", "ambiguity": null}
+{"id": "CDX-01", "tool_id": "mcp__codex_app__list_threads", "reason": "Identify the active sidebar task before reading or navigating to its unknown ID.", "ambiguity": null}
+{"id": "CDX-02", "tool_id": "mcp__codex_app__read_thread", "reason": "Read findings from the known completed task without navigating away.", "ambiguity": null}
+{"id": "CDX-03", "tool_id": "mcp__codex_app__navigate_to_codex_page", "reason": "Display the known conversation in the main app window.", "ambiguity": null}
+{"id": "CDX-04", "tool_id": "mcp__codex_app__list_projects", "reason": "Resolve the project ID and Git flag required before task creation.", "ambiguity": null}
+{"id": "CDX-05", "tool_id": "mcp__codex_app__create_thread", "reason": "Create the explicitly requested separate project task after project discovery.", "ambiguity": null}
+{"id": "CDX-06", "tool_id": "mcp__codex_app__create_worktree", "reason": "Attach an isolated Git checkout to this same task.", "ambiguity": null}
+{"id": "CDX-07", "tool_id": "mcp__codex_app__fork_thread", "reason": "Copy the completed history into a same-directory task.", "ambiguity": null}
+{"id": "CDX-08", "tool_id": "mcp__codex_app__attach_artifact", "reason": "Attach the newly created implementation PR to the current task.", "ambiguity": null}
+{"id": "CDX-09", "tool_id": "mcp__codex_app__remove_artifact", "reason": "Remove only the selected task attachment without changing the PR.", "ambiguity": null}
+{"id": "CDX-10", "tool_id": "mcp__codex_app__wait_threads", "reason": "Wait for completion or attention in the active session with the known task and cursor.", "ambiguity": null}
+{"id": "LIN-01", "tool_id": "mcp__linear__get_issue", "reason": "Read the known issue with attachments and explicit blocking/related/duplicate relations.", "ambiguity": null}
+{"id": "LIN-02", "tool_id": "mcp__linear__list_issues", "reason": "Filter the issue set by assignee me, priority, team, status and update date; gitBranchName is selectable.", "ambiguity": null}
+{"id": "LIN-03", "tool_id": "mcp__linear__get_project", "reason": "Fetch the exact project with resources and its first page of directly attached customer needs.", "ambiguity": null}
+{"id": "LIN-04", "tool_id": "mcp__linear__list_comments", "reason": "Read both top-level and anchored project-description discussions with authors and quoted text.", "ambiguity": null}
+{"id": "LIN-05", "tool_id": "mcp__linear__list_documents", "reason": "Search multiple unknown project documents by topic and edited date with content fields.", "ambiguity": null}
+{"id": "LIN-06", "tool_id": "mcp__linear__get_document", "reason": "Fetch the body of the selected document by its known slug.", "ambiguity": null}
+{"id": "LIN-07", "tool_id": "mcp__linear__list_diffs", "reason": "List the authenticated user's pending open reviews in the known repository.", "ambiguity": null}
+{"id": "LIN-08", "tool_id": "mcp__linear__get_diff", "reason": "Perform an exact review lookup for the selected diff slug.", "ambiguity": null}
+{"id": "LIN-09", "tool_id": "mcp__linear__get_diff_threads", "reason": "Read unresolved diff discussion threads and the authenticated user's drafts.", "ambiguity": null}
+{"id": "LIN-10", "tool_id": "mcp__linear__list_issue_statuses", "reason": "Enumerate configured team workflow statuses, including empty statuses.", "ambiguity": null}
+{"id": "SLK-01", "tool_id": "mcp__slack__slack_read_channel", "reason": "Read the recent timeline in the resolved channel with limit 15.", "ambiguity": null}
+{"id": "SLK-02", "tool_id": "mcp__slack__slack_read_thread", "reason": "Retrieve the replies under the known parent message.", "ambiguity": null}
+{"id": "SLK-03", "tool_id": "mcp__slack__slack_search_channels", "reason": "Discover the channel by its name or purpose before its ID is known.", "ambiguity": null}
+{"id": "SLK-04", "tool_id": "mcp__slack__slack_search_public", "reason": "Search an unknown public discussion; private-search consent is absent.", "ambiguity": null}
+{"id": "SLK-05", "tool_id": "mcp__slack__slack_search_public_and_private", "reason": "Search the unresolved private-channel-or-DM conversation after explicit consent.", "ambiguity": null}
+{"id": "SLK-06", "tool_id": "mcp__slack__slack_read_file", "reason": "Read the known small text attachment by its file ID.", "ambiguity": null}
+{"id": "SLK-07", "tool_id": "mcp__slack__slack_read_canvas", "reason": "Retrieve both canvas Markdown and the section-ID mapping required for importer comparison.", "ambiguity": null}
+{"id": "SLK-08", "tool_id": "mcp__slack__slack_search_users", "reason": "Search workspace user profiles by role with no selected channel or individual.", "ambiguity": null}
+{"id": "SLK-09", "tool_id": "mcp__slack__slack_read_user_profile", "reason": "Read status and timezone for the confirmed known user ID.", "ambiguity": null}
+{"id": "SLK-10", "tool_id": "mcp__slack__slack_list_channel_members", "reason": "Read actual channel membership including bots and profile names, rather than message authors.", "ambiguity": null}
+{"id": "NOT-01", "tool_id": "mcp__notion__notion_fetch", "reason": "Fetch the known page body; enhanced Markdown prerequisite is already met.", "ambiguity": null}
+{"id": "NOT-02", "tool_id": "mcp__notion__notion_search", "reason": "Current access explicitly makes AI search unavailable, requiring ordinary keyword search.", "ambiguity": null}
+{"id": "NOT-03", "tool_id": "mcp__notion__notion_get_comments", "reason": "Retrieve the known ordinary anchored discussion's full replies after the complete page fetch.", "ambiguity": null}
+{"id": "NOT-04", "tool_id": "mcp__notion__notion_get_users", "reason": "Continue the unfiltered workspace roster using its existing pagination cursor.", "ambiguity": null}
+{"id": "NOT-05", "tool_id": "mcp__notion__notion_list_recent_pages", "reason": "Recover pages from the current user's recent visits when title and URL are unknown.", "ambiguity": null}
+{"id": "NOT-06", "tool_id": "mcp__notion__notion_list_favorite_pages", "reason": "List the current user's starred pages and databases in sidebar order.", "ambiguity": null}
+{"id": "NOT-07", "tool_id": "mcp__notion__notion_ai_search", "reason": "Current access says AI search is available, so its contract requires this tool even for title keywords.", "ambiguity": null}
+{"id": "NOT-08", "tool_id": "mcp__notion__notion_get_tool_access", "reason": "Obtain the mandated current access map before the first content search.", "ambiguity": null}
+{"id": "NOT-09", "tool_id": "mcp__notion__notion_query_data_sources", "reason": "Known schema and access support faithful rows mode preserving rich-text mentions and links.", "ambiguity": null}
+{"id": "NOT-10", "tool_id": "mcp__notion__notion_get_async_task", "reason": "Poll the known async operation handle after its suggested backoff has elapsed.", "ambiguity": null}

@@ -49,6 +49,16 @@ task time and 2.39× the Codex tokens with Rippletide. Trace-accounting gaps lea
 automatic acceptance unknown; wrong selections and Codex preference overrides
 were observed. See the [current report and prior comparison](docs/BENCHMARK_EXPERIMENT_REPORT.md).
 
+## Tool-choice benchmark
+
+Generate correctness, price and speed plots from the recorded 50-case comparison:
+
+```sh
+uv run benchmark/bench.py
+```
+
+[Benchmark instructions](benchmark/README.md) include a fresh Rippletide-versus-Codex run. The saved example measures the earlier Decision router, not this repository’s Rippletide plugin.
+
 ## Start here
 
 - [Product requirements](PRD.md): scope, user flow, routing behavior, test cases, definition of done, and proposed success criteria.
