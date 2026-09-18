@@ -48,10 +48,10 @@ The flow is:
 
 1. Codex sends an immediate goal and up to two relevant observations to Rippletide.
 2. Rippletide checks tool availability and applies explicit preferences.
-3. If rules do not settle the choice, the small model selects an allowed route or defers.
+3. If rules do not settle the choice, the small model selects the best allowed route.
 4. Codex supplies arguments. A hook checks the next registered call against that decision, then Codex executes it.
 
-The router defers to Codex on uncertainty, an unavailable dependency, excessive context, or its two-second deadline. Defer permits one fallback in the same operation family. Receipts are session/turn-scoped and single-use; missing or mismatched decisions trigger bounded corrections. This is a skill-driven handoff checked at supported tool boundaries, not universal interception of Codex's internal reasoning or arbitrary shell programs. Unregistered calls remain visible but are not claimed as routed. Recommendations alone never count as executed actions.
+The model must choose when inference succeeds and eligible routes remain. The router still defers to Codex for operational failures such as an unavailable dependency, excessive context, or its two-second deadline. Defer permits one fallback in the same operation family. Receipts are session/turn-scoped and single-use; missing or mismatched decisions trigger bounded corrections. This is a skill-driven handoff checked at supported tool boundaries, not universal interception of Codex's internal reasoning or arbitrary shell programs. Unregistered calls remain visible but are not claimed as routed. Recommendations alone never count as executed actions.
 
 ## Models
 

@@ -1,5 +1,9 @@
 # Local pilot results — 2026-09-18
 
+> Historical evidence: the implementation evaluated here offered model-level
+> defer. The current implementation forces successful inference to select an
+> eligible route while retaining operational and rules-based fallbacks.
+
 ## Outcome
 
 The local runtime, installable Codex plugin, real test tools, specialist agents,

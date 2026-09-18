@@ -39,7 +39,7 @@ RIPPLETIDE_MODEL=qwen3-0.6b uv run rippletide serve
 `serve --model ALIAS` is equivalent. Model selection happens at server startup,
 never through a model-generated routing argument. Omit it to retain `qwen25-rlcd`.
 Each server keeps one warm worker. Alternatives use their native chat templates,
-disabled thinking and validated single-token labels with an explicit defer option.
+disabled thinking and validated single-token labels that force the best eligible route.
 Cold startup and warm routing are reported separately.
 
 ## Routing checks and evidence

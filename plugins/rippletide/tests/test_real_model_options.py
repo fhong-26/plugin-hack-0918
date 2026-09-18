@@ -38,7 +38,7 @@ def test_all_pinned_models_load_reuse_and_bound_real_decisions(alias, project, c
             result = router.route(project_root=str(project), operation=operation, goal=goal)
             evidence["decisions"].append({"operation": operation, "goal": goal, "result": result,
                 "acceptable_routes": sorted(acceptable), "correct": result.get("route_id") in acceptable})
-            assert result["reason_code"] in {"MODEL_SELECTION", "MODEL_DEFER"}, result
+            assert result["reason_code"] == "MODEL_SELECTION", result
             assert result["input_tokens"] <= 1024 and result["elapsed_ms"] <= 2000
             assert result["worker_pid"] == evidence["worker"]["pid"]
             assert result["score_kind"] == "uncalibrated_candidate_softmax"
