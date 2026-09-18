@@ -1,11 +1,20 @@
 ---
 name: route-capabilities
-description: Use Rippletide preferences and the configured local decision model to choose registered repository-search tools, requirements/issue lookup tools, or a callable specialist for an already-defined task in a project configured with .rippletide/config.json. Other operations continue normally.
+description: Use Rippletide preferences and the configured local decision model to choose registered repository-search tools, requirements/issue lookup tools, or a callable specialist in a project configured with .rippletide/config.json. Also route synthetic fixture choices when the benchmark runner explicitly enables fixture_mode. Other operations continue normally.
 ---
 
 # Route registered capabilities
 
 Use the installed Rippletide `route` MCP tool before choosing among supported capabilities in a configured project. The operation families are `repository_search`, `knowledge_lookup`, and `specialist_assignment`. The router recommends a capability; you remain responsible for its arguments, execution, and interpreting results.
+
+In a benchmark project explicitly configured with `fixture_mode: true`, use
+`fixture_tool_use` for the complete registered fixture-tool set, including the
+choice to use no tool. Supply the immediate user need without guessing an expected
+answer. Route each materially different need separately and keep returned results
+as observations. This mode permits only the runner's local synthetic tool state
+changes; it does not authorize writes to remote MCPs. Do not inspect the fixture
+implementation, private state files, source catalog, or grader. A no-call outcome
+and a router defer are different events; report them honestly.
 
 Local filename inventories (`rg --files`) and text/symbol searches (`rg -n`) are
 `repository_search`, including the first inventory of a new workspace. They are

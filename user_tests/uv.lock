@@ -404,6 +404,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx2" },
+    { name = "jsonschema" },
     { name = "mcp" },
 ]
 
@@ -415,6 +416,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "httpx2", specifier = "==2.13.0" },
+    { name = "jsonschema", specifier = "==4.26.0" },
     { name = "mcp", specifier = "==2.2.0" },
 ]
 

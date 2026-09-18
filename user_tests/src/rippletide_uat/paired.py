@@ -155,13 +155,16 @@ def _hook_config(guard: Path) -> dict:
             "PostToolUse": [{"matcher": "*", "hooks": [handler]}]}
 
 
-async def probe_capabilities(servers: dict, capabilities: list[dict], environment: dict) -> dict:
+async def probe_capabilities(servers: dict, capabilities: list[dict], environment: dict, *, fixture_case=None, fixture_run=None) -> dict:
     """Check actual tools/list schemas; never issue a provider write or task call."""
     from mcp import Client, StdioServerParameters
     from mcp.client.streamable_http import streamable_http_client
     import httpx2
 
     evidence = {}
+    if fixture_case:
+        from .benchmarks.runner import verify_fixture_transport
+        verify_fixture_transport(servers, fixture_case, fixture_run)
     for name, server in servers.items():
         async with asyncio.timeout(30), AsyncExitStack() as stack:
             if "command" in server:
@@ -187,7 +190,7 @@ async def probe_capabilities(servers: dict, capabilities: list[dict], environmen
                 raise ValueError(f"Configured tools are missing from {name} tools/list")
             for tool in server["enabled_tools"]:
                 annotation = found[tool].annotations
-                if annotation and (annotation.destructive_hint is True or annotation.read_only_hint is False):
+                if annotation and (annotation.destructive_hint is True or (annotation.read_only_hint is False and not fixture_case)):
                     raise ValueError(f"Provider marks allowlisted {name}.{tool} as destructive or not read-only")
             evidence[name] = {"status": "ready", "source": "MCP tools/list", "checked_at": timestamp(), "tools": server["enabled_tools"]}
             for capability in capabilities:
@@ -235,12 +238,15 @@ def _prepare_config(name: str, run: Path, manifest: dict, *, phase: str) -> dict
             definition = arm_run / "probe-agent.toml"
             definition.write_text('name = "rippletide_probe"\ndescription = "Read-only readiness check"\ndeveloper_instructions = "Return readiness only. Do not edit, use tools or delegate."\n')
             config["agents"]["rippletide_probe"] = {"description": "Read-only readiness check", "config_file": str(definition)}
-    caps = native_capabilities() + arm.get("verified_capabilities", tools["capabilities"])
+    fixture = tools.get("benchmark_fixture")
+    caps = ([] if fixture else native_capabilities()) + arm.get("verified_capabilities", tools["capabilities"])
     for cap in caps:
         cap.setdefault("available", True)
     registry = {"version": 1, "registry_version": "paired-v1", "run_id": arm["run_id"],
                 "variant": "D" if name == "rippletide" else "A", "phase": phase,
                 "log_path": arm["router_events"], "preferences": tools["preferences"], "capabilities": caps}
+    if fixture:
+        registry["fixture_mode"] = True
     if name == "rippletide":
         require_workspace_path(workspace / ".rippletide/config.json", workspace)
         write_json(workspace / ".rippletide/config.json", registry)
@@ -432,7 +438,8 @@ def _preflight(name: str, run: Path, manifest: dict, codex: Path, timeout: float
         raise ValueError("Project contains a routing skill that would contaminate Codex-alone; use a source without that skill")
     host_probes = tool_profile["mcp_preflight"]
     direct_servers = {key: value for key, value in tool_profile["mcp_servers"].items() if key not in host_probes}
-    arm["capability_preflight"] = asyncio.run(probe_capabilities(direct_servers, tool_profile["capabilities"], environment))
+    arm["capability_preflight"] = asyncio.run(probe_capabilities(direct_servers, tool_profile["capabilities"], environment,
+        fixture_case=tool_profile.get("benchmark_fixture"), fixture_run=arm_run))
     if not authenticated(codex, arm_run / "codex-home", environment):
         raise ValueError("Private Codex profile has no recognized authentication")
     if name == "rippletide":
@@ -511,7 +518,11 @@ def _run_task(name: str, run: Path, manifest: dict, codex: Path, timeout: float,
         barrier.wait(timeout=30)
     arm["status"] = "running"
     arm["interventions"].append({"category": "planned_prompt", "timestamp": timestamp(), "description": "Initial task prompt"})
-    prompt = (TASK_BOUNDARY + "\nProject tool preferences (apply equally to both arms):\n" +
+    boundary = TASK_BOUNDARY
+    if profile["tools"].get("benchmark_fixture"):
+        from .benchmarks.runner import FIXTURE_BOUNDARY
+        boundary = FIXTURE_BOUNDARY
+    prompt = (boundary + "\nProject tool preferences (apply equally to both arms):\n" +
               json.dumps(profile["tools"]["preferences"], sort_keys=True) + "\nTask:\n" + manifest["prompt"])
     result = capture_session(codex, home=arm_run / "codex-home", workspace=workspace, run=arm_run,
                              environment=environment, prompt=prompt,
@@ -585,6 +596,12 @@ def execute_pair(run: Path, manifest: dict, *, codex: Path | None = None, timeou
             _preflight(name, run, manifest, codex, preflight_timeout, cancel)
             arm["status"] = "ready"
             save()
+        if manifest.get("benchmark_case"):
+            from .benchmarks.service import Fixture, fingerprint
+            for name, arm in manifest["arms"].items():
+                fixture = Fixture(run / name)
+                if fixture.events() or fingerprint(fixture.snapshot()) != arm["fixture_initial_state_sha256"]:
+                    raise ValueError("Host preflight touched benchmark state; retain this attempt and prepare a fresh pair")
         manifest["status"] = "running"
         manifest["task_started_at"] = timestamp()
         save()
@@ -614,6 +631,11 @@ def execute_pair(run: Path, manifest: dict, *, codex: Path | None = None, timeou
             suspended.pop(name, None)
         for name in ARMS:
             _acceptance(name, run, manifest, check_timeout, cancel)
+        if manifest.get("benchmark_case"):
+            from .benchmarks.grading import grade_pair
+            save()
+            grade_pair(run)
+            manifest.update(read_json(run / "pair.json"))
         manifest["status"] = "completed" if all(arm["status"] == "completed" for arm in manifest["arms"].values()) else "failed"
     except KeyboardInterrupt:
         cancel.set()

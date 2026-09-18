@@ -1,0 +1,555 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_multiple.json": {
+      "sha256": "aef168155ebd74b7ac2401198b201343bc7d16d7a3d7e0d4e6d8ee82c6969b2a",
+      "bytes": 316583
+    },
+    "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/possible_answer/BFCL_v4_multiple.json": {
+      "sha256": "244e00ce9395df948bcafc7bee64e8f9c87ef70887587d83cae45b13699f3047",
+      "bytes": 32254
+    },
+    "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_irrelevance.json": {
+      "sha256": "2b6ed4c2e992cdcf5f1678a701851f944bef7550ee026ed1ddb89efed5be01a6",
+      "bytes": 159940
+    },
+    "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_parallel_multiple.json": {
+      "sha256": "8863ea8433239f55c5f016154cf0830853c89f693c6ea270396a2fa121960579",
+      "bytes": 347080
+    },
+    "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/possible_answer/BFCL_v4_parallel_multiple.json": {
+      "sha256": "5ebf24f458c1f16300c05505d83d6f0a1b68b79be273a033febd0d4f840507e3",
+      "bytes": 74602
+    },
+    "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/eval_checker/eval_runner.py": {
+      "sha256": "b1033684908819ccb312d4d0e2c563359d69247412f00206013b2292b0e3ce81",
+      "bytes": 32756
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/scenarios/multiple_tool_call_scenarios.py": {
+      "sha256": "e2d351bebf9afec76d37263b02544120c78b687f4dd4501ab0a4b6c981ce1ff3",
+      "bytes": 265184
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/tools/utilities.py": {
+      "sha256": "7133d2cade24c0a5c3bf990d09f685446ff7037ab5062edca0ed7db19cc2b3e7",
+      "bytes": 8671
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/tools/reminder.py": {
+      "sha256": "4beb01ca7b0706a831f3cf53accdef4f089c08f95fbf2b78acbd7785dccb13a7",
+      "bytes": 10585
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/tools/contact.py": {
+      "sha256": "af2b97be6b03d1acf44cd2e34465942622a3453d9e052099a1028e0d17361a49",
+      "bytes": 8095
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/tools/setting.py": {
+      "sha256": "01cd0c5f45cc6ceadcd5935369f1260585bbc99852562ca30f81771b56a18e97",
+      "bytes": 6362
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/tools/messaging.py": {
+      "sha256": "d992831c735c44167b46f67ff45b11ad37fa70df951ebe9eac283c4b44e5607c",
+      "bytes": 7143
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/scenarios/base_scenarios.py": {
+      "sha256": "226bc95508de98b9abda46d209e8a7d6232b9afeae9c949021198916c4401f9d",
+      "bytes": 10833
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/common/evaluation.py": {
+      "sha256": "0425cff032bd1ca2ebe8cc1c875cdf2ea86463af24b2940734007d938e516ab3",
+      "bytes": 56027
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/tool_sandbox/common/scenario.py": {
+      "sha256": "95ca3ec161a8a66d98bfb1e00516a99c9f849f91bf10933e2d08aeb601543eb9",
+      "bytes": 10307
+    },
+    "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/LICENSE": {
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    },
+    "https://raw.githubusercontent.com/apple-aiml-research/ToolSandbox/c8571d7854316d2e1c5f288e59fe1e34e53f6dd1/LICENSE": {
+      "sha256": "2283d5566b38210fbfb9fcb06619f1d0a8101bff9df974ea8afc3393508e9015",
+      "bytes": 2668
+    }
+  },
+  "licenses": {
+    "BFCL": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n\n      \"Licensor\" shall mean the copyright owner or entity authorized by\n      the copyright owner that is granting the License.\n\n      \"Legal Entity\" shall mean the union of the acting entity and all\n      other entities that control, are controlled by, or are under common\n      control with that entity. For the purposes of this definition,\n      \"control\" means (i) the power, direct or indirect, to cause the\n      direction or management of such entity, whether by contract or\n      otherwise, or (ii) ownership of fifty percent (50%) or more of the\n      outstanding shares, or (iii) beneficial ownership of such entity.\n\n      \"You\" (or \"Your\") shall mean an individual or Legal Entity\n      exercising permissions granted by this License.\n\n      \"Source\" form shall mean the preferred form for making modifications,\n      including but not limited to software source code, documentation\n      source, and configuration files.\n\n      \"Object\" form shall mean any form resulting from mechanical\n      transformation or translation of a Source form, including but\n      not limited to compiled object code, generated documentation,\n      and conversions to other media types.\n\n      \"Work\" shall mean the work of authorship, whether in Source or\n      Object form, made available under the License, as indicated by a\n      copyright notice that is included in or attached to the work\n      (an example is provided in the Appendix below).\n\n      \"Derivative Works\" shall mean any work, whether in Source or Object\n      form, that is based on (or derived from) the Work and for which the\n      editorial revisions, annotations, elaborations, or other modifications\n      represent, as a whole, an original work of authorship. For the purposes\n      of this License, Derivative Works shall not include works that remain\n      separable from, or merely link (or bind by name) to the interfaces of,\n      the Work and Derivative Works thereof.\n\n      \"Contribution\" shall mean any work of authorship, including\n      the original version of the Work and any modifications or additions\n      to that Work or Derivative Works thereof, that is intentionally\n      submitted to Licensor for inclusion in the Work by the copyright owner\n      or by an individual or Legal Entity authorized to submit on behalf of\n      the copyright owner. For the purposes of this definition, \"submitted\"\n      means any form of electronic, verbal, or written communication sent\n      to the Licensor or its representatives, including but not limited to\n      communication on electronic mailing lists, source code control systems,\n      and issue tracking systems that are managed by, or on behalf of, the\n      Licensor for the purpose of discussing and improving the Work, but\n      excluding communication that is conspicuously marked or otherwise\n      designated in writing by the copyright owner as \"Not a Contribution.\"\n\n      \"Contributor\" shall mean Licensor and any individual or Legal Entity\n      on behalf of whom a Contribution has been received by Licensor and\n      subsequently incorporated within the Work.\n\n   2. Grant of Copyright License. Subject to the terms and conditions of\n      this License, each Contributor hereby grants to You a perpetual,\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n      copyright license to reproduce, prepare Derivative Works of,\n      publicly display, publicly perform, sublicense, and distribute the\n      Work and such Derivative Works in Source or Object form.\n\n   3. Grant of Patent License. Subject to the terms and conditions of\n      this License, each Contributor hereby grants to You a perpetual,\n      worldwide, non-exclusive, no-charge, royalty-free, irrevocable\n      (except as stated in this section) patent license to make, have made,\n      use, offer to sell, sell, import, and otherwise transfer the Work,\n      where such license applies only to those patent claims licensable\n      by such Contributor that are necessarily infringed by their\n      Contribution(s) alone or by combination of their Contribution(s)\n      with the Work to which such Contribution(s) was submitted. If You\n      institute patent litigation against any entity (including a\n      cross-claim or counterclaim in a lawsuit) alleging that the Work\n      or a Contribution incorporated within the Work constitutes direct\n      or contributory patent infringement, then any patent licenses\n      granted to You under this License for that Work shall terminate\n      as of the date such litigation is filed.\n\n   4. Redistribution. You may reproduce and distribute copies of the\n      Work or Derivative Works thereof in any medium, with or without\n      modifications, and in Source or Object form, provided that You\n      meet the following conditions:\n\n      (a) You must give any other recipients of the Work or\n          Derivative Works a copy of this License; and\n\n      (b) You must cause any modified files to carry prominent notices\n          stating that You changed the files; and\n\n      (c) You must retain, in the Source form of any Derivative Works\n          that You distribute, all copyright, patent, trademark, and\n          attribution notices from the Source form of the Work,\n          excluding those notices that do not pertain to any part of\n          the Derivative Works; and\n\n      (d) If the Work includes a \"NOTICE\" text file as part of its\n          distribution, then any Derivative Works that You distribute must\n          include a readable copy of the attribution notices contained\n          within such NOTICE file, excluding those notices that do not\n          pertain to any part of the Derivative Works, in at least one\n          of the following places: within a NOTICE text file distributed\n          as part of the Derivative Works; within the Source form or\n          documentation, if provided along with the Derivative Works; or,\n          within a display generated by the Derivative Works, if and\n          wherever such third-party notices normally appear. The contents\n          of the NOTICE file are for informational purposes only and\n          do not modify the License. You may add Your own attribution\n          notices within Derivative Works that You distribute, alongside\n          or as an addendum to the NOTICE text from the Work, provided\n          that such additional attribution notices cannot be construed\n          as modifying the License.\n\n      You may add Your own copyright statement to Your modifications and\n      may provide additional or different license terms and conditions\n      for use, reproduction, or distribution of Your modifications, or\n      for any such Derivative Works as a whole, provided Your use,\n      reproduction, and distribution of the Work otherwise complies with\n      the conditions stated in this License.\n\n   5. Submission of Contributions. Unless You explicitly state otherwise,\n      any Contribution intentionally submitted for inclusion in the Work\n      by You to the Licensor shall be under the terms and conditions of\n      this License, without any additional terms or conditions.\n      Notwithstanding the above, nothing herein shall supersede or modify\n      the terms of any separate license agreement you may have executed\n      with Licensor regarding such Contributions.\n\n   6. Trademarks. This License does not grant permission to use the trade\n      names, trademarks, service marks, or product names of the Licensor,\n      except as required for reasonable and customary use in describing the\n      origin of the Work and reproducing the content of the NOTICE file.\n\n   7. Disclaimer of Warranty. Unless required by applicable law or\n      agreed to in writing, Licensor provides the Work (and each\n      Contributor provides its Contributions) on an \"AS IS\" BASIS,\n      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or\n      implied, including, without limitation, any warranties or conditions\n      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A\n      PARTICULAR PURPOSE. You are solely responsible for determining the\n      appropriateness of using or redistributing the Work and assume any\n      risks associated with Your exercise of permissions under this License.\n\n   8. Limitation of Liability. In no event and under no legal theory,\n      whether in tort (including negligence), contract, or otherwise,\n      unless required by applicable law (such as deliberate and grossly\n      negligent acts) or agreed to in writing, shall any Contributor be\n      liable to You for damages, including any direct, indirect, special,\n      incidental, or consequential damages of any character arising as a\n      result of this License or out of the use or inability to use the\n      Work (including but not limited to damages for loss of goodwill,\n      work stoppage, computer failure or malfunction, or any and all\n      other commercial damages or losses), even if such Contributor\n      has been advised of the possibility of such damages.\n\n   9. Accepting Warranty or Additional Liability. While redistributing\n      the Work or Derivative Works thereof, You may choose to offer,\n      and charge a fee for, acceptance of support, warranty, indemnity,\n      or other liability obligations and/or rights consistent with this\n      License. However, in accepting such obligations, You may act only\n      on Your own behalf and on Your sole responsibility, not on behalf\n      of any other Contributor, and only if You agree to indemnify,\n      defend, and hold each Contributor harmless for any liability\n      incurred by, or claims asserted against, such Contributor by reason\n      of your accepting any such warranty or additional liability.\n\n   END OF TERMS AND CONDITIONS\n\n   APPENDIX: How to apply the Apache License to your work.\n\n      To apply the Apache License to your work, attach the following\n      boilerplate notice, with the fields enclosed by brackets \"[]\"\n      replaced with your own identifying information. (Don't include\n      the brackets!)  The text should be enclosed in the appropriate\n      comment syntax for the file format. We also recommend that a\n      file or class name and description of purpose be included on the\n      same \"printed page\" as the copyright notice for easier\n      identification within third-party archives.\n\n   Copyright [yyyy] [name of copyright owner]\n\n   Licensed under the Apache License, Version 2.0 (the \"License\");\n   you may not use this file except in compliance with the License.\n   You may obtain a copy of the License at\n\n       http://www.apache.org/licenses/LICENSE-2.0\n\n   Unless required by applicable law or agreed to in writing, software\n   distributed under the License is distributed on an \"AS IS\" BASIS,\n   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n   See the License for the specific language governing permissions and\n   limitations under the License.\n",
+    "ToolSandbox": "Copyright (C) 2024 Apple Inc. All Rights Reserved.\n\nIMPORTANT:  This Apple software is supplied to you by Apple\nInc. (\"Apple\") in consideration of your agreement to the following\nterms, and your use, installation, modification or redistribution of\nthis Apple software constitutes acceptance of these terms.  If you do\nnot agree with these terms, please do not use, install, modify or\nredistribute this Apple software.\n\nIn consideration of your agreement to abide by the following terms, and\nsubject to these terms, Apple grants you a personal, non-exclusive\nlicense, under Apple's copyrights in this original Apple software (the\n\"Apple Software\"), to use, reproduce, modify and redistribute the Apple\nSoftware, with or without modifications, in source and/or binary forms;\nprovided that if you redistribute the Apple Software in its entirety and\nwithout modifications, you must retain this notice and the following\ntext and disclaimers in all such redistributions of the Apple Software.\nNeither the name, trademarks, service marks or logos of Apple Inc. may\nbe used to endorse or promote products derived from the Apple Software\nwithout specific prior written permission from Apple.  Except as\nexpressly stated in this notice, no other rights or licenses, express or\nimplied, are granted by Apple herein, including but not limited to any\npatent rights that may be infringed by your derivative works or by other\nworks in which the Apple Software may be incorporated.\n\nThe Apple Software is provided by Apple on an \"AS IS\" basis.  APPLE\nMAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION\nTHE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS\nFOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND\nOPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.\n\nIN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL\nOR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF\nSUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS\nINTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,\nMODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED\nAND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),\nSTRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE\nPOSSIBILITY OF SUCH DAMAGE.\n\n-------------------------------------------------------------------------------\nSOFTWARE DISTRIBUTED WITH TOOLSANDBOX:\n\nThe ToolSandbox software includes a number of subcomponents with separate\ncopyright notices and license terms - please see the file ACKNOWLEDGEMENTS.\n-------------------------------------------------------------------------------\n"
+  },
+  "cases": {
+    "B01": {
+      "benchmark": "BFCL",
+      "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+      "entry_id": "multiple_5",
+      "source_path": "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_multiple.json",
+      "prompt": "What is the wind speed and temperature in location given by coordinates 46.603354,1.8883340 on December 13, 2019?",
+      "tools": [
+        {
+          "name": "weather.get_by_city_date",
+          "description": "Retrieves the historical weather data based on city and date.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string",
+                "description": "The city for which to retrieve the weather."
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "The date for which to retrieve the historical weather data in the format YYYY-MM-DD."
+              }
+            },
+            "required": [
+              "city",
+              "date"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "weather.get_forecast_by_coordinates",
+          "description": "Get the weather forecast for a specific geographical coordinates.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "The geographical coordinates for which to retrieve the weather. The first element of the tuple is the latitude and the second is the longitude."
+              },
+              "days_ahead": {
+                "type": "integer",
+                "description": "Number of days to forecast from current date (optional, default is 7)."
+              }
+            },
+            "required": [
+              "coordinates"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "weather.get_by_coordinates_date",
+          "description": "Retrieves the historical weather data based on coordinates and date.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "The geographical coordinates for which to retrieve the weather. The first element of the tuple is the latitude and the second is the longitude."
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "The date for which to retrieve the historical weather data in the format YYYY-MM-DD."
+              }
+            },
+            "required": [
+              "coordinates",
+              "date"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "oracle": {
+        "reference_calls": [
+          {
+            "weather.get_by_coordinates_date": {
+              "coordinates": [
+                [
+                  46.603354,
+                  1.888334
+                ]
+              ],
+              "date": [
+                "2019-12-13"
+              ]
+            }
+          }
+        ]
+      },
+      "source_entry_sha256": "09982a805f868807769461c2bb720a7e68a9705b6975d3a8bc0c57b7ed815c06"
+    },
+    "B02": {
+      "benchmark": "BFCL",
+      "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+      "entry_id": "irrelevance_55",
+      "source_path": "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_irrelevance.json",
+      "prompt": "Which online bookstore sells 'To Kill a Mockingbird'?",
+      "tools": [
+        {
+          "name": "add_product_to_cart",
+          "description": "This function allows users to add a product to their cart.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "product_id": {
+                "type": "integer",
+                "description": "The ID of the product"
+              },
+              "quantity": {
+                "type": "integer",
+                "description": "The number of this product to add to the cart"
+              },
+              "cart_id": {
+                "type": "integer",
+                "description": "The ID of the cart, if no ID is given a new cart is created",
+                "default": "0"
+              }
+            },
+            "required": [
+              "product_id",
+              "quantity"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "oracle": {
+        "reference_calls": []
+      },
+      "source_entry_sha256": "c2b2d74f3b7c14bfbb03ede3f1578f18b16e5f682da27eb496ae888ea617e818"
+    },
+    "B03": {
+      "benchmark": "BFCL",
+      "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+      "entry_id": "parallel_multiple_32",
+      "source_path": "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_parallel_multiple.json",
+      "prompt": "Get temperature and humidity forecast for Boston, USA and precipitation forecast for Rome, Italy for next 10 days.",
+      "tools": [
+        {
+          "name": "weather_forecast_precipitation",
+          "description": "Retrieve a precipitation forecast for a specific location for a certain number of days.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "The city that you want to get the precipitation forecast for."
+              },
+              "days": {
+                "type": "integer",
+                "description": "Number of days for the forecast."
+              }
+            },
+            "required": [
+              "location",
+              "days"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "weather_forecast_humidity",
+          "description": "Retrieve a humidity forecast for a specific location for a certain number of days.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "The city that you want to get the humidity forecast for."
+              },
+              "days": {
+                "type": "integer",
+                "description": "Number of days for the forecast."
+              }
+            },
+            "required": [
+              "location",
+              "days"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "weather_forecast_temperature",
+          "description": "Retrieve a temperature forecast for a specific location for a certain number of days.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "The city that you want to get the temperature forecast for."
+              },
+              "days": {
+                "type": "integer",
+                "description": "Number of days for the forecast."
+              }
+            },
+            "required": [
+              "location",
+              "days"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "oracle": {
+        "reference_calls": [
+          {
+            "weather_forecast_temperature": {
+              "location": [
+                "Boston, USA"
+              ],
+              "days": [
+                10
+              ]
+            }
+          },
+          {
+            "weather_forecast_humidity": {
+              "location": [
+                "Boston, USA"
+              ],
+              "days": [
+                10
+              ]
+            }
+          },
+          {
+            "weather_forecast_precipitation": {
+              "location": [
+                "Rome, Italy"
+              ],
+              "days": [
+                10
+              ]
+            }
+          }
+        ]
+      },
+      "source_entry_sha256": "dd4cc070110d9840ea6d210062472e030a7e4e9a0672a452232b6f41be8c3722"
+    },
+    "B04": {
+      "benchmark": "ToolSandbox",
+      "revision": "c8571d7854316d2e1c5f288e59fe1e34e53f6dd1",
+      "entry_id": "search_reminder_with_recency_upcoming",
+      "source_path": "tool_sandbox/scenarios/multiple_tool_call_scenarios.py",
+      "prompt": "What's my upcoming reminder",
+      "tools": [
+        {
+          "name": "search_reminder",
+          "description": "Search for a reminder based on provided arguments\n\nEach field has a search criteria of either\n1. Exact value matching\n2. Fuzzy string matching with a predefined threshold\n3. Range matching timestamp with upperbound or lowerbound\nSearch results contains all reminder entries that matched all criteria\n\nArgs:\n    reminder_id:                    String format unique identifier for the reminder person, will be exact matched\n    content:                        Content of the reminder, will be fuzzy matched\n    creation_timestamp_lowerbound:  Lowerbound of the POSIX timestamp of the time the reminder is created.\n    creation_timestamp_upperbound:  Upperbound of the POSIX timestamp of the time the reminder is created.\n    reminder_timestamp_lowerbound:  Lowerbound of the POSIX timestamp of the time the reminder should be reminded.\n    reminder_timestamp_upperbound:  Upperbound of the POSIX timestamp of the time the reminder should be reminded.\n    latitude:                       Latitude of the location associated with the reminder. Will be exact matched.\n    longitude:                      Longitude of the location associated with the reminder. Will be exact matched.\n\nReturns:\n    A List of matching reminders. An empty List if no matching contacts were found\n\nRaises:\n    ValueError: When all arguments were not provided",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "reminder_id": {
+                "type": "string",
+                "description": "String format unique identifier for the reminder person, will be exact matched"
+              },
+              "content": {
+                "type": "string",
+                "description": "Content of the reminder, will be fuzzy matched"
+              },
+              "creation_timestamp_lowerbound": {
+                "type": "number",
+                "description": "Lowerbound of the POSIX timestamp of the time the reminder is created."
+              },
+              "creation_timestamp_upperbound": {
+                "type": "number",
+                "description": "Upperbound of the POSIX timestamp of the time the reminder is created."
+              },
+              "reminder_timestamp_lowerbound": {
+                "type": "number",
+                "description": "Lowerbound of the POSIX timestamp of the time the reminder should be reminded."
+              },
+              "reminder_timestamp_upperbound": {
+                "type": "number",
+                "description": "Upperbound of the POSIX timestamp of the time the reminder should be reminded."
+              },
+              "latitude": {
+                "type": "number",
+                "description": "Latitude of the location associated with the reminder. Will be exact matched."
+              },
+              "longitude": {
+                "type": "number",
+                "description": "Longitude of the location associated with the reminder. Will be exact matched."
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "get_current_timestamp",
+          "description": "Get current POSIX timestamp\n\nReturns:\n    Float value POSIX timestamp",
+          "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "shift_timestamp",
+          "description": "Shifts a POSIX timestamp by provided deltas. Delta can be positive or negative.\n\nArgs:\n    timestamp:      POSIX timestamp to be shifted\n    weeks:          Number of weeks to add or subtract\n    days:           Number of days to add or subtract\n    hours:          Number of hours to add or subtract\n    minutes:        Number of minutes to add or subtract\n    seconds:        Number of seconds to add or subtract\n\n\nReturns:\n    A shifted POSIX timestamp with deltas applied",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "timestamp": {
+                "type": "number",
+                "description": "POSIX timestamp to be shifted"
+              },
+              "weeks": {
+                "type": "integer",
+                "description": "Number of weeks to add or subtract",
+                "default": 0
+              },
+              "days": {
+                "type": "integer",
+                "description": "Number of days to add or subtract",
+                "default": 0
+              },
+              "hours": {
+                "type": "integer",
+                "description": "Number of hours to add or subtract",
+                "default": 0
+              },
+              "minutes": {
+                "type": "integer",
+                "description": "Number of minutes to add or subtract",
+                "default": 0
+              },
+              "seconds": {
+                "type": "integer",
+                "description": "Number of seconds to add or subtract",
+                "default": 0
+              }
+            },
+            "required": [
+              "timestamp"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "timestamp_to_datetime_info",
+          "description": "Convert POSIX timestamp to a dictionary of date time information, including\n    [\"year\", \"month\", \"day\", \"hour\", \"minute\", \"second\", \"isoweekday\"]\n    isoweekday ranges from [1, 7]\n\nArgs:\n    timestamp:  Float representing POSIX timestamp\n\nReturns:\n    A dictionary of current date time information",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "timestamp": {
+                "type": "number",
+                "description": "Float representing POSIX timestamp"
+              }
+            },
+            "required": [
+              "timestamp"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "oracle": {
+        "mode": "local_milestone_contract",
+        "upstream_score": null
+      },
+      "source_entry_sha256": "b831b5af0a32eedaa978ff7efe923b89c0bab545979c64c1452d26d9458c2473"
+    },
+    "B05": {
+      "benchmark": "ToolSandbox",
+      "revision": "c8571d7854316d2e1c5f288e59fe1e34e53f6dd1",
+      "entry_id": "send_message_with_contact_content_cellular_off",
+      "source_path": "tool_sandbox/scenarios/multiple_tool_call_scenarios.py",
+      "prompt": "Send a message to Fredrik Thordendal saying: \"How's the new album coming along.\" Resolve any issue alone.",
+      "tools": [
+        {
+          "name": "search_contacts",
+          "description": "Search for a contact person based on provided arguments\n\nEach field has a search criteria of either\n1. Exact value matching\n2. Fuzzy string matching with a predefined threshold\nSearch results contains all contact entries that matched all criteria\n\nArgs:\n    person_id:      String format unique identifier for the contact person, will be exact matched\n    name:           Name of contact person, will be fuzzy matched\n    phone_number:   Phone number of contact person, will be exact matched\n    relationship:   Relationship between user and this contact, will be fuzzy matched\n    is_self:        If the requested contact corresponds to the current user. Will be exact matched\n\nReturns:\n    A List of matching contacts. An empty List if no matching contacts were found\n\nRaises:\n    ValueError: When all arguments were not provided",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "person_id": {
+                "type": "string",
+                "description": "String format unique identifier for the contact person, will be exact matched"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of contact person, will be fuzzy matched"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "Phone number of contact person, will be exact matched"
+              },
+              "relationship": {
+                "type": "string",
+                "description": "Relationship between user and this contact, will be fuzzy matched"
+              },
+              "is_self": {
+                "type": "boolean",
+                "description": "If the requested contact corresponds to the current user. Will be exact matched"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "send_message_with_phone_number",
+          "description": "Send a message to a recipient using phone_number\n\nArgs:\n    phone_number:   String format phone number to send the message to\n    content:        Message payload text\n\nReturns:\n    String format unique identifier for the message, this can be passed to other functions\n    which require a unique identifier for this message\n\nRaises:\n    ValueError:         If less than or more than 1 self entry was found\n    ConnectionError:    If cellular service is not on",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "phone_number": {
+                "type": "string",
+                "description": "String format phone number to send the message to"
+              },
+              "content": {
+                "type": "string",
+                "description": "Message payload text"
+              }
+            },
+            "required": [
+              "phone_number",
+              "content"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "set_cellular_service_status",
+          "description": "Enable / Disable cellular service\n\nArgs:\n    on: If we want to turn on cellular service\n\nReturns:\n\nRaises:\n    ValueError:         If cellular service is already turned on / off\n    PermissionError:    If low battery mode is on, in which case we are not allowed to turn on cellular service",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "on": {
+                "type": "boolean",
+                "description": "If we want to turn on cellular service"
+              }
+            },
+            "required": [
+              "on"
+            ],
+            "additionalProperties": false
+          }
+        },
+        {
+          "name": "get_cellular_service_status",
+          "description": "Request cellular service status\n\nReturns:\n    Boolean indicating if the cellular service is on",
+          "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "oracle": {
+        "mode": "local_milestone_contract",
+        "upstream_score": null
+      },
+      "source_entry_sha256": "5cfd3ce8efe09748e4d7b5042d82f997fc92a1f8270ae3d0d23504c4c0bba632"
+    }
+  },
+  "adaptations": [
+    "dict→object, tuple→array, float→number JSON transport; BFCL function dots mapped to double underscores",
+    "Synthetic weather values; fixed UTC clock; reduced synthetic reminder/contact state",
+    "Local executable reference/milestone checks; official upstream scorers not executed",
+    "No source Python is evaluated or executed; no hidden user-simulator messages are exposed"
+  ]
+}

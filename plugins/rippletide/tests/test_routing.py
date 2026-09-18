@@ -104,6 +104,22 @@ def test_invalid_requests_return_structured_defer(router, project, packet, reaso
     assert result["invocation"] is None and result["input_schema"] is None
 
 
+def test_fixture_mode_is_explicit_and_does_not_hide_single_candidate_relevance_risk(router, project, configure, tmp_path):
+    capability = {"id": "mcp.fixture.cart", "kind": "mcp", "operations": ["fixture_tool_use"],
+                  "description": "Add a product to a cart", "available": True,
+                  "invocation": {"server": "benchmark_fixture", "tool": "add_product_to_cart"}, "input_schema": {"type": "object"}}
+    configure(capabilities=[capability], variant="D")
+    request = {"project_root": str(project), "operation": "fixture_tool_use", "goal": "Find a bookstore"}
+    assert router.route(**request)["reason_code"] == "UNSUPPORTED_OPERATION"
+    (tmp_path / "global-preferences.json").write_text(json.dumps({"exclude": [capability["id"]]}))
+    configure(fixture_mode=True)
+    result = router.route(**request)
+    assert result["reason_code"] == "ONLY_CANDIDATE"
+    assert result["source"] == "rule"  # Existing product behavior, not a relevance pass.
+    assert result["route_id"] == capability["id"]
+    assert not router.worker.calls
+
+
 def test_rules_only_and_disabled_variants_never_call_model(router, project, configure):
     assert call(router, project)["reason_code"] == "RULES_ONLY_UNRESOLVED"
     for variant in ("A", "B"):

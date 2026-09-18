@@ -94,6 +94,28 @@ def parser() -> argparse.ArgumentParser:
     audit.add_argument("--call-id", required=True)
     audit.add_argument("--verdict", choices=["correct", "incorrect", "uncertain", "ungradable"], required=True)
     audit.add_argument("--reason", required=True)
+    benchmark = commands.add_parser("benchmark", help="Five pinned benchmark-derived synthetic tool scenarios")
+    actions = benchmark.add_subparsers(dest="benchmark_command", required=True)
+    actions.add_parser("list", help="List the five public task definitions")
+    actions.add_parser("verify-sources", help="Re-fetch immutable upstream sources and check the bundled extraction")
+    for action in ("prepare", "run"):
+        command = actions.add_parser(action)
+        if action == "prepare":
+            command.add_argument("--case", choices=[f"B{i:02}" for i in range(1, 6)], required=True)
+        else:
+            command.add_argument("--cases", nargs="+", choices=[f"B{i:02}" for i in range(1, 6)], default=[f"B{i:02}" for i in range(1, 6)])
+            command.add_argument("--repeat", type=int, default=1)
+            command.add_argument("--timeout", type=float, default=180)
+            command.add_argument("--preflight-timeout", type=float, default=180)
+            command.add_argument("--codex", type=Path)
+        command.add_argument("--output-root", type=Path)
+        command.add_argument("--mode", choices=["parallel", "sequential"], default="parallel")
+        command.add_argument("--router-model", choices=["qwen25-rlcd", "qwen3-0.6b", "minicpm5-2b", "qwen3.5-4b"], default="qwen25-rlcd")
+        command.add_argument("--model", help="Use the same explicitly chosen Codex model for both arms")
+        command.add_argument("--effort", choices=["minimal", "low", "medium", "high", "xhigh"])
+    for action in ("serve", "check", "report"):
+        command = actions.add_parser(action)
+        command.add_argument("--run", type=Path, required=True, help="Pair directory; serve alone takes its baseline or rippletide subdirectory")
     return root
 
 
@@ -101,7 +123,35 @@ def main():
     args = parser().parse_args()
     exit_code = 0
     try:
-        if args.command == "configure":
+        if args.command == "benchmark":
+            from .benchmarks import CASE_IDS, case_spec, catalog
+            from .benchmarks.runner import prepare as prepare_benchmark, run_cases
+            action = args.benchmark_command
+            if action == "list":
+                result = {case: {key: case_spec(case)[key] for key in ("benchmark", "entry_id", "prompt")} for case in CASE_IDS}
+            elif action == "verify-sources":
+                from .benchmarks.sources import extract
+                if extract() != catalog():
+                    raise ValueError("Bundled catalog differs from upstream extraction; review before using it")
+                result = {"verified": True, "cases": list(CASE_IDS), "source_files": len(catalog()["sources"])}
+            elif action in {"prepare", "run"}:
+                options = dict(output_root=args.output_root, mode=args.mode, router_model=args.router_model, model=args.model, effort=args.effort)
+                if action == "prepare":
+                    run, manifest = prepare_benchmark(args.case, **options)
+                    result = {"run": str(run), "case": args.case, "prompt": manifest["prompt"], "status": "prepared", "tasks_started": False}
+                else:
+                    result = run_cases(args.cases, repeat=args.repeat, codex=args.codex, timeout=args.timeout, preflight_timeout=args.preflight_timeout, **options)
+                    exit_code = 0 if result["runs"] and all(run["status"] == "completed" and all(arm["status"] == "passed" for arm in run["results"].values()) for run in result["runs"]) else 1
+            elif action == "serve":
+                from .benchmarks.service import serve as serve_benchmark
+                asyncio.run(serve_benchmark(args.run.resolve()))
+                return
+            else:
+                from .benchmarks.grading import report as report_benchmark
+                result = report_benchmark(args.run.resolve())
+                if action == "check":
+                    exit_code = 0 if all(arm["status"] == "passed" for arm in result["results"].values()) else 1
+        elif args.command == "configure":
             from .profiles import argv_value, configure
             result = configure(args.repo, bootstrap=[argv_value(value) for value in args.bootstrap_argv],
                                checks=[argv_value(value) for value in args.check_argv],
