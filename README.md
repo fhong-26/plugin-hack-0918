@@ -58,7 +58,7 @@ Codex can still answer in text when the task needs no further tool call.
 There is one selection before each sampling request, including after tool results.
 Full context is preserved up to the selected local model's context capacity.
 Oversized requests fail explicitly. Cold model loading has a separate deadline;
-warm inference retains the existing two-second deadline.
+full-context inference has a 60-second deadline.
 
 See the [selection contract](docs/SELECTION_CONTRACT.md) and
 [plugin/backend details](plugins/rippletide/README.md).

@@ -39,7 +39,7 @@ These are the repository's existing local options, not OpenJev's GGUF builds.
 `RIPPLETIDE_MODEL=ALIAS uv run rippletide serve` selects it. Each server keeps one
 warm worker. `RIPPLETIDE_DATA_DIR` overrides the model data directory.
 
-Cold loading waits up to 90 seconds, separately from the two-second inference
+Cold loading waits up to 90 seconds, separately from the 60-second inference
 limit. Candidate labels are distinct validated single tokens, including catalogs
 larger than 26 tools. Requests exceeding token or label capacity fail explicitly.
 

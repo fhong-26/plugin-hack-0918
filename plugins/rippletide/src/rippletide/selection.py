@@ -4,7 +4,8 @@ import math
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from rippletide.identity import ROUTE_TIMEOUT_SECONDS
+# Full Codex context is substantially larger than the old compact routing packet.
+SELECTION_TIMEOUT_SECONDS = 60
 
 
 class Tool(BaseModel):
@@ -40,7 +41,7 @@ def select_tool(worker, **parameters) -> dict:
             "context": request.context,
             "candidates": [{"id": tool.name, "description": tool.description}
                            for tool in request.tools],
-        }, timeout=ROUTE_TIMEOUT_SECONDS)
+        }, timeout=SELECTION_TIMEOUT_SECONDS)
     except Exception:
         return {"status": "error", "reason_code": "MODEL_ERROR"}
     if not isinstance(result, dict):
