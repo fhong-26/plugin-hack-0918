@@ -37,7 +37,7 @@ Select an already installed router model or another Codex model explicitly:
 uv run benchmark/bench.py run --router-model qwen3-0.6b --codex-model gpt-6-astra
 ```
 
-Rippletide's existing context bound, candidate sorting and routing deadline remain active. Oversized-input errors and operational defers are failures; the benchmark never shortens real descriptions to make a model accept them. Setup/model loading is recorded separately. The adapter invokes the real `Router.route` method with a temporary registry and neutral preferences; it does not exercise MCP transport or hook enforcement. Codex uses fresh ephemeral conversations with full candidate descriptions supplied as text. Shell, web, apps, MCP execution, hooks and memories are disabled; a read-only sandbox is enforced, and any observed tool attempt fails the run. Both timing boundaries are recorded in `results.json`.
+Rippletide uses its full-context `select_tool` API, the selected model's native context limit, and its 60-second selection deadline. Full task context, tool descriptions and candidate order are preserved, with no registry or preference filtering. Inputs that exceed the actual model window still fail; the benchmark never truncates descriptions. Setup/model loading is recorded separately. This tests the same selector used by the plugin, without MCP transport or hook enforcement. Codex uses fresh ephemeral conversations with full candidate descriptions supplied as text. Shell, web, apps, MCP execution, hooks and memories are disabled; a read-only sandbox is enforced, and any observed tool attempt fails the run. Both timing boundaries are recorded in `results.json`.
 
 Replot any completed result:
 
