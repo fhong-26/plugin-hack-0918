@@ -25,6 +25,29 @@ benchmark score.
 contains per-case metrics, requests → selections → linked call IDs, actual
 fixture calls, final responses, state observations and provenance.
 
+## How the test set was constructed
+
+We hand-selected **three BFCL cases and two ToolSandbox scenarios before running
+the experiments**, covering five distinct behaviors: choosing between similar
+tools, rejecting an irrelevant tool, completing multiple calls, obtaining a time
+prerequisite, and recovering a state-changing workflow. This is a small diagnostic
+set, not a random or representative sample of either benchmark.
+
+- **Source material:** retained the original public requests and tool definitions
+  from pinned upstream revisions, with source hashes and licenses in the
+  [source catalog](../user_tests/src/rippletide_uat/benchmarks/catalog.json).
+- **Executable environment:** adapted tool names/types to MCP and implemented
+  local tools with isolated SQLite state, synthetic responses and a fixed fixture
+  clock where needed. No real weather, shopping or messaging service was used.
+- **Ground truth:** derived local checks from BFCL reference calls/no-call rules
+  and ToolSandbox prerequisite milestones, expected content and resulting state.
+  Added explicit local safety checks, such as exactly one message. These are
+  adapted checks, **not the official benchmark evaluators**.
+- **Fair comparison:** created fresh workspaces and databases for each arm, using
+  the same request, task tools and starting data. Expected answers and graders
+  stayed outside the presented project workspaces. The fixtures and checks were
+  frozen before execution and unchanged between the two reported suites.
+
 ## What was tested
 
 | Item | Configuration |
