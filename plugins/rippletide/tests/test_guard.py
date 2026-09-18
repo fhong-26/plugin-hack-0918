@@ -87,6 +87,20 @@ def test_mcp_and_agent_route_matching(case):
     assert instance.handle(event("collaborationspawn_agent", arguments={"agent_type": "reviewer", "task_name": "review", "message": "opaque"}), config) == {}
 
 
+def test_fixture_receipts_require_explicit_mode_and_are_single_use(case):
+    instance, _, config = case
+    config["capabilities"] = [{"id": "mcp.fixture.clock", "kind": "mcp", "available": True,
+                               "operations": ["fixture_tool_use"],
+                               "invocation": {"server": "benchmark_fixture", "tool": "get_current_timestamp"}}]
+    issue(case, route="mcp.fixture.clock", operation="fixture_tool_use")
+    clock = event("mcp__benchmark_fixture__get_current_timestamp", arguments={})
+    assert blocked(instance.handle(clock, config))
+    config["fixture_mode"] = True
+    issue(case, route="mcp.fixture.clock", operation="fixture_tool_use", decision="fixture")
+    assert instance.handle(clock, config) == {}
+    assert blocked(instance.handle({**clock, "tool_use_id": "again"}, config))
+
+
 def test_concurrent_execution_claims_receipt_once(case):
     instance, _, config = case
     issue(case)

@@ -68,3 +68,30 @@ private; presentation outputs are escaped/redacted. External provider access is
 read-only. Failures, interventions, fallback and unsupported hook paths remain
 visible. Neither a successful process nor a successful final patch proves routing
 or benchmark success.
+
+## Benchmark-fixture extension
+
+The additive `benchmark_fixture: B01|B02|B03|B04|B05` profile field accepts only
+the exact built-in local transport/catalog, no custom commands, URLs, credentials,
+agents or preferences. It enables synthetic non-destructive fixture writes without
+changing the normal remote MCP policy. The transport uses isolated Python mode
+so a task workspace cannot shadow the installed fixture package.
+
+Generated registries set `fixture_mode: true` and register `fixture_tool_use`.
+The router and guard require that explicit mode; global preferences are excluded
+for these paired experiments. All normal routing behavior, including the existing
+single-candidate rule, is otherwise preserved. The three public MCP operations
+remain unchanged.
+
+Pair manifests add `benchmark_case`, adapter/catalog/implementation fingerprints,
+product commit/runtime fingerprint and starting-state hashes. Each arm owns a
+separate `fixture/` directory outside its presented workspace. Host preflight
+must not call fixture tools or change their state. Oracle/source catalogs stay
+outside the agent-visible project.
+
+`benchmark-results-private.json` contains local case-level checks and recommendation
+grades; `benchmark-grades/` retains grading attempts. `fixture-grades.jsonl` carries
+only evidence-backed per-call grades for the shared report. Absence, omitted calls
+and multiplicity require the separate case-level result. Official upstream scores
+are null until their evaluators are integrated; local adapters must not claim
+official BFCL/ToolSandbox scores. See [the implementation guide](../user_tests/BENCHMARKS.md).

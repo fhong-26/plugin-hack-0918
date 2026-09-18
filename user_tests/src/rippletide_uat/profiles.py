@@ -45,10 +45,13 @@ def validate_tool_config(config: dict) -> dict:
     by environment-variable name, never stored in profiles or report manifests.
     User-approved commands themselves are trusted executable configuration.
     """
-    if not isinstance(config, dict) or set(config) - {"mcp_servers", "capabilities", "agents", "preferences", "environment_names", "mcp_preflight"}:
+    if not isinstance(config, dict) or set(config) - {"mcp_servers", "capabilities", "agents", "preferences", "environment_names", "mcp_preflight", "benchmark_fixture"}:
         raise ValueError("Tool config permits only mcp_servers, capabilities, agents, preferences, environment_names and mcp_preflight")
     result = {"mcp_servers": {}, "capabilities": [], "agents": {}, "preferences": {}, "environment_names": [], "mcp_preflight": {}}
     result.update(config)
+    if result.get("benchmark_fixture"):
+        from .benchmarks.runner import validate_fixture_profile
+        validate_fixture_profile(result)
     for name in result["environment_names"]:
         if not isinstance(name, str) or not ENV_NAME.fullmatch(name):
             raise ValueError("environment_names must contain environment-variable names only")
@@ -82,7 +85,8 @@ def validate_tool_config(config: dict) -> dict:
         if entry["id"] in seen or not entry["id"].startswith(("mcp.", "agent.")):
             raise ValueError("Configured capability IDs must be unique mcp.* or agent.* identifiers")
         seen.add(entry["id"])
-        if not entry["operations"] or set(entry["operations"]) - OPERATIONS:
+        operations = OPERATIONS | ({"fixture_tool_use"} if result.get("benchmark_fixture") else set())
+        if not entry["operations"] or set(entry["operations"]) - operations:
             raise ValueError("Unsupported capability operation")
         invocation = entry["invocation"]
         if entry["kind"] == "mcp":

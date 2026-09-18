@@ -132,6 +132,8 @@ class Router:
 
         if config.variant in {"A", "B"}:
             return finish("ROUTER_DISABLED")
+        if request.operation == "fixture_tool_use" and not config.fixture_mode:
+            return finish("UNSUPPORTED_OPERATION")
         registered_operations = {operation for cap in config.capabilities for operation in cap.operations}
         if request.operation not in registered_operations | {"repository_search", "knowledge_lookup", "specialist_assignment"}:
             return finish("UNSUPPORTED_OPERATION")

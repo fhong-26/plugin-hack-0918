@@ -19,7 +19,7 @@ import sys
 import time
 
 
-OPERATIONS = {"repository_search", "knowledge_lookup", "specialist_assignment"}
+OPERATIONS = {"repository_search", "knowledge_lookup", "specialist_assignment", "fixture_tool_use"}
 MAX_CORRECTIONS = 2
 MAX_RECEIPT_AGE = 300
 
@@ -265,6 +265,9 @@ class Guard:
             self.record(event, "hook_started", configured=config is not None)
             if observed:
                 return {}
+            if config.get("fixture_mode"):
+                return {"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext":
+                        "Rippletide benchmark fixture mode is enabled. Before choosing whether or which registered fixture tool to use, call Rippletide route with operation=fixture_tool_use, this project_root and the immediate goal. This includes deciding no tool is suitable. Wait for the decision, supply arguments yourself and execute only the selection. A defer returns the choice to you; do not repeat an unchanged request. Each selection authorizes one call. All fixture side effects are synthetic and local; normal external permissions are unchanged. Do not inspect private fixture files or graders."}}
             return {"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext":
                     "Rippletide routing is enabled for this project. Before registered repository searches (including rg --files), MCP information lookups, or named specialist choices, call the installed Rippletide route tool with your immediate goal. Wait for its selection, then supply arguments and execute it. Each decision permits one matching call; a defer permits one fallback. Ordinary direct reads, edits, and tests are not routed. Do not route the router itself. Hooks check this workflow; preserve user permissions."}}
         if hook == "PostToolUse":
@@ -284,7 +287,8 @@ class Guard:
                     response = {"decision_id": "fallback-" + digest([scope, turn, call]), "status": "defer",
                                 "source": "fallback", "reason_code": "ROUTER_CALL_FAILED", "route_id": None}
                 operation = request.get("operation")
-                if operation not in OPERATIONS or Path(request.get("project_root", "")).resolve() != self.root:
+                if (operation not in OPERATIONS or (operation == "fixture_tool_use" and not (config or {}).get("fixture_mode"))
+                        or Path(request.get("project_root", "")).resolve() != self.root):
                     self.record(event, "hook_error", reason_code="INVALID_ROUTE_SCOPE")
                     return {}
                 if response["status"] == "selected" and response.get("route_id") not in {cap["id"] for cap in capabilities}:

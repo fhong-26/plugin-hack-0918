@@ -312,7 +312,7 @@ def share_view(evidence: dict) -> dict:
             routing = call["routing"]
             matched = next((d for d in arm["decisions"] if d["decision_id"] == routing.get("decision_id")), None)
             operation = (matched.get("request") or {}).get("operation") if matched else None
-            operation = operation if operation in {"repository_search", "knowledge_lookup", "specialist_assignment"} else "unknown"
+            operation = operation if operation in {"repository_search", "knowledge_lookup", "specialist_assignment", "fixture_tool_use"} else "unknown"
             rows.append({"step": number, "choice_id": "choice_" + digest(call["choice_id"])[:16], "tool": label(call), "context": operation,
                          "prior_observations": len(call["context_before"]), "covered": bool(call["capability_ids"]),
                          "decision": matched.get("status") if matched and matched.get("status") in {"selected", "defer"} else "unknown" if name == "rippletide" else "not_applicable",
@@ -323,7 +323,7 @@ def share_view(evidence: dict) -> dict:
         for index, decision in enumerate(arm["decisions"], 1):
             request = decision.get("request") or {}
             operation = request.get("operation")
-            decision_rows.append({"decision": index, "operation": operation if operation in {"repository_search", "knowledge_lookup", "specialist_assignment"} else "unknown",
+            decision_rows.append({"decision": index, "operation": operation if operation in {"repository_search", "knowledge_lookup", "specialist_assignment", "fixture_tool_use"} else "unknown",
                                   "status": decision.get("status") if decision.get("status") in {"selected", "defer"} else "unknown",
                                   "source": decision.get("source") if decision.get("source") in {"model", "rule", "fallback"} else "unknown",
                                   "linked_call_count": len(decision["linked_call_ids"]),

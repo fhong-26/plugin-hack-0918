@@ -36,6 +36,7 @@ class ProjectConfig(BaseModel):
     run_id: str | None = None
     phase: Literal["preflight", "task", "acceptance", "grading"] = "task"
     variant: Literal["A", "B", "C", "D"] = "D"
+    fixture_mode: bool = False
     log_path: str | None = None
     preferences: Preferences = Field(default_factory=Preferences)
     capabilities: list[Capability] = Field(default_factory=list)
@@ -80,7 +81,7 @@ def load_config(project_root: str) -> tuple[ProjectConfig, Preferences, Path]:
     if len(ids) != len(set(ids)):
         raise ValueError("capability IDs must be unique")
     global_path = global_preferences_path()
-    global_pref = Preferences.model_validate_json(global_path.read_text()) if global_path.exists() else Preferences()
+    global_pref = Preferences.model_validate_json(global_path.read_text()) if global_path.exists() and not config.fixture_mode else Preferences()
     effective = Preferences(
         prefer={**global_pref.prefer, **config.preferences.prefer},
         exclude=list(dict.fromkeys(global_pref.exclude + config.preferences.exclude)),

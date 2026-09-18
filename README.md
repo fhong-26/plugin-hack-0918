@@ -32,11 +32,27 @@ No push, PR, ticket update, or modification of your original checkout is perform
 Use `--mode sequential --repeat 3` for repeated comparisons without simultaneous
 resource contention. One pair cannot establish speed, cost, or determinism.
 
+### Five ground-truth scenarios
+
+After [setup](#setup) with **this branch's plugin**:
+
+```sh
+uv run --locked --project user_tests rippletide-uat benchmark run --cases B01 B02 B03 B04 B05
+```
+
+This creates fresh paired worktrees and synthetic tools, then checks calls/state
+against local contracts derived from pinned BFCL/ToolSandbox entries. No Linear,
+shopping or SMS account is used. See [benchmark setup and grading limits](user_tests/BENCHMARKS.md).
+These are adapted user tests, **not official benchmark scores**; live comparative
+results are still pending in the [experiment tracker](docs/BENCHMARK_EXPERIMENT_REPORT.md).
+
 ## Start here
 
 - [Product requirements](PRD.md): scope, user flow, routing behavior, test cases, definition of done, and proposed success criteria.
 - [Plugin setup](plugins/rippletide/README.md): local engine, MCP operations, preferences.
 - [User-test kit](user_tests/README.md): fresh projects, real MCPs, specialist agents, U01–U09.
+- [Five benchmark-derived user scenarios](docs/BENCHMARK_USER_SCENARIOS.md): source cases, ground truth, implemented local adapters and remaining official-scorer work.
+- [Experiment tracker](docs/BENCHMARK_EXPERIMENT_REPORT.md): user needs, available tools, expected behavior and native Codex/Rippletide comparisons; results are not run yet.
 - [Shared contract](docs/CONTRACT.md): registry, routing API, event formats.
 - [Original ChatGPT response](chatgpt-response-prd-source.md): preserved source material.
 

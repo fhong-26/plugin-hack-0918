@@ -50,6 +50,12 @@ Tool names in invocation are logical names. Codex resolves the actual callable n
 
 Global preferences, when present, live at `~/.config/rippletide/preferences.json`. Task `preferred_route` overrides project `preferences.prefer`, which overrides global preferences; exclusions/availability always filter first. An explicit preferred route that is unavailable results in defer, not a silent substitute. Rules only select exact symbol/filename routes when those facts exist and relevant prior failure is absent. Ambiguous requests reach Qwen.
 
+Exception for explicit synthetic benchmark registries: optional `fixture_mode`
+defaults to false. When true, global preferences are excluded and the
+`fixture_tool_use` family is permitted for registered fixture capabilities. It is
+not general authorization for MCP writes. The [paired fixture contract](PAIRED_CONTRACT.md#benchmark-fixture-extension)
+defines the owned transport/state restrictions and grading limits.
+
 Variants: A disables the router and routing skill; B disables the router but supplies fixed routing guidance; C enables rule-only routing and defers unresolved choices; D enables rules plus the pinned Qwen backend. Never represent C as Qwen inference.
 
 ## MCP operations
