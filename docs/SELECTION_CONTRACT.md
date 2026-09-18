@@ -36,5 +36,5 @@ capacity. Oversized inputs, invalid catalogs, unavailable models, and timeouts
 return `status: "error"` without a selected tool or fallback authorization.
 
 This contract is separate from the historical `Router.route` experiment API.
-The host integration and public MCP handoff migrate to this contract in the
-dependent PRs. The historical A–D harness is not evidence of this new flow.
+The host integration calls this contract through the plugin's sole public MCP
+operation, `route(context, question, tools)`. The historical A–D harness is not evidence of this new flow.

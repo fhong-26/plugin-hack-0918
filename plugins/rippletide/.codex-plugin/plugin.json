@@ -1,15 +1,15 @@
 {
   "name": "rippletide",
   "version": "0.1.0",
-  "description": "Local Qwen routing for registered tools, MCP integrations, and specialist agents.",
+  "description": "Local Jev selects session tools; the patched Codex host supplies arguments and execution.",
   "author": {
     "name": "Fan Hong"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Rippletide",
-    "shortDescription": "Choose tools with local Qwen and project preferences.",
-    "longDescription": "Rippletide recommends registered search tools, connected MCP tools, and callable specialists. Codex keeps task reasoning and execution. Includes local routing evidence and explicit fallbacks.",
+    "shortDescription": "Select Codex tools with the local Jev model.",
+    "longDescription": "The patched Codex host sends context, request, and all callable session tools to the local scorer, then exposes only the selected tool for argument generation and execution.",
     "developerName": "Fan Hong",
     "category": "Productivity",
     "capabilities": [],
