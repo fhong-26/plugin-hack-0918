@@ -39,7 +39,8 @@ def test_configure_private_defaults_and_explicit_replacement(repo):
     result = configure(repo)
     profile = Path(result["profile"])
     assert not profile.is_relative_to(repo)
-    assert profile.stat().st_mode & 0o777 == 0o600
+    if os.name != "nt":
+        assert profile.stat().st_mode & 0o777 == 0o600
     assert result["acceptance"] == "ungraded"
     assert not result["tools"]["mcp_servers"]
     assert set(result["tools"]["agents"]) == {"rippletide_reviewer", "rippletide_test_specialist"}
@@ -168,7 +169,12 @@ def test_escaping_configuration_symlinks_never_touch_external_files(repo, tmp_pa
     outside.mkdir()
     (outside / "config.toml").write_text("sentinel=true\n")
     (outside / "config.json").write_text('{"sentinel":true}\n')
-    (workspace / folder).symlink_to(outside, target_is_directory=True)
+    try:
+        (workspace / folder).symlink_to(outside, target_is_directory=True)
+    except OSError as exc:
+        if getattr(exc, "winerror", None) == 1314:
+            pytest.skip("Windows account lacks symlink privilege")
+        raise
     with pytest.raises(ValueError, match="escapes"):
         paired._suspend_project_configuration(workspace, run / "rippletide")
     if folder == ".rippletide":
@@ -195,7 +201,11 @@ def test_temporary_auth_reference_and_exact_cleanup(tmp_path, monkeypatch):
     (source / "auth.json").write_text("do not copy")
     monkeypatch.setenv("CODEX_HOME", str(source))
     link = link_auth(private)
-    assert link[0].is_symlink()
+    if os.name == "nt":
+        assert link[0].is_file() and not link[0].is_symlink()
+        assert link[0].read_bytes() == (source / "auth.json").read_bytes()
+    else:
+        assert link[0].is_symlink()
     unlink_auth(link)
     assert not (private / "auth.json").exists()
     assert (source / "auth.json").read_text() == "do not copy"
@@ -366,12 +376,19 @@ def test_untracked_new_code_archived_but_symlink_not_followed(repo, tmp_path):
     (workspace / "new.py").write_text("answer = 42\n")
     sensitive = tmp_path / "sensitive"
     sensitive.write_text("private")
-    (workspace / "external-link").symlink_to(sensitive)
+    symlink_available = True
+    try:
+        (workspace / "external-link").symlink_to(sensitive)
+    except OSError as exc:
+        if getattr(exc, "winerror", None) != 1314:
+            raise
+        symlink_available = False
     paired._acceptance("baseline", run, manifest, 5, threading.Event())
     result = {entry["path"]: entry for entry in manifest["arms"]["baseline"]["untracked_files"]}
     assert result["new.py"]["status"] == "archived"
     assert Path(result["new.py"]["artifact"]).read_text() == "answer = 42\n"
-    assert result["external-link"]["status"] == "not_copied"
+    if symlink_available:
+        assert result["external-link"]["status"] == "not_copied"
     assert manifest["arms"]["baseline"]["acceptance_status"] == "ungraded"
 
 

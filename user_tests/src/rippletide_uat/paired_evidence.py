@@ -411,6 +411,6 @@ def report_pair(run: Path) -> dict:
     page = '<!doctype html><html lang="en"><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'"><title>Paired routing evaluation</title><style>body{max-width:1100px;margin:2rem auto;padding:1rem;font:15px system-ui}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style><body><pre>' + html.escape(markdown) + "</pre></body></html>"
     for name, content in (("report.md", markdown), ("report.html", page)):
         path = run / name
-        path.write_text(content)
+        path.write_text(content, encoding="utf-8")
         path.chmod(0o600)
     return shared

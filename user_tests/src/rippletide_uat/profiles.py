@@ -12,7 +12,7 @@ import subprocess
 from .storage import read_json, timestamp, write_json
 
 
-MODEL_OPTIONS = ("qwen25-rlcd", "qwen3-0.6b", "minicpm5-2b", "qwen3.5-4b")
+MODEL_OPTIONS = ("qwen25-rlcd", "qwen3-0.6b", "minicpm5-2b", "qwen3.5-4b", "qwen3-0.6b-torch")
 OPERATIONS = {"repository_search", "knowledge_lookup", "specialist_assignment"}
 ENV_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 

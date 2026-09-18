@@ -42,4 +42,10 @@ Use `status(project_root)` when diagnosing readiness, not before every decision.
 
 Save preferences only when explicitly asked to remember or configure one. Use the documented `rippletide preferences` CLI from the installed package. One-off corrections are not lasting preferences.
 
+For first-use personalization, learning setup, or a request to remember explicit
+corrections, read [personalization](references/personalization.md). A download
+does not imply consent to collect examples or train a model. Once the user has
+enabled learning, apply that standing choice without asking again for each
+explicit correction. Successful calls and silence are not preference labels.
+
 On request, call `report(project_root)` and summarize recorded selections, fallbacks, and overrides. Label unobserved execution or missing usage as unknown. If you performed a registered search without routing first, report it as a routing omission, not as an operation outside scope. Do not infer that a tool ran, that a task succeeded, or that tokens were saved merely because the router selected a capability.

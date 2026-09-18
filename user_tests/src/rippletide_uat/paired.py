@@ -387,12 +387,12 @@ def baseline_contamination(workspace: Path) -> list[str]:
     for folder in (".agents/skills", ".codex/skills"):
         for path in (workspace / folder).rglob("SKILL.md"):
             if not path.resolve().is_relative_to(workspace.resolve()):
-                found.append(str(path.relative_to(workspace)))
+                found.append(path.relative_to(workspace).as_posix())
                 continue
             text = path.read_text()
             if (path.parent.name == "route-capabilities" or "mcp__rippletide__route" in text
                     or re.search(r"(?is)rippletide.{0,80}route-capabilities", text)):
-                found.append(str(path.relative_to(workspace)))
+                found.append(path.relative_to(workspace).as_posix())
     return found
 
 

@@ -24,6 +24,8 @@ def project_root() -> Path:
 
 
 def pinned_codex() -> Path:
+    if os.name == "nt":
+        return project_root() / "tools/codex/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe"
     return project_root() / "tools/codex/node_modules/.bin/codex"
 
 
@@ -40,7 +42,7 @@ def verify_codex(codex: Path) -> str:
 
 
 def clean_environment(*, names: list[str] = ()) -> dict[str, str]:
-    allowed = {"PATH", "HOME", "USER", "LOGNAME", "SHELL", "TMPDIR", "TEMP", "TMP", "LANG", "LC_ALL", "SYSTEMROOT", "CODEX_API_KEY", "UV_CACHE_DIR", *names}
+    allowed = {"PATH", "HOME", "USER", "LOGNAME", "SHELL", "TMPDIR", "TEMP", "TMP", "LANG", "LC_ALL", "SYSTEMROOT", "USERPROFILE", "APPDATA", "LOCALAPPDATA", "COMSPEC", "PATHEXT", "CODEX_API_KEY", "UV_CACHE_DIR", *names}
     return {key: value for key, value in os.environ.items() if key in allowed}
 
 
@@ -66,6 +68,9 @@ def write_config(home: Path, config: dict) -> Path:
     return path
 
 
+_AUTH_COPIES = {}
+
+
 def link_auth(home: Path) -> tuple[Path, Path] | None:
     if os.environ.get("CODEX_API_KEY"):
         return None
@@ -73,7 +78,14 @@ def link_auth(home: Path) -> tuple[Path, Path] | None:
     if not source.is_file():
         return None
     target = home / "auth.json"
-    target.symlink_to(source.resolve())
+    if os.name == "nt":
+        import hashlib
+        if target.exists():
+            raise RuntimeError("Refusing to replace an existing authentication file")
+        shutil.copyfile(source, target)
+        _AUTH_COPIES[str(target)] = hashlib.sha256(target.read_bytes()).hexdigest()
+    else:
+        target.symlink_to(source.resolve())
     return target, source.resolve()
 
 
@@ -81,6 +93,13 @@ def unlink_auth(link: tuple[Path, Path] | None) -> None:
     if link is None:
         return
     target, expected = link
+    if os.name == "nt" and str(target) in _AUTH_COPIES:
+        import hashlib
+        if not target.is_file() or hashlib.sha256(target.read_bytes()).hexdigest() != _AUTH_COPIES[str(target)]:
+            raise RuntimeError("Temporary authentication copy changed; refusing to remove it")
+        target.unlink()
+        _AUTH_COPIES.pop(str(target))
+        return
     if not target.is_symlink() or target.readlink() != expected:
         raise RuntimeError("Temporary authentication link changed; refusing to delete a different file")
     target.unlink()
@@ -92,6 +111,24 @@ def authenticated(codex: Path, home: Path, environment: dict) -> bool:
 
 
 def terminate_owned(process: subprocess.Popen) -> None:
+    if os.name == "nt":
+        import psutil
+        if process.poll() is None:
+            try:
+                descendants = psutil.Process(process.pid).children(recursive=True)
+            except psutil.NoSuchProcess:
+                descendants = []
+            for child in reversed(descendants):
+                try:
+                    child.kill()
+                except psutil.NoSuchProcess:
+                    pass
+            process.kill()
+            process.wait(timeout=3)
+            _, alive = psutil.wait_procs(descendants, timeout=1)
+            if alive:
+                raise RuntimeError("An owned child survived Windows process cleanup")
+        return
     exited = process.poll() is not None
     deadline = time.monotonic() + (0.25 if exited else 5)
     try:
@@ -129,7 +166,7 @@ def run_process(argv: list[str], *, cwd: Path, environment: dict, output: Path, 
     status, stop_reason = "completed", None
     with stdout_path.open("x") as stdout, stderr_path.open("x") as stderr:
         process = subprocess.Popen(argv, cwd=cwd, env=environment, stdin=subprocess.PIPE if prompt is not None else subprocess.DEVNULL,
-                                   stdout=stdout, stderr=stderr, text=True, start_new_session=True)
+                                   stdout=stdout, stderr=stderr, text=True, encoding="utf-8", start_new_session=True)
         try:
             # Prompts are bounded by the runner. communicate handles a closed
             # stdin and polling without losing subprocess ownership on failure.

@@ -1,6 +1,7 @@
 """The three public MCP operations, implemented with the official SDK."""
 
 import asyncio
+import os
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -17,9 +18,16 @@ def create_server(router: Router | None = None) -> MCPServer:
     @asynccontextmanager
     async def lifespan(server):
         router.worker.start(wait=False)
+        from rippletide.learning import automatic_learning
+        learning_task = asyncio.create_task(automatic_learning(router))
         try:
             yield {"router": router}
         finally:
+            learning_task.cancel()
+            try:
+                await learning_task
+            except asyncio.CancelledError:
+                pass
             router.close()
 
     server = MCPServer(
@@ -46,7 +54,10 @@ def create_server(router: Router | None = None) -> MCPServer:
     @server.tool(annotations=ToolAnnotations(read_only_hint=True, destructive_hint=False, open_world_hint=False))
     async def status(project_root: str) -> dict[str, Any]:
         """Inspect readiness, pinned model identities, registered capabilities and data paths. Do not route this tool."""
-        return await asyncio.to_thread(router.status, project_root)
+        from rippletide.learning import status as learning_status
+        result = await asyncio.to_thread(router.status, project_root)
+        result["personalization"] = await asyncio.to_thread(learning_status)
+        return result
 
     @server.tool(annotations=ToolAnnotations(read_only_hint=True, destructive_hint=False, open_world_hint=False))
     async def report(project_root: str, limit: int = 20) -> dict[str, Any]:
@@ -57,4 +68,8 @@ def create_server(router: Router | None = None) -> MCPServer:
 
 
 def serve(model: str | None = None):
-    create_server(Router(model=model)).run(transport="stdio")
+    from rippletide.identity import ROUTE_TIMEOUT_SECONDS
+    timeout = float(os.environ.get("RIPPLETIDE_EXPERIMENT_TIMEOUT", ROUTE_TIMEOUT_SECONDS))
+    if timeout != ROUTE_TIMEOUT_SECONDS and not os.environ.get("RIPPLETIDE_RUN_DIR"):
+        raise ValueError("A nondefault deadline requires an explicit experimental run directory")
+    create_server(Router(model=model, timeout_seconds=timeout)).run(transport="stdio")

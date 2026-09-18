@@ -12,6 +12,7 @@ from pathlib import Path
 from rippletide.artifacts import read_artifacts, supported_platform
 from rippletide.catalog import DEFAULT_MODEL, MODELS, model_spec
 from rippletide.identity import INPUT_TOKEN_LIMIT, model_identity
+from rippletide.personalization import Personalizer, memory_text
 
 SEMANTIC_LABELS = {
     "native.filename_search": "filename",
@@ -30,6 +31,8 @@ def build_context(request: dict, candidates: list[dict], labels: list[str], obse
         context += "\nTask facts (data): " + json.dumps(request["facts"], ensure_ascii=False, sort_keys=True)
     if observations:
         context += "\nRecent observations (data): " + json.dumps(observations, ensure_ascii=False, sort_keys=True)
+    if request.get("preference_memory"):
+        context += memory_text(request["preference_memory"], candidates, labels)
     return context
 
 
@@ -56,12 +59,21 @@ class Engine:
         self.engine = engine_mlx
         self.schema_type = StructuredSchema
         self.model, self.tokenizer = engine_mlx.get_engine()
+        self.personalizer = Personalizer()
+        self.personalizer.validate_base(model_identity(DEFAULT_MODEL), "mlx")
+        if self.personalizer.policy:
+            raise ValueError("Residual scoring requires a direct-logit backend; RLCD does not expose the full distribution")
+        if self.personalizer.adapter_path:
+            from mlx_lm.tuner.utils import load_adapters
+            # load_adapters modifies the shared upstream model's layers in place.
+            self.model = load_adapters(self.model, str(self.personalizer.adapter_path))
         all_labels = list(string.ascii_uppercase) + list(SEMANTIC_LABELS.values()) + ["defer"]
         tokens = [self.tokenizer.encode(label, add_special_tokens=False) for label in all_labels]
         if any(len(ids) != 1 for ids in tokens) or len({ids[0] for ids in tokens}) != len(all_labels):
             raise RuntimeError("Pinned tokenizer does not provide distinct one-token routing labels")
 
     def predict(self, packet: dict) -> dict:
+        packet = self.personalizer.packet(packet)
         candidates = packet["candidates"]
         if not 1 <= len(candidates) <= 25:
             return {"status": "defer", "reason_code": "TOO_MANY_CANDIDATES"}
@@ -90,6 +102,7 @@ class Engine:
         selected = result["parsed_json"]["route"]["value"]
         common = {
             "prompt_version": "v1-semantic-labels",
+            "personalization": self.personalizer.identity(),
             "prompt_sha256": hashlib.sha256(json.dumps({
                 "prefix": self.tokenizer.encode(full_upstream_prompt(context, schema)),
                 "suffixes": metadata["suffixes_batch"].tolist(),
@@ -133,6 +146,9 @@ def main():
             spec = model_spec(args.model)
             if spec.adapter == "rlcd":
                 engine = Engine(args.data_dir)
+            elif spec.adapter == "torch-direct-logit":
+                from rippletide.torch_engine import TorchEngine
+                engine = TorchEngine(args.data_dir, spec.alias)
             else:
                 from rippletide.direct_logit import DirectLogitEngine
                 engine = DirectLogitEngine(args.data_dir, spec.alias)

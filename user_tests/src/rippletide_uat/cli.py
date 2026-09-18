@@ -80,7 +80,7 @@ def parser() -> argparse.ArgumentParser:
     task.add_argument("--task")
     task.add_argument("--task-file", type=Path)
     run.add_argument("--base", default="main")
-    run.add_argument("--router-model", choices=["qwen25-rlcd", "qwen3-0.6b", "minicpm5-2b", "qwen3.5-4b"], default="qwen25-rlcd")
+    run.add_argument("--router-model", choices=["qwen25-rlcd", "qwen3-0.6b", "minicpm5-2b", "qwen3.5-4b", "qwen3-0.6b-torch"], default="qwen25-rlcd")
     run.add_argument("--mode", choices=["parallel", "sequential"], default="parallel")
     run.add_argument("--repeat", type=int, default=1)
     run.add_argument("--output-root", type=Path)

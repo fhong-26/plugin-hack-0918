@@ -88,11 +88,11 @@ def read_artifacts(data_dir: Path, *, verify_source: bool = False, model: str | 
 
 
 def setup_artifacts(data_dir: Path, model: str | None = None) -> dict:
-    if not supported_platform():
+    spec = model_spec(model)
+    if not supported_platform() and spec.adapter != "torch-direct-logit":
         raise RuntimeError("This pilot requires Apple Silicon macOS; no alternative backend is selected")
     from huggingface_hub import snapshot_download
 
-    spec = model_spec(model)
     data_dir.mkdir(parents=True, exist_ok=True)
     cache = str(data_dir / "hub")
     source = (Path(snapshot_download(ENGINE_ID, revision=ENGINE_REVISION, cache_dir=cache, allow_patterns=list(SOURCE_FILES)))

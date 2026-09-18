@@ -18,6 +18,12 @@ class ModelSpec:
 
 
 MODELS = {
+    "qwen3-0.6b-torch": ModelSpec(
+        "qwen3-0.6b-torch", "Qwen/Qwen3-0.6B",
+        "c1899de289a04d12100db370d81485cdf75e47ca",
+        "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+        "torch-direct-logit", "v2-tool-choice-labels", "none; float16 CPU reference",
+    ),
     DEFAULT_MODEL: ModelSpec(
         DEFAULT_MODEL, "mlx-community/Qwen2.5-1.5B-Instruct-4bit",
         "8b403126fc14f14cfc99bb4cfa72ecbc129ea677",

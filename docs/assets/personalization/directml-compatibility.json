@@ -1,0 +1,44 @@
+{
+  "purpose": "Small operator/LoRA compatibility probe; not full Qwen performance",
+  "packages": {
+    "torch": "2.4.1",
+    "torch-directml": "0.2.5.dev240914",
+    "transformers": "4.57.6",
+    "peft": "0.18.1"
+  },
+  "checks": {
+    "gpu_matrix_forward_backward": {
+      "passed": true,
+      "maximum_absolute_error": 1.9073486328125e-05,
+      "gradient_norm": 2.8386952877044678,
+      "warnings": [],
+      "seconds": 0.3295617999974638
+    },
+    "tiny_qwen_forward": {
+      "passed": true,
+      "maximum_absolute_error": 6.556510925292969e-07,
+      "sequence_length": 32,
+      "model": "random 2-layer, hidden-128 Qwen3",
+      "precision": "float32",
+      "warnings": [],
+      "seconds": 0.4937060000083875
+    },
+    "tiny_qwen_lora_backward": {
+      "passed": true,
+      "losses": [
+        1.806668996810913,
+        1.789050579071045
+      ],
+      "total_absolute_adapter_change": 0.867822177708149,
+      "trainable_parameters": 3584,
+      "warnings": [
+        "The operator 'aten::lerp.Scalar_out' is not currently supported on the DML backend and will fall back to run on the CPU. This may have performance implications. (Triggered internally at C:\\__w\\1\\s\\pytorch-directml-plugin\\torch_directml\\csrc\\dml\\dml_cpu_fallback.cpp:17.)"
+      ],
+      "seconds": 0.3520173000288196
+    }
+  },
+  "adapters": [
+    "AMD Radeon(TM) Graphics\u0000"
+  ],
+  "device": "privateuseone:0"
+}

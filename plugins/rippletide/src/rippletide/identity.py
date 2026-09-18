@@ -30,12 +30,12 @@ def model_identity(alias: str | None = None) -> dict:
         "engine_id": ENGINE_ID if spec.adapter == "rlcd" else "rippletide.direct-logit",
         "engine_revision": ENGINE_REVISION if spec.adapter == "rlcd" else "v1",
         "weights_id": spec.weights_id, "weights_revision": spec.revision,
-        "backend": "mlx", "temperature": 1.0,
+        "backend": "torch" if spec.adapter == "torch-direct-logit" else "mlx", "temperature": 1.0,
         "quantization": spec.quantization, "prompt_version": spec.prompt_version,
         "decoding": "allowed_token_argmax", "sampling": False,
         "thinking_enabled": False,
     }
-    for package in ("mlx-lm", "mlx", "transformers"):
+    for package in ("mlx-lm", "mlx", "transformers", "torch", "peft"):
         try:
             identity[package.replace("-", "_") + "_version"] = version(package)
         except PackageNotFoundError:

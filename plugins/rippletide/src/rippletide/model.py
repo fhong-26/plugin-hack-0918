@@ -28,6 +28,15 @@ class WorkerManager:
         self._request_lock = threading.Lock()
         self._ready = threading.Event()
         self._responses = queue.Queue()
+        self.maintenance = False
+        self._profile_stamp = None
+
+    @staticmethod
+    def profile_stamp():
+        from rippletide.personalization import default_profile_path
+        root = default_profile_path()
+        return tuple((name, (root / name).stat().st_mtime_ns, (root / name).stat().st_size)
+                     for name in ("profile.json", "feedback.json", "active.json") if (root / name).is_file())
 
     def status(self) -> dict:
         process = self._process
@@ -39,12 +48,14 @@ class WorkerManager:
         }
 
     def start(self, *, wait: bool = False, timeout: float = 180) -> bool:
+        if self.maintenance:
+            return False
         with self._lifecycle_lock:
             if self._process is not None and self._process.poll() is None:
                 pass
             else:
                 try:
-                    if not supported_platform():
+                    if not supported_platform() and model_spec(self.model).adapter != "torch-direct-logit":
                         raise RuntimeError("Apple Silicon macOS with MLX is required")
                     read_artifacts(self.data_dir, model=self.model)
                     self._ready = threading.Event()
@@ -52,10 +63,11 @@ class WorkerManager:
                     self._error = None
                     self._state = "loading"
                     self._process = subprocess.Popen(
-                        [sys.executable, "-u", "-m", "rippletide.worker", "--data-dir", str(self.data_dir), "--model", self.model],
+                        [sys.executable, "-X", "utf8", "-u", "-m", "rippletide.worker", "--data-dir", str(self.data_dir), "--model", self.model],
                         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=None,
-                        text=True, bufsize=1,
+                        text=True, encoding="utf-8", bufsize=1,
                     )
+                    self._profile_stamp = self.profile_stamp()
                     threading.Thread(target=self._read_worker, args=(self._process, self._responses, self._ready), daemon=True).start()
                 except (OSError, ValueError, KeyError, RuntimeError) as exc:
                     self._state, self._error = "unavailable", str(exc)
@@ -121,6 +133,29 @@ class WorkerManager:
     def _write_packet(process, packet: dict, deadline: float):
         payload = memoryview((json.dumps(packet, ensure_ascii=False) + "\n").encode("utf-8"))
         descriptor = process.stdin.fileno()
+        if os.name == "nt":
+            # Windows select() cannot wait on anonymous pipes. The writer owns
+            # only this child pipe; killing a timed-out child releases the write.
+            completed = queue.Queue(maxsize=1)
+            def write():
+                try:
+                    remaining = payload
+                    while remaining:
+                        written = os.write(descriptor, remaining)
+                        if not written:
+                            raise BrokenPipeError("Worker input closed")
+                        remaining = remaining[written:]
+                    completed.put(None)
+                except (OSError, ValueError) as exc:
+                    completed.put(exc)
+            threading.Thread(target=write, daemon=True).start()
+            try:
+                error = completed.get(timeout=max(0, deadline - time.perf_counter()))
+            except queue.Empty:
+                raise TimeoutError("Worker input deadline exceeded") from None
+            if error:
+                raise error
+            return
         os.set_blocking(descriptor, False)
         while payload:
             remaining = deadline - time.perf_counter()
@@ -142,6 +177,8 @@ class WorkerManager:
         if timeout <= 0 or not self._request_lock.acquire(timeout=max(0, timeout)):
             return {"status": "defer", "reason_code": "ROUTER_TIMEOUT"}
         try:
+            if self._profile_stamp is not None and self._profile_stamp != self.profile_stamp():
+                self._stop("stopped", "Reloading an explicitly updated user profile")
             if not self.status()["ready"]:
                 self.start()
                 return {"status": "defer", "reason_code": "MODEL_NOT_READY", "worker_state": self._state}

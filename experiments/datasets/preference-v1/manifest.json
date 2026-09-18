@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "seed": 20260918,
+  "rows": 360,
+  "dataset_digest": "94fb4cb667df608b72c6ff269c415281472fc2ec0af8770c3ec57785efea7f17",
+  "splits": {
+    "train": 216,
+    "validation": 72,
+    "test": 72
+  },
+  "profiles": {
+    "developer_a": [
+      "When either approach is suitable, start with lexical keyword search for unfamiliar code.",
+      "When neither source has priority, consult the product documentation first.",
+      "For an unspecified independent check, choose the code reviewer."
+    ],
+    "developer_b": [
+      "When either approach is suitable, start with semantic code search for unfamiliar code.",
+      "When neither source has priority, consult the issue tracker first.",
+      "For an unspecified independent check, choose the test specialist."
+    ],
+    "developer_c": [
+      "When either approach is suitable, start with semantic code search for unfamiliar code.",
+      "When neither source has priority, consult the product documentation first.",
+      "For an unspecified independent check, choose the test specialist."
+    ]
+  },
+  "provenance": "synthetic; not human user observations",
+  "domains": {
+    "train": [
+      "payment retries",
+      "cart discounts",
+      "cache eviction",
+      "document uploads",
+      "subscription renewal",
+      "inventory reservations"
+    ],
+    "validation": [
+      "notification delivery",
+      "account recovery"
+    ],
+    "test": [
+      "session expiration",
+      "background job scheduling"
+    ]
+  },
+  "test_policy": "No training, hyperparameter selection, or activation on test labels"
+}

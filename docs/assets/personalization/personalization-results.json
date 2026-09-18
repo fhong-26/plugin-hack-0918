@@ -1,0 +1,5511 @@
+{
+  "component": {
+    "manifest": {
+      "version": 1,
+      "model_identity": {
+        "model": "qwen3-0.6b-torch",
+        "adapter": "torch-direct-logit",
+        "engine_id": "rippletide.direct-logit",
+        "engine_revision": "v1",
+        "weights_id": "Qwen/Qwen3-0.6B",
+        "weights_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+        "backend": "torch",
+        "temperature": 1.0,
+        "quantization": "none; float16 CPU reference",
+        "prompt_version": "v2-tool-choice-labels",
+        "decoding": "allowed_token_argmax",
+        "sampling": false,
+        "thinking_enabled": false,
+        "mlx_lm_version": null,
+        "mlx_version": null,
+        "transformers_version": "4.57.6",
+        "torch_version": "2.7.1",
+        "peft_version": "0.18.1"
+      },
+      "dataset": {
+        "version": 1,
+        "seed": 20260918,
+        "rows": 360,
+        "dataset_digest": "94fb4cb667df608b72c6ff269c415281472fc2ec0af8770c3ec57785efea7f17",
+        "splits": {
+          "train": 216,
+          "validation": 72,
+          "test": 72
+        },
+        "profiles": {
+          "developer_a": [
+            "When either approach is suitable, start with lexical keyword search for unfamiliar code.",
+            "When neither source has priority, consult the product documentation first.",
+            "For an unspecified independent check, choose the code reviewer."
+          ],
+          "developer_b": [
+            "When either approach is suitable, start with semantic code search for unfamiliar code.",
+            "When neither source has priority, consult the issue tracker first.",
+            "For an unspecified independent check, choose the test specialist."
+          ],
+          "developer_c": [
+            "When either approach is suitable, start with semantic code search for unfamiliar code.",
+            "When neither source has priority, consult the product documentation first.",
+            "For an unspecified independent check, choose the test specialist."
+          ]
+        },
+        "provenance": "synthetic; not human user observations",
+        "domains": {
+          "train": [
+            "payment retries",
+            "cart discounts",
+            "cache eviction",
+            "document uploads",
+            "subscription renewal",
+            "inventory reservations"
+          ],
+          "validation": [
+            "notification delivery",
+            "account recovery"
+          ],
+          "test": [
+            "session expiration",
+            "background job scheduling"
+          ]
+        },
+        "test_policy": "No training, hyperparameter selection, or activation on test labels"
+      },
+      "epochs": 1,
+      "rank": 4,
+      "layers": 2,
+      "train_limit_per_user": 12,
+      "users": [
+        "developer_a",
+        "developer_b",
+        "developer_c"
+      ],
+      "include_lora": true,
+      "arms": [
+        "current",
+        "memory",
+        "residual",
+        "lora"
+      ],
+      "level": "routing-component; not end-to-end Codex",
+      "seed": 31
+    },
+    "results": {
+      "current": {
+        "validation": {
+          "all": {
+            "matched": 15,
+            "total": 72,
+            "rate": 0.20833333333333334
+          },
+          "preference": {
+            "matched": 0,
+            "total": 36,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 9,
+            "total": 30,
+            "rate": 0.3
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 15,
+          "errors": 0,
+          "defers": 63,
+          "median_ms": 9507.049500000001,
+          "p95_ms": 14953.777
+        },
+        "test": {
+          "all": {
+            "matched": 20,
+            "total": 72,
+            "rate": 0.2777777777777778
+          },
+          "preference": {
+            "matched": 0,
+            "total": 36,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 14,
+            "total": 30,
+            "rate": 0.4666666666666667
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 20,
+          "errors": 0,
+          "defers": 58,
+          "median_ms": 8949.7925,
+          "p95_ms": 13335.398
+        }
+      },
+      "memory": {
+        "validation": {
+          "all": {
+            "matched": 13,
+            "total": 72,
+            "rate": 0.18055555555555555
+          },
+          "preference": {
+            "matched": 0,
+            "total": 36,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 7,
+            "total": 30,
+            "rate": 0.23333333333333334
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 13,
+          "errors": 0,
+          "defers": 65,
+          "median_ms": 15271.3765,
+          "p95_ms": 18404.118
+        },
+        "test": {
+          "all": {
+            "matched": 15,
+            "total": 72,
+            "rate": 0.20833333333333334
+          },
+          "preference": {
+            "matched": 0,
+            "total": 36,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 9,
+            "total": 30,
+            "rate": 0.3
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 15,
+          "errors": 0,
+          "defers": 63,
+          "median_ms": 14464.976,
+          "p95_ms": 18561.234
+        }
+      },
+      "residual": {
+        "validation": {
+          "all": {
+            "matched": 47,
+            "total": 72,
+            "rate": 0.6527777777777778
+          },
+          "preference": {
+            "matched": 16,
+            "total": 36,
+            "rate": 0.4444444444444444
+          },
+          "objective": {
+            "matched": 25,
+            "total": 30,
+            "rate": 0.8333333333333334
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 2,
+              "total": 12,
+              "rate": 0.16666666666666666
+            },
+            "developer_b": {
+              "matched": 7,
+              "total": 12,
+              "rate": 0.5833333333333334
+            },
+            "developer_c": {
+              "matched": 7,
+              "total": 12,
+              "rate": 0.5833333333333334
+            }
+          },
+          "acceptable": 47,
+          "errors": 0,
+          "defers": 27,
+          "median_ms": 15271.3765,
+          "p95_ms": 18404.118
+        },
+        "test": {
+          "all": {
+            "matched": 49,
+            "total": 72,
+            "rate": 0.6805555555555556
+          },
+          "preference": {
+            "matched": 20,
+            "total": 36,
+            "rate": 0.5555555555555556
+          },
+          "objective": {
+            "matched": 23,
+            "total": 30,
+            "rate": 0.7666666666666667
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 5,
+              "total": 12,
+              "rate": 0.4166666666666667
+            },
+            "developer_b": {
+              "matched": 9,
+              "total": 12,
+              "rate": 0.75
+            },
+            "developer_c": {
+              "matched": 6,
+              "total": 12,
+              "rate": 0.5
+            }
+          },
+          "acceptable": 50,
+          "errors": 0,
+          "defers": 23,
+          "median_ms": 14464.976,
+          "p95_ms": 18561.234
+        }
+      },
+      "lora": {
+        "validation": {
+          "all": {
+            "matched": 17,
+            "total": 72,
+            "rate": 0.2361111111111111
+          },
+          "preference": {
+            "matched": 0,
+            "total": 36,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 11,
+            "total": 30,
+            "rate": 0.36666666666666664
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 17,
+          "errors": 0,
+          "defers": 61,
+          "median_ms": 13372.8105,
+          "p95_ms": 17766.719
+        },
+        "test": {
+          "all": {
+            "matched": 20,
+            "total": 72,
+            "rate": 0.2777777777777778
+          },
+          "preference": {
+            "matched": 0,
+            "total": 36,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 14,
+            "total": 30,
+            "rate": 0.4666666666666667
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            },
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 20,
+          "errors": 0,
+          "defers": 58,
+          "median_ms": 14678.208999999999,
+          "p95_ms": 17627.13
+        }
+      }
+    },
+    "test_comparisons": {
+      "memory": {
+        "before": 0,
+        "after": 0,
+        "total": 36,
+        "improvements": 0,
+        "regressions": 0,
+        "delta_percentage_points": 0.0,
+        "bootstrap_95_percent_interval_pp": [
+          0.0,
+          0.0
+        ],
+        "cluster_count": 12,
+        "note": "Exploratory synthetic-family bootstrap; templates remain correlated"
+      },
+      "residual": {
+        "before": 0,
+        "after": 20,
+        "total": 36,
+        "improvements": 20,
+        "regressions": 0,
+        "delta_percentage_points": 55.55555555555556,
+        "bootstrap_95_percent_interval_pp": [
+          38.88888888888889,
+          72.22222222222221
+        ],
+        "cluster_count": 12,
+        "note": "Exploratory synthetic-family bootstrap; templates remain correlated"
+      },
+      "lora": {
+        "before": 0,
+        "after": 0,
+        "total": 36,
+        "improvements": 0,
+        "regressions": 0,
+        "delta_percentage_points": 0.0,
+        "bootstrap_95_percent_interval_pp": [
+          0.0,
+          0.0
+        ],
+        "cluster_count": 12,
+        "note": "Exploratory synthetic-family bootstrap; templates remain correlated"
+      }
+    },
+    "training_vs_memory": {
+      "residual": {
+        "before": 0,
+        "after": 20,
+        "total": 36,
+        "improvements": 20,
+        "regressions": 0,
+        "delta_percentage_points": 55.55555555555556,
+        "bootstrap_95_percent_interval_pp": [
+          38.88888888888889,
+          72.22222222222221
+        ],
+        "cluster_count": 12,
+        "note": "Exploratory synthetic-family bootstrap; templates remain correlated"
+      },
+      "lora": {
+        "before": 0,
+        "after": 0,
+        "total": 36,
+        "improvements": 0,
+        "regressions": 0,
+        "delta_percentage_points": 0.0,
+        "bootstrap_95_percent_interval_pp": [
+          0.0,
+          0.0
+        ],
+        "cluster_count": 12,
+        "note": "Exploratory synthetic-family bootstrap; templates remain correlated"
+      }
+    },
+    "end_to_end": {
+      "status": "not_run",
+      "reason": "Use the separate task comparison harness"
+    }
+  },
+  "codex_reference": {
+    "manifest": {
+      "version": 1,
+      "level": "constrained Codex routing reference, no target-tool execution",
+      "codex_version": "codex-cli 0.155.0",
+      "model": "gpt-6-astra",
+      "effort": "high",
+      "dataset_digest": "94fb4cb667df608b72c6ff269c415281472fc2ec0af8770c3ec57785efea7f17",
+      "test_ids": [
+        "8f9b16a5ae9441c5",
+        "a3e490bb1dba5498",
+        "0a8356e7fb493df0",
+        "dc5bdec61fe026d1",
+        "8b8c055206e07608",
+        "576c66bf02f609ec",
+        "03351738987683f7",
+        "04a739666e939b6a",
+        "e0acea15f4d277d5",
+        "6b59cc89024b025d",
+        "c90486967471b932",
+        "4028c539977a5480",
+        "27e3028cc349d11f",
+        "e4e3916ecdcac538",
+        "0e3cf4c0f85c95a6",
+        "bd7bf3a862742c2f",
+        "ea81244e557da12a",
+        "8beff9fcdeba021a",
+        "262f35b510776350",
+        "933bfd03a2fda92b",
+        "17a4d366826022ed",
+        "c264632a5750f983",
+        "562402f0a6c4288e",
+        "04e33eee3132c150",
+        "482ebb9467662872",
+        "3e6aa0df91877e67",
+        "ea86cf7ad84b9dde",
+        "915544f46883f362",
+        "f85a926dc307f4fc",
+        "4d007ab5d7b40d87",
+        "371aa8e7ddf247b0",
+        "5a07a14ab67a742f",
+        "7702c1cb0479c13e",
+        "9779985b1e04e83d",
+        "081faff1014973cb",
+        "2d36b5a777086f32",
+        "0ae6b651c69617ad",
+        "e7a844d909006451",
+        "617d2a42de6797ef",
+        "259dae9dc2ba3878",
+        "97c2457ce6264a3e",
+        "14c85d4491a5e132",
+        "d782c13f5ba9aa89",
+        "d41acc48823ee482",
+        "dc3ba8bb907e7f42",
+        "861da6ced2e053be",
+        "3feab010e3c5d073",
+        "bcf68307dfa636cc",
+        "76188ef12e9a72ab",
+        "5595db3c835982ab",
+        "df02a0faa25ac069",
+        "62f0962fdd50ee6d",
+        "6682621410131b5b",
+        "41d571657e5ac645",
+        "e898a52169a8a99d",
+        "d4ab27ad094d209f",
+        "360d2ed312763711",
+        "5f53550d142793b3",
+        "e8ac45b809b3bbff",
+        "6ca9f5fe8c4f254a",
+        "8c8e4fa671b66f5c",
+        "43a5a0d34eb98d5d",
+        "2ae42a8c41d8b416",
+        "e7d9f7ad7e4fa56f",
+        "d95e094a775704b4",
+        "7db8f24b077bd5f9",
+        "b63ca27b27287d0e",
+        "490ce6ea5dce3839",
+        "3fc47c7b28ef593d",
+        "d35a04dc277b944f",
+        "4cfc1d2bc087126b",
+        "973f5e50e3371423"
+      ],
+      "same_history_as_memory_control": true,
+      "train_limit_per_user": 12
+    },
+    "summary": {
+      "all": {
+        "matched": 72,
+        "total": 72,
+        "rate": 1.0
+      },
+      "preference": {
+        "matched": 36,
+        "total": 36,
+        "rate": 1.0
+      },
+      "objective": {
+        "matched": 30,
+        "total": 30,
+        "rate": 1.0
+      },
+      "per_user": {
+        "developer_a": {
+          "matched": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "developer_b": {
+          "matched": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "developer_c": {
+          "matched": 12,
+          "total": 12,
+          "rate": 1.0
+        }
+      },
+      "acceptable": 72,
+      "errors": 0,
+      "defers": 6,
+      "median_ms": 5116.248849997646,
+      "p95_ms": 8369.214900012594
+    },
+    "complete": true,
+    "audit": {
+      "cases": 72,
+      "missing_rollouts": [],
+      "observed_calls": [],
+      "verified_no_tool_calls": true
+    }
+  },
+  "training": {
+    "developer_a": {
+      "lora": {
+        "method": "LoRA",
+        "objective": "eligible-candidate-cross-entropy",
+        "rank": 4,
+        "layers": 2,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "learning_rate": 0.0002,
+        "epochs": 1,
+        "seed": 31,
+        "examples": 12,
+        "steps": 12,
+        "training_digest": "eb6ede49fc945d6481664848c6a8f9f93febdf84aaec97b02f73713200ac8b73",
+        "trainable_parameters": 40960,
+        "loss_first": 10.000712394714355,
+        "loss_last": 4.4957733154296875,
+        "loss_mean": 4.295297270019849,
+        "seconds": 734.6167005999887,
+        "base_weights_frozen": true,
+        "cached_frozen_prefix": true,
+        "validated": false
+      },
+      "adapter_bytes": 164912,
+      "adapter_identity": {
+        "version": 1,
+        "base_identity": {
+          "model": "qwen3-0.6b-torch",
+          "adapter": "torch-direct-logit",
+          "engine_id": "rippletide.direct-logit",
+          "engine_revision": "v1",
+          "weights_id": "Qwen/Qwen3-0.6B",
+          "weights_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+          "backend": "torch",
+          "temperature": 1.0,
+          "quantization": "none; float16 CPU reference",
+          "prompt_version": "v2-tool-choice-labels",
+          "decoding": "allowed_token_argmax",
+          "sampling": false,
+          "thinking_enabled": false,
+          "mlx_lm_version": null,
+          "mlx_version": null,
+          "transformers_version": "4.57.6",
+          "torch_version": "2.7.1",
+          "peft_version": "0.18.1"
+        },
+        "backend": "torch",
+        "files": {
+          "adapter_config.json": "e44768e44e54606cc14cab813af22662f1ca4dd84dfaa8c2b8b2e52ae8f89828",
+          "adapter_model.safetensors": "206dba4b9bb9bbfddb28daeca84f5c1d944e7c96f56543c5d196fc5e7bda2c1b",
+          "README.md": "36b984e9ed17358debae2f41241ee0fd6405a5d67c638621952fe18cf3916d7b",
+          "training.json": "4103e332a328dc834f10da97e4324d864d9e736c561fe149a935223a45970685"
+        },
+        "training": {
+          "method": "LoRA",
+          "objective": "eligible-candidate-cross-entropy",
+          "rank": 4,
+          "layers": 2,
+          "target_modules": [
+            "q_proj",
+            "v_proj"
+          ],
+          "learning_rate": 0.0002,
+          "epochs": 1,
+          "seed": 31,
+          "examples": 12,
+          "steps": 12,
+          "training_digest": "eb6ede49fc945d6481664848c6a8f9f93febdf84aaec97b02f73713200ac8b73",
+          "trainable_parameters": 40960,
+          "loss_first": 10.000712394714355,
+          "loss_last": 4.4957733154296875,
+          "loss_mean": 4.295297270019849,
+          "seconds": 734.6167005999887,
+          "base_weights_frozen": true,
+          "cached_frozen_prefix": true,
+          "validated": false
+        },
+        "training_data_uploaded": false
+      }
+    },
+    "developer_b": {
+      "lora": {
+        "method": "LoRA",
+        "objective": "eligible-candidate-cross-entropy",
+        "rank": 4,
+        "layers": 2,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "learning_rate": 0.0002,
+        "epochs": 1,
+        "seed": 31,
+        "examples": 12,
+        "steps": 12,
+        "training_digest": "597ff81dd09247ff6e59770b1d073d22aea3d546e726b5666ceb007dbc9e1196",
+        "trainable_parameters": 40960,
+        "loss_first": 11.218951225280762,
+        "loss_last": 4.033669948577881,
+        "loss_mean": 3.8097356650978327,
+        "seconds": 848.9881272000202,
+        "base_weights_frozen": true,
+        "cached_frozen_prefix": true,
+        "validated": false
+      },
+      "adapter_bytes": 164912,
+      "adapter_identity": {
+        "version": 1,
+        "base_identity": {
+          "model": "qwen3-0.6b-torch",
+          "adapter": "torch-direct-logit",
+          "engine_id": "rippletide.direct-logit",
+          "engine_revision": "v1",
+          "weights_id": "Qwen/Qwen3-0.6B",
+          "weights_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+          "backend": "torch",
+          "temperature": 1.0,
+          "quantization": "none; float16 CPU reference",
+          "prompt_version": "v2-tool-choice-labels",
+          "decoding": "allowed_token_argmax",
+          "sampling": false,
+          "thinking_enabled": false,
+          "mlx_lm_version": null,
+          "mlx_version": null,
+          "transformers_version": "4.57.6",
+          "torch_version": "2.7.1",
+          "peft_version": "0.18.1"
+        },
+        "backend": "torch",
+        "files": {
+          "adapter_config.json": "e44768e44e54606cc14cab813af22662f1ca4dd84dfaa8c2b8b2e52ae8f89828",
+          "adapter_model.safetensors": "a4a8809a7a59e3de7b09e28516378c63bb17fa38729da0c08d1c81496660aeb0",
+          "README.md": "36b984e9ed17358debae2f41241ee0fd6405a5d67c638621952fe18cf3916d7b",
+          "training.json": "56cb14b1f33500d0cb503763f30f2264e2f8f7c7548a2d8d4301b1faf571fa42"
+        },
+        "training": {
+          "method": "LoRA",
+          "objective": "eligible-candidate-cross-entropy",
+          "rank": 4,
+          "layers": 2,
+          "target_modules": [
+            "q_proj",
+            "v_proj"
+          ],
+          "learning_rate": 0.0002,
+          "epochs": 1,
+          "seed": 31,
+          "examples": 12,
+          "steps": 12,
+          "training_digest": "597ff81dd09247ff6e59770b1d073d22aea3d546e726b5666ceb007dbc9e1196",
+          "trainable_parameters": 40960,
+          "loss_first": 11.218951225280762,
+          "loss_last": 4.033669948577881,
+          "loss_mean": 3.8097356650978327,
+          "seconds": 848.9881272000202,
+          "base_weights_frozen": true,
+          "cached_frozen_prefix": true,
+          "validated": false
+        },
+        "training_data_uploaded": false
+      }
+    },
+    "developer_c": {
+      "lora": {
+        "method": "LoRA",
+        "objective": "eligible-candidate-cross-entropy",
+        "rank": 4,
+        "layers": 2,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "learning_rate": 0.0002,
+        "epochs": 1,
+        "seed": 31,
+        "examples": 12,
+        "steps": 12,
+        "training_digest": "4dd5dad9df748c27e8ceec553e59aaf21f754e493f0f4ae7a885dadce1728620",
+        "trainable_parameters": 40960,
+        "loss_first": 11.390824317932129,
+        "loss_last": 4.202761173248291,
+        "loss_mean": 4.710283795992534,
+        "seconds": 4443.114964499982,
+        "base_weights_frozen": true,
+        "cached_frozen_prefix": true,
+        "validated": false
+      },
+      "adapter_bytes": 164912,
+      "adapter_identity": {
+        "version": 1,
+        "base_identity": {
+          "model": "qwen3-0.6b-torch",
+          "adapter": "torch-direct-logit",
+          "engine_id": "rippletide.direct-logit",
+          "engine_revision": "v1",
+          "weights_id": "Qwen/Qwen3-0.6B",
+          "weights_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+          "backend": "torch",
+          "temperature": 1.0,
+          "quantization": "none; float16 CPU reference",
+          "prompt_version": "v2-tool-choice-labels",
+          "decoding": "allowed_token_argmax",
+          "sampling": false,
+          "thinking_enabled": false,
+          "mlx_lm_version": null,
+          "mlx_version": null,
+          "transformers_version": "4.57.6",
+          "torch_version": "2.7.1",
+          "peft_version": "0.18.1"
+        },
+        "backend": "torch",
+        "files": {
+          "adapter_config.json": "e44768e44e54606cc14cab813af22662f1ca4dd84dfaa8c2b8b2e52ae8f89828",
+          "adapter_model.safetensors": "d65d2a9b0ff1bb3fcb074ec1ba04a8e300f45e65c27a7106cc1d6dc8e4e4524b",
+          "README.md": "36b984e9ed17358debae2f41241ee0fd6405a5d67c638621952fe18cf3916d7b",
+          "training.json": "cb75f3edfb3075cdb4dafffc9e8d518c3db49089d8c1f528beb5e9c9e9a35095"
+        },
+        "training": {
+          "method": "LoRA",
+          "objective": "eligible-candidate-cross-entropy",
+          "rank": 4,
+          "layers": 2,
+          "target_modules": [
+            "q_proj",
+            "v_proj"
+          ],
+          "learning_rate": 0.0002,
+          "epochs": 1,
+          "seed": 31,
+          "examples": 12,
+          "steps": 12,
+          "training_digest": "4dd5dad9df748c27e8ceec553e59aaf21f754e493f0f4ae7a885dadce1728620",
+          "trainable_parameters": 40960,
+          "loss_first": 11.390824317932129,
+          "loss_last": 4.202761173248291,
+          "loss_mean": 4.710283795992534,
+          "seconds": 4443.114964499982,
+          "base_weights_frozen": true,
+          "cached_frozen_prefix": true,
+          "validated": false
+        },
+        "training_data_uploaded": false
+      }
+    }
+  },
+  "validation": {
+    "developer_a": {
+      "residual": {
+        "passed": true,
+        "baseline": {
+          "all": {
+            "matched": 4,
+            "total": 24,
+            "rate": 0.16666666666666666
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 2,
+            "total": 10,
+            "rate": 0.2
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 4,
+          "errors": 0,
+          "defers": 22,
+          "median_ms": 15361.2625,
+          "p95_ms": 18404.118
+        },
+        "candidate": {
+          "all": {
+            "matched": 13,
+            "total": 24,
+            "rate": 0.5416666666666666
+          },
+          "preference": {
+            "matched": 2,
+            "total": 12,
+            "rate": 0.16666666666666666
+          },
+          "objective": {
+            "matched": 9,
+            "total": 10,
+            "rate": 0.9
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 2,
+              "total": 12,
+              "rate": 0.16666666666666666
+            }
+          },
+          "acceptable": 13,
+          "errors": 0,
+          "defers": 13,
+          "median_ms": 15361.2625,
+          "p95_ms": 18404.118
+        },
+        "criterion": "Strict preference improvement, no objective regression, no additional errors; validation only"
+      },
+      "lora": {
+        "passed": false,
+        "baseline": {
+          "all": {
+            "matched": 4,
+            "total": 24,
+            "rate": 0.16666666666666666
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 2,
+            "total": 10,
+            "rate": 0.2
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 4,
+          "errors": 0,
+          "defers": 22,
+          "median_ms": 15361.2625,
+          "p95_ms": 18404.118
+        },
+        "candidate": {
+          "all": {
+            "matched": 4,
+            "total": 24,
+            "rate": 0.16666666666666666
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 2,
+            "total": 10,
+            "rate": 0.2
+          },
+          "per_user": {
+            "developer_a": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 4,
+          "errors": 0,
+          "defers": 22,
+          "median_ms": 15903.7285,
+          "p95_ms": 17766.719
+        },
+        "criterion": "Strict preference improvement, no objective regression, no additional errors; validation only"
+      }
+    },
+    "developer_b": {
+      "residual": {
+        "passed": true,
+        "baseline": {
+          "all": {
+            "matched": 5,
+            "total": 24,
+            "rate": 0.20833333333333334
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 3,
+            "total": 10,
+            "rate": 0.3
+          },
+          "per_user": {
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 5,
+          "errors": 0,
+          "defers": 21,
+          "median_ms": 15421.881000000001,
+          "p95_ms": 18291.465
+        },
+        "candidate": {
+          "all": {
+            "matched": 18,
+            "total": 24,
+            "rate": 0.75
+          },
+          "preference": {
+            "matched": 7,
+            "total": 12,
+            "rate": 0.5833333333333334
+          },
+          "objective": {
+            "matched": 9,
+            "total": 10,
+            "rate": 0.9
+          },
+          "per_user": {
+            "developer_b": {
+              "matched": 7,
+              "total": 12,
+              "rate": 0.5833333333333334
+            }
+          },
+          "acceptable": 18,
+          "errors": 0,
+          "defers": 6,
+          "median_ms": 15421.881000000001,
+          "p95_ms": 18291.465
+        },
+        "criterion": "Strict preference improvement, no objective regression, no additional errors; validation only"
+      },
+      "lora": {
+        "passed": false,
+        "baseline": {
+          "all": {
+            "matched": 5,
+            "total": 24,
+            "rate": 0.20833333333333334
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 3,
+            "total": 10,
+            "rate": 0.3
+          },
+          "per_user": {
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 5,
+          "errors": 0,
+          "defers": 21,
+          "median_ms": 15421.881000000001,
+          "p95_ms": 18291.465
+        },
+        "candidate": {
+          "all": {
+            "matched": 8,
+            "total": 24,
+            "rate": 0.3333333333333333
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 6,
+            "total": 10,
+            "rate": 0.6
+          },
+          "per_user": {
+            "developer_b": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 8,
+          "errors": 0,
+          "defers": 18,
+          "median_ms": 14583.013500000001,
+          "p95_ms": 21842.72
+        },
+        "criterion": "Strict preference improvement, no objective regression, no additional errors; validation only"
+      }
+    },
+    "developer_c": {
+      "residual": {
+        "passed": true,
+        "baseline": {
+          "all": {
+            "matched": 4,
+            "total": 24,
+            "rate": 0.16666666666666666
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 2,
+            "total": 10,
+            "rate": 0.2
+          },
+          "per_user": {
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 4,
+          "errors": 0,
+          "defers": 22,
+          "median_ms": 14915.93,
+          "p95_ms": 17872.63
+        },
+        "candidate": {
+          "all": {
+            "matched": 16,
+            "total": 24,
+            "rate": 0.6666666666666666
+          },
+          "preference": {
+            "matched": 7,
+            "total": 12,
+            "rate": 0.5833333333333334
+          },
+          "objective": {
+            "matched": 7,
+            "total": 10,
+            "rate": 0.7
+          },
+          "per_user": {
+            "developer_c": {
+              "matched": 7,
+              "total": 12,
+              "rate": 0.5833333333333334
+            }
+          },
+          "acceptable": 16,
+          "errors": 0,
+          "defers": 8,
+          "median_ms": 14915.93,
+          "p95_ms": 17872.63
+        },
+        "criterion": "Strict preference improvement, no objective regression, no additional errors; validation only"
+      },
+      "lora": {
+        "passed": false,
+        "baseline": {
+          "all": {
+            "matched": 4,
+            "total": 24,
+            "rate": 0.16666666666666666
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 2,
+            "total": 10,
+            "rate": 0.2
+          },
+          "per_user": {
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 4,
+          "errors": 0,
+          "defers": 22,
+          "median_ms": 14915.93,
+          "p95_ms": 17872.63
+        },
+        "candidate": {
+          "all": {
+            "matched": 5,
+            "total": 24,
+            "rate": 0.20833333333333334
+          },
+          "preference": {
+            "matched": 0,
+            "total": 12,
+            "rate": 0.0
+          },
+          "objective": {
+            "matched": 3,
+            "total": 10,
+            "rate": 0.3
+          },
+          "per_user": {
+            "developer_c": {
+              "matched": 0,
+              "total": 12,
+              "rate": 0.0
+            }
+          },
+          "acceptable": 5,
+          "errors": 0,
+          "defers": 21,
+          "median_ms": 10309.0905,
+          "p95_ms": 12080.345
+        },
+        "criterion": "Strict preference improvement, no objective regression, no additional errors; validation only"
+      }
+    }
+  },
+  "tasks": {
+    "baseline": {
+      "level": "end-to-end isolated development components; not marketplace installation",
+      "wall_seconds": 115.781,
+      "status": "completed",
+      "acceptance": {
+        "status": "passed",
+        "checks": [
+          {
+            "name": "before_expiry",
+            "passed": true,
+            "actual": "ada",
+            "expected": "ada"
+          },
+          {
+            "name": "exact_deadline",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "after_expiry",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "revoked",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "missing",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          }
+        ],
+        "exit_code": 0
+      },
+      "completed_specialists": [
+        "rippletide_reviewer"
+      ],
+      "task_requirements_verified": false,
+      "fixture_tool_counts": {},
+      "hook_event_count": 89,
+      "routing_decision_count": 0,
+      "route_reasons": {},
+      "initial_snapshot_digest": "97b017fb112f95d88d44347dfdf1cb53fd5fb3de84b154f6ab26e9599e8eb2dc",
+      "route_deadline_seconds": null
+    },
+    "current": {
+      "level": "end-to-end isolated development components; not marketplace installation",
+      "wall_seconds": 96.969,
+      "status": "completed",
+      "acceptance": {
+        "status": "passed",
+        "checks": [
+          {
+            "name": "before_expiry",
+            "passed": true,
+            "actual": "ada",
+            "expected": "ada"
+          },
+          {
+            "name": "exact_deadline",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "after_expiry",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "revoked",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "missing",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          }
+        ],
+        "exit_code": 0
+      },
+      "completed_specialists": [],
+      "task_requirements_verified": false,
+      "fixture_tool_counts": {},
+      "hook_event_count": 61,
+      "routing_decision_count": 0,
+      "route_reasons": {},
+      "initial_snapshot_digest": "97b017fb112f95d88d44347dfdf1cb53fd5fb3de84b154f6ab26e9599e8eb2dc",
+      "route_deadline_seconds": 120
+    },
+    "memory": {
+      "level": "end-to-end isolated development components; not marketplace installation",
+      "wall_seconds": 28.782,
+      "status": "completed",
+      "acceptance": {
+        "status": "failed",
+        "checks": [
+          {
+            "name": "before_expiry",
+            "passed": true,
+            "actual": "ada",
+            "expected": "ada"
+          },
+          {
+            "name": "exact_deadline",
+            "passed": false,
+            "actual": "ada",
+            "expected": null
+          },
+          {
+            "name": "after_expiry",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "revoked",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "missing",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          }
+        ],
+        "exit_code": 1
+      },
+      "completed_specialists": [],
+      "task_requirements_verified": false,
+      "fixture_tool_counts": {},
+      "hook_event_count": 31,
+      "routing_decision_count": 0,
+      "route_reasons": {},
+      "initial_snapshot_digest": "97b017fb112f95d88d44347dfdf1cb53fd5fb3de84b154f6ab26e9599e8eb2dc",
+      "route_deadline_seconds": 120
+    },
+    "residual": {
+      "level": "end-to-end isolated development components; not marketplace installation",
+      "wall_seconds": 80.781,
+      "status": "completed",
+      "acceptance": {
+        "status": "passed",
+        "checks": [
+          {
+            "name": "before_expiry",
+            "passed": true,
+            "actual": "ada",
+            "expected": "ada"
+          },
+          {
+            "name": "exact_deadline",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "after_expiry",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "revoked",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          },
+          {
+            "name": "missing",
+            "passed": true,
+            "actual": null,
+            "expected": null
+          }
+        ],
+        "exit_code": 0
+      },
+      "completed_specialists": [],
+      "task_requirements_verified": false,
+      "fixture_tool_counts": {
+        "uat_docs.search_documents": 1,
+        "uat_docs.get_document": 2,
+        "uat_tracker.get_issue": 1
+      },
+      "hook_event_count": 66,
+      "routing_decision_count": 0,
+      "route_reasons": {},
+      "initial_snapshot_digest": "97b017fb112f95d88d44347dfdf1cb53fd5fb3de84b154f6ab26e9599e8eb2dc",
+      "route_deadline_seconds": 120
+    }
+  },
+  "probability_examples": [
+    {
+      "id": "8f9b16a5ae9441c5",
+      "user": "developer_a",
+      "operation": "repository_search",
+      "goal": "Track down the implementation behind session expiration, starting without function names or filenames.",
+      "preferred": "native.lexical_search",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.semantic_search": 6.920868271210474e-05,
+            "native.filename_search": 3.882255248843012e-05,
+            "native.lexical_search": 0.00015116566089526,
+            "defer": 0.9997408031039042
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.semantic_search": 1.3596862144978682e-05,
+            "native.filename_search": 1.8296577884015518e-05,
+            "native.lexical_search": 0.002511383414598891,
+            "defer": 0.9974567231453721
+          }
+        },
+        "residual": {
+          "selected": "native.lexical_search",
+          "probabilities": {
+            "mcp.semantic_search": 0.0006879600251308189,
+            "native.filename_search": 0.0007679818422128752,
+            "native.lexical_search": 0.541983183549412,
+            "defer": 0.4565608745832443
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.semantic_search": 7.203685156584086e-05,
+            "native.filename_search": 8.291390791004835e-05,
+            "native.lexical_search": 0.006902768316269443,
+            "defer": 0.9929422809242546
+          }
+        }
+      }
+    },
+    {
+      "id": "a3e490bb1dba5498",
+      "user": "developer_b",
+      "operation": "repository_search",
+      "goal": "Track down the implementation behind session expiration, starting without function names or filenames.",
+      "preferred": "mcp.semantic_search",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.semantic_search": 6.920868271210474e-05,
+            "native.filename_search": 3.882255248843012e-05,
+            "native.lexical_search": 0.00015116566089526,
+            "defer": 0.9997408031039042
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.semantic_search": 0.0005792733526823283,
+            "native.filename_search": 1.8620711409836346e-05,
+            "native.lexical_search": 1.2999351581575043e-05,
+            "defer": 0.9993891065843263
+          }
+        },
+        "residual": {
+          "selected": "mcp.semantic_search",
+          "probabilities": {
+            "mcp.semantic_search": 0.5066635667011714,
+            "native.filename_search": 0.0006799405559992176,
+            "native.lexical_search": 0.0005263205221428042,
+            "defer": 0.4921301722206866
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.semantic_search": 0.0027573145513498424,
+            "native.filename_search": 7.581244766701684e-05,
+            "native.lexical_search": 3.5811264559327326e-05,
+            "defer": 0.9971310617364237
+          }
+        }
+      }
+    },
+    {
+      "id": "0a8356e7fb493df0",
+      "user": "developer_c",
+      "operation": "repository_search",
+      "goal": "Track down the implementation behind session expiration, starting without function names or filenames.",
+      "preferred": "mcp.semantic_search",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "native.filename_search": 6.513033766451943e-06,
+            "mcp.semantic_search": 0.002078559457024542,
+            "native.lexical_search": 0.002111292005633864,
+            "defer": 0.9958036355035751
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "native.filename_search": 3.919862149695138e-06,
+            "mcp.semantic_search": 0.0420791011756804,
+            "native.lexical_search": 0.00020105057378679397,
+            "defer": 0.957715928388383
+          }
+        },
+        "residual": {
+          "selected": "mcp.semantic_search",
+          "probabilities": {
+            "native.filename_search": 3.3435208385364665e-06,
+            "mcp.semantic_search": 0.9921931805389187,
+            "native.lexical_search": 0.00022798752351773513,
+            "defer": 0.007575488416724976
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "native.filename_search": 1.8556910551158185e-05,
+            "mcp.semantic_search": 0.10662702283784257,
+            "native.lexical_search": 0.0005772885661456018,
+            "defer": 0.8927771316854606
+          }
+        }
+      }
+    },
+    {
+      "id": "03351738987683f7",
+      "user": "developer_a",
+      "operation": "knowledge_lookup",
+      "goal": "Find project context about session expiration, with no reason yet to favor either up-to-date source.",
+      "preferred": "mcp.docs_search",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 1.1013292519798166e-06,
+            "mcp.tracker_search": 0.00024156603224269392,
+            "defer": 0.9997573326385053
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 3.1872948767635494e-06,
+            "mcp.tracker_search": 8.481077140578198e-05,
+            "defer": 0.9999120019337175
+          }
+        },
+        "residual": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 0.009109599201854347,
+            "mcp.tracker_search": 0.032189907244475506,
+            "defer": 0.9587004935536702
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 1.891817828505024e-05,
+            "mcp.tracker_search": 0.0003682909584902332,
+            "defer": 0.9996127908632247
+          }
+        }
+      }
+    },
+    {
+      "id": "04a739666e939b6a",
+      "user": "developer_b",
+      "operation": "knowledge_lookup",
+      "goal": "Find project context about session expiration, with no reason yet to favor either up-to-date source.",
+      "preferred": "mcp.tracker_search",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 1.1013292519798166e-06,
+            "mcp.tracker_search": 0.00024156603224269392,
+            "defer": 0.9997573326385053
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 1.152339297417459e-06,
+            "mcp.tracker_search": 0.0018386631689223118,
+            "defer": 0.9981601844917803
+          }
+        },
+        "residual": {
+          "selected": "mcp.tracker_search",
+          "probabilities": {
+            "mcp.docs_search": 6.954545196491063e-05,
+            "mcp.tracker_search": 0.8458836058593756,
+            "defer": 0.15404684868865945
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 7.366785871067727e-06,
+            "mcp.tracker_search": 0.0060035515693668,
+            "defer": 0.9939890816447621
+          }
+        }
+      }
+    },
+    {
+      "id": "e0acea15f4d277d5",
+      "user": "developer_c",
+      "operation": "knowledge_lookup",
+      "goal": "Find project context about session expiration, with no reason yet to favor either up-to-date source.",
+      "preferred": "mcp.docs_search",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 1.1013292519798166e-06,
+            "mcp.tracker_search": 0.00024156603224269392,
+            "defer": 0.9997573326385053
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 1.0019787469719765e-06,
+            "mcp.tracker_search": 0.0010322300024812588,
+            "defer": 0.9989667680187718
+          }
+        },
+        "residual": {
+          "selected": "mcp.tracker_search",
+          "probabilities": {
+            "mcp.docs_search": 0.0014370085038960246,
+            "mcp.tracker_search": 0.5179494376212463,
+            "defer": 0.48061355387485766
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "mcp.docs_search": 5.660702955357721e-06,
+            "mcp.tracker_search": 0.0038244619953713413,
+            "defer": 0.9961698773016733
+          }
+        }
+      }
+    },
+    {
+      "id": "27e3028cc349d11f",
+      "user": "developer_a",
+      "operation": "specialist_assignment",
+      "goal": "Give this session expiration patch an independent check. Either reviewing it or extending its tests is acceptable.",
+      "preferred": "agent.reviewer",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.test_specialist": 9.87045241031309e-07,
+            "agent.reviewer": 0.00042388432360033253,
+            "defer": 0.9995751286311587
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.test_specialist": 9.986695349957907e-07,
+            "agent.reviewer": 0.004331497694824881,
+            "defer": 0.9956675036356402
+          }
+        },
+        "residual": {
+          "selected": "agent.reviewer",
+          "probabilities": {
+            "agent.test_specialist": 5.558797051539397e-05,
+            "agent.reviewer": 0.928357192194416,
+            "defer": 0.07158721983506859
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.test_specialist": 5.515661468233218e-06,
+            "agent.reviewer": 0.01406354947303969,
+            "defer": 0.9859309348654922
+          }
+        }
+      }
+    },
+    {
+      "id": "e4e3916ecdcac538",
+      "user": "developer_b",
+      "operation": "specialist_assignment",
+      "goal": "Give this session expiration patch an independent check. Either reviewing it or extending its tests is acceptable.",
+      "preferred": "agent.test_specialist",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.reviewer": 7.721762342996179e-05,
+            "agent.test_specialist": 5.561776773297557e-05,
+            "defer": 0.9998671646088371
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.reviewer": 1.3004865184856322e-05,
+            "agent.test_specialist": 0.0001740031726098588,
+            "defer": 0.9998129919622053
+          }
+        },
+        "residual": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.reviewer": 0.0026153498753829383,
+            "agent.test_specialist": 0.34068914169097797,
+            "defer": 0.656695508433639
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.reviewer": 7.249746996373596e-05,
+            "agent.test_specialist": 0.0006361450886935507,
+            "defer": 0.9992913574413427
+          }
+        }
+      }
+    },
+    {
+      "id": "0e3cf4c0f85c95a6",
+      "user": "developer_c",
+      "operation": "specialist_assignment",
+      "goal": "Give this session expiration patch an independent check. Either reviewing it or extending its tests is acceptable.",
+      "preferred": "agent.test_specialist",
+      "arms": {
+        "current": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.test_specialist": 9.87045241031309e-07,
+            "agent.reviewer": 0.00042388432360033253,
+            "defer": 0.9995751286311587
+          }
+        },
+        "memory": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.test_specialist": 3.844743352627068e-06,
+            "agent.reviewer": 4.9859390429973255e-05,
+            "defer": 0.9999462958662174
+          }
+        },
+        "residual": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.test_specialist": 0.011073933954805076,
+            "agent.reviewer": 0.022751957659760413,
+            "defer": 0.9661741083854344
+          }
+        },
+        "lora": {
+          "selected": "defer",
+          "probabilities": {
+            "agent.test_specialist": 2.0780598761734043e-05,
+            "agent.reviewer": 0.000219948801669286,
+            "defer": 0.999759270599569
+          }
+        }
+      }
+    }
+  ],
+  "test_cases": {
+    "current": [
+      {
+        "id": "8f9b16a5ae9441c5",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "a3e490bb1dba5498",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0a8356e7fb493df0",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "dc5bdec61fe026d1",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8b8c055206e07608",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "576c66bf02f609ec",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "03351738987683f7",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "04a739666e939b6a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e0acea15f4d277d5",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "6b59cc89024b025d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "c90486967471b932",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4028c539977a5480",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "27e3028cc349d11f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e4e3916ecdcac538",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0e3cf4c0f85c95a6",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "bd7bf3a862742c2f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "ea81244e557da12a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8beff9fcdeba021a",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "262f35b510776350",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "933bfd03a2fda92b",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "17a4d366826022ed",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "c264632a5750f983",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "562402f0a6c4288e",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "04e33eee3132c150",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "482ebb9467662872",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "3e6aa0df91877e67",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "ea86cf7ad84b9dde",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "915544f46883f362",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "f85a926dc307f4fc",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4d007ab5d7b40d87",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "371aa8e7ddf247b0",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "5a07a14ab67a742f",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "7702c1cb0479c13e",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "9779985b1e04e83d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "081faff1014973cb",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "2d36b5a777086f32",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0ae6b651c69617ad",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e7a844d909006451",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "617d2a42de6797ef",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "259dae9dc2ba3878",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "97c2457ce6264a3e",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "14c85d4491a5e132",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d782c13f5ba9aa89",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d41acc48823ee482",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "dc3ba8bb907e7f42",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "861da6ced2e053be",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "3feab010e3c5d073",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "bcf68307dfa636cc",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "76188ef12e9a72ab",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "5595db3c835982ab",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "df02a0faa25ac069",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "62f0962fdd50ee6d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "6682621410131b5b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "41d571657e5ac645",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e898a52169a8a99d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d4ab27ad094d209f",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "360d2ed312763711",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "5f53550d142793b3",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "e8ac45b809b3bbff",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "6ca9f5fe8c4f254a",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "8c8e4fa671b66f5c",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "43a5a0d34eb98d5d",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "2ae42a8c41d8b416",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "e7d9f7ad7e4fa56f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d95e094a775704b4",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "7db8f24b077bd5f9",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "b63ca27b27287d0e",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "490ce6ea5dce3839",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "3fc47c7b28ef593d",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "d35a04dc277b944f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4cfc1d2bc087126b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "973f5e50e3371423",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      }
+    ],
+    "memory": [
+      {
+        "id": "8f9b16a5ae9441c5",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "a3e490bb1dba5498",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0a8356e7fb493df0",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "dc5bdec61fe026d1",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8b8c055206e07608",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "576c66bf02f609ec",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "03351738987683f7",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "04a739666e939b6a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e0acea15f4d277d5",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "6b59cc89024b025d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "c90486967471b932",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4028c539977a5480",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "27e3028cc349d11f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e4e3916ecdcac538",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0e3cf4c0f85c95a6",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "bd7bf3a862742c2f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "ea81244e557da12a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8beff9fcdeba021a",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "262f35b510776350",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "linear.list_comments",
+        "preferred": "linear.list_comments",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "933bfd03a2fda92b",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "17a4d366826022ed",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "c264632a5750f983",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "562402f0a6c4288e",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "04e33eee3132c150",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "482ebb9467662872",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "3e6aa0df91877e67",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "ea86cf7ad84b9dde",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "915544f46883f362",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "f85a926dc307f4fc",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4d007ab5d7b40d87",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "371aa8e7ddf247b0",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "5a07a14ab67a742f",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "7702c1cb0479c13e",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "9779985b1e04e83d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "081faff1014973cb",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "2d36b5a777086f32",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0ae6b651c69617ad",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e7a844d909006451",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "617d2a42de6797ef",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "259dae9dc2ba3878",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "97c2457ce6264a3e",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "14c85d4491a5e132",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d782c13f5ba9aa89",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d41acc48823ee482",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "dc3ba8bb907e7f42",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "861da6ced2e053be",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "3feab010e3c5d073",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "bcf68307dfa636cc",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "76188ef12e9a72ab",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "5595db3c835982ab",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "df02a0faa25ac069",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "62f0962fdd50ee6d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "6682621410131b5b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "41d571657e5ac645",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e898a52169a8a99d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d4ab27ad094d209f",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "360d2ed312763711",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "5f53550d142793b3",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e8ac45b809b3bbff",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "6ca9f5fe8c4f254a",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8c8e4fa671b66f5c",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "43a5a0d34eb98d5d",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "2ae42a8c41d8b416",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "e7d9f7ad7e4fa56f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d95e094a775704b4",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "7db8f24b077bd5f9",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "b63ca27b27287d0e",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "490ce6ea5dce3839",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "3fc47c7b28ef593d",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "d35a04dc277b944f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4cfc1d2bc087126b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "973f5e50e3371423",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      }
+    ],
+    "residual": [
+      {
+        "id": "8f9b16a5ae9441c5",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "a3e490bb1dba5498",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "0a8356e7fb493df0",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "dc5bdec61fe026d1",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8b8c055206e07608",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "576c66bf02f609ec",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "03351738987683f7",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "04a739666e939b6a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "e0acea15f4d277d5",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "6b59cc89024b025d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "c90486967471b932",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "4028c539977a5480",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "27e3028cc349d11f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "agent.reviewer",
+        "preferred": "agent.reviewer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "e4e3916ecdcac538",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0e3cf4c0f85c95a6",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "bd7bf3a862742c2f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "ea81244e557da12a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8beff9fcdeba021a",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "262f35b510776350",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "linear.list_comments",
+        "preferred": "linear.list_comments",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "933bfd03a2fda92b",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "17a4d366826022ed",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "c264632a5750f983",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "562402f0a6c4288e",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "04e33eee3132c150",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "482ebb9467662872",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "3e6aa0df91877e67",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "ea86cf7ad84b9dde",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "915544f46883f362",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "f85a926dc307f4fc",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "agent.test_specialist",
+        "preferred": "agent.test_specialist",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "4d007ab5d7b40d87",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "agent.test_specialist",
+        "preferred": "agent.test_specialist",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "371aa8e7ddf247b0",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "5a07a14ab67a742f",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "7702c1cb0479c13e",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "9779985b1e04e83d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "081faff1014973cb",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "2d36b5a777086f32",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0ae6b651c69617ad",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e7a844d909006451",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "617d2a42de6797ef",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "259dae9dc2ba3878",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "97c2457ce6264a3e",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "14c85d4491a5e132",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "mcp.semantic_search",
+        "preferred": "mcp.semantic_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "d782c13f5ba9aa89",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d41acc48823ee482",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "dc3ba8bb907e7f42",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "861da6ced2e053be",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "3feab010e3c5d073",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "bcf68307dfa636cc",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "76188ef12e9a72ab",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "agent.reviewer",
+        "preferred": "agent.reviewer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "5595db3c835982ab",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "agent.test_specialist",
+        "preferred": "agent.test_specialist",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "df02a0faa25ac069",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "agent.test_specialist",
+        "preferred": "agent.test_specialist",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "62f0962fdd50ee6d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "agent.reviewer",
+        "preferred": "agent.reviewer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "6682621410131b5b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "41d571657e5ac645",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e898a52169a8a99d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d4ab27ad094d209f",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "360d2ed312763711",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "linear.list_comments",
+        "preferred": "linear.list_comments",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "5f53550d142793b3",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "e8ac45b809b3bbff",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "6ca9f5fe8c4f254a",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "8c8e4fa671b66f5c",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "43a5a0d34eb98d5d",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "2ae42a8c41d8b416",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "e7d9f7ad7e4fa56f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "agent.test_specialist",
+        "preferred": "agent.test_specialist",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "d95e094a775704b4",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "agent.test_specialist",
+        "preferred": "agent.test_specialist",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "7db8f24b077bd5f9",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "agent.test_specialist",
+        "preferred": "agent.test_specialist",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "b63ca27b27287d0e",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "490ce6ea5dce3839",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "3fc47c7b28ef593d",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "d35a04dc277b944f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4cfc1d2bc087126b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "mcp.semantic_search",
+        "preferred": "defer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "973f5e50e3371423",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "mcp.semantic_search",
+        "preferred": "defer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": false,
+        "error": false
+      }
+    ],
+    "lora": [
+      {
+        "id": "8f9b16a5ae9441c5",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "dc5bdec61fe026d1",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "03351738987683f7",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "6b59cc89024b025d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "27e3028cc349d11f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "bd7bf3a862742c2f",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "262f35b510776350",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "linear.list_comments",
+        "preferred": "linear.list_comments",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "c264632a5750f983",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "482ebb9467662872",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "915544f46883f362",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "371aa8e7ddf247b0",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "9779985b1e04e83d",
+        "user_id": "developer_a",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0ae6b651c69617ad",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "259dae9dc2ba3878",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "native.lexical_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d782c13f5ba9aa89",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "861da6ced2e053be",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "76188ef12e9a72ab",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "62f0962fdd50ee6d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.reviewer",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e898a52169a8a99d",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "5f53550d142793b3",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "8c8e4fa671b66f5c",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e7d9f7ad7e4fa56f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "b63ca27b27287d0e",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "d35a04dc277b944f",
+        "user_id": "developer_a",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "a3e490bb1dba5498",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8b8c055206e07608",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "04a739666e939b6a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "c90486967471b932",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e4e3916ecdcac538",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "ea81244e557da12a",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "933bfd03a2fda92b",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "562402f0a6c4288e",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "3e6aa0df91877e67",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "f85a926dc307f4fc",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "5a07a14ab67a742f",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "081faff1014973cb",
+        "user_id": "developer_b",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e7a844d909006451",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "97c2457ce6264a3e",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d41acc48823ee482",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "3feab010e3c5d073",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "5595db3c835982ab",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "6682621410131b5b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d4ab27ad094d209f",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e8ac45b809b3bbff",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "43a5a0d34eb98d5d",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.tracker_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "d95e094a775704b4",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "490ce6ea5dce3839",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "4cfc1d2bc087126b",
+        "user_id": "developer_b",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0a8356e7fb493df0",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "576c66bf02f609ec",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "e0acea15f4d277d5",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "4028c539977a5480",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "0e3cf4c0f85c95a6",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "8beff9fcdeba021a",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "17a4d366826022ed",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/6",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "linear.list_comments",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "04e33eee3132c150",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/7",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "ea86cf7ad84b9dde",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "4d007ab5d7b40d87",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "7702c1cb0479c13e",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "2d36b5a777086f32",
+        "user_id": "developer_c",
+        "family_id": "test/session expiration/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "617d2a42de6797ef",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/0",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "14c85d4491a5e132",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/1",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.semantic_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "dc3ba8bb907e7f42",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/2",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "bcf68307dfa636cc",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/3",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "mcp.docs_search",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "df02a0faa25ac069",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/4",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "41d571657e5ac645",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/5",
+        "kind": "preference",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "360d2ed312763711",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/6",
+        "kind": "objective",
+        "selected": "linear.list_comments",
+        "preferred": "linear.list_comments",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "6ca9f5fe8c4f254a",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/7",
+        "kind": "objective",
+        "selected": "mcp.docs_search",
+        "preferred": "mcp.docs_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "2ae42a8c41d8b416",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/8",
+        "kind": "objective",
+        "selected": "mcp.tracker_search",
+        "preferred": "mcp.tracker_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "7db8f24b077bd5f9",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/9",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "agent.test_specialist",
+        "preference_match": false,
+        "acceptable": false,
+        "deferred": true,
+        "error": false
+      },
+      {
+        "id": "3fc47c7b28ef593d",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/10",
+        "kind": "rule",
+        "selected": "native.lexical_search",
+        "preferred": "native.lexical_search",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": false,
+        "error": false
+      },
+      {
+        "id": "973f5e50e3371423",
+        "user_id": "developer_c",
+        "family_id": "test/background job scheduling/11",
+        "kind": "objective",
+        "selected": "defer",
+        "preferred": "defer",
+        "preference_match": true,
+        "acceptable": true,
+        "deferred": true,
+        "error": false
+      }
+    ]
+  },
+  "environment": {
+    "recorded_at": "2026-09-18T15:18:51.440051+00:00",
+    "process_started_at": "2026-09-18T14:26:08.424861+00:00",
+    "reported_cpu": "AMD Ryzen 5 5500U",
+    "reported_gpu": "AMD Vega 7; not used",
+    "logical_cpus": 12,
+    "physical_cpus": 6,
+    "total_ram_bytes": 7928741888,
+    "python": "3.12.13 (main, May  4 2026, 21:19:41) [MSC v.1944 64 bit (AMD64)]",
+    "os": "Windows-11-10.0.26200-SP0",
+    "packages": {
+      "Jinja2": "3.1.6",
+      "MarkupSafe": "3.0.3",
+      "PyJWT": "2.14.0",
+      "PyYAML": "6.0.3",
+      "Pygments": "2.21.0",
+      "accelerate": "1.15.0",
+      "annotated-types": "0.8.0",
+      "anyio": "4.15.1",
+      "attrs": "26.1.0",
+      "certifi": "2026.7.22",
+      "cffi": "2.1.1",
+      "charset-normalizer": "3.5.1",
+      "click": "8.5.0",
+      "colorama": "0.4.6",
+      "contourpy": "1.4.0",
+      "cryptography": "50.0.1",
+      "cycler": "0.12.1",
+      "filelock": "4.0.0",
+      "fonttools": "4.65.0",
+      "fsspec": "2026.7.0",
+      "h11": "0.16.0",
+      "httpcore2": "2.13.0",
+      "httpx2": "2.13.0",
+      "huggingface_hub": "0.36.2",
+      "idna": "3.20",
+      "iniconfig": "2.3.0",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "kiwisolver": "1.5.1",
+      "matplotlib": "3.10.8",
+      "mcp": "2.2.0",
+      "mcp-types": "2.2.0",
+      "mpmath": "1.3.0",
+      "networkx": "3.6.1",
+      "numpy": "2.5.3",
+      "opentelemetry-api": "1.44.0",
+      "packaging": "26.3",
+      "peft": "0.18.1",
+      "pillow": "12.3.0",
+      "pluggy": "1.6.0",
+      "psutil": "7.2.2",
+      "pycparser": "3.0",
+      "pydantic": "2.13.5",
+      "pydantic_core": "2.46.5",
+      "pyparsing": "3.3.2",
+      "pytest": "8.4.2",
+      "python-dateutil": "2.9.0.post0",
+      "python-multipart": "0.0.32",
+      "pywin32": "312",
+      "referencing": "0.37.0",
+      "regex": "2026.9.10",
+      "requests": "2.34.2",
+      "rippletide": "0.1.0",
+      "rippletide-uat": "0.1.0",
+      "rpds-py": "2026.6.3",
+      "safetensors": "0.8.0",
+      "setuptools": "84.0.0",
+      "six": "1.17.0",
+      "sse-starlette": "3.4.11",
+      "starlette": "1.6.0",
+      "sympy": "1.14.0",
+      "tokenizers": "0.22.2",
+      "torch": "2.7.1",
+      "tqdm": "4.70.1",
+      "transformers": "4.57.6",
+      "truststore": "0.10.4",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0",
+      "urllib3": "2.8.0",
+      "uvicorn": "0.53.0"
+    },
+    "source_snapshot_timing": "Recorded during frozen test inference; not a preregistered commit",
+    "source_sha256": {
+      "experiments/personalization_lab/cli.py": "a40e2c0e4a23a4556cb1b4562815798fcaaae5ac4f10646aab2dad392a292826",
+      "experiments/personalization_lab/codex_reference.py": "646567bc27aaac11c44d25f15d40531b0e5da1ebc5343595779c65c56d8f284e",
+      "experiments/personalization_lab/dataset.py": "f27ef9f1af40a55909556ba98ffa84852015d950fe0b13a0cc4ca7563afc8c9f",
+      "experiments/personalization_lab/evaluation.py": "3278394563a2eac358f85d731faee5f30ef18c2aba969cc5ad93df255345b6f1",
+      "experiments/personalization_lab/reporting.py": "64c58e6b7cb11a5888d2975998a7ff503342cc7dd57daeb9cc2c2637a4a44e41",
+      "experiments/personalization_lab/rules_reference.py": "5a99c2b15fbbb625d11caee05caea88c1d727ae30a56cb780b7f5fd360d9ce13",
+      "experiments/personalization_lab/runner.py": "e564acfce6ff0da35e565cbabb6fcb2dc436a10bf3bc7a4f47045914673e03c3",
+      "experiments/personalization_lab/task_comparison.py": "8d81fe1d1530dc58ab449a18a3b67d13ac4f6bf056fb169c3db467bf625493be",
+      "experiments/personalization_lab/__init__.py": "545adf287b50d002ccf9d9c04dd22066d895ace0ad1c501b7677585c8b526dbc",
+      "plugins/rippletide/src/rippletide/artifacts.py": "ab22e0aa76edcaa5ce4801cfc6c66e98b26106cb5f9a2568fdf8c64194f518b7",
+      "plugins/rippletide/src/rippletide/catalog.py": "80782b9288bac3380f46f7989e1ee9b2527a0a4e5d462895ca2696cbebd955ba",
+      "plugins/rippletide/src/rippletide/cli.py": "17cb82c9e89238dcbdac4717e753366b527ad81b3408cf3ea03e505780ea811e",
+      "plugins/rippletide/src/rippletide/config.py": "5083820c84f193eb71a15e96ada6db223d0c671cc5e2ba00b818435789a01d0b",
+      "plugins/rippletide/src/rippletide/direct_logit.py": "e95dfdd47a8813c1a5ce2dc63f47cdcb35509806a3616cfd5de0ca6001fe0ff6",
+      "plugins/rippletide/src/rippletide/identity.py": "f09e64abb922652daf896565a0fd5295bfdf33899828109a14c73c0143a752e6",
+      "plugins/rippletide/src/rippletide/learning.py": "fc7278d18a41460e7fa3762cd8fdb72fc93827e0c6a2a3ef32ba8f8f19a65b9d",
+      "plugins/rippletide/src/rippletide/lora_training.py": "e17cdcca3529704ec5edb5ae9e048b01b126f440b5086984626d38ddc02ccf67",
+      "plugins/rippletide/src/rippletide/model.py": "a21955a7ae7a04e7a65d9a2c83ac69a3eb3da3bf1d78ce3c94695142d52dd1bd",
+      "plugins/rippletide/src/rippletide/personalization.py": "f25eaaa1af3ba01fdbaebe79500361349c7a33efa1ffd999d6e2d6865f186f96",
+      "plugins/rippletide/src/rippletide/portable.py": "3bc8bfe4f07be8d101e1ea9d95622c47e993088e6c3764e3885932b63d9786ea",
+      "plugins/rippletide/src/rippletide/router.py": "0b681659d9e34be6ff20ac2284b7ec1392bdaeafa333f2262d4cd66b2e2de638",
+      "plugins/rippletide/src/rippletide/server.py": "78d23fdc74c91212927cec54b27c478dcc64b48e53b27450010e0cc1b459fe19",
+      "plugins/rippletide/src/rippletide/torch_engine.py": "b672fbdf0b77db9d1b7d073de4518075906126cffa8985bc25c0d5d124d665f4",
+      "plugins/rippletide/src/rippletide/worker.py": "e344f07df803d6d925f8b82c16de4136d974a51a3884da222e3244e242da5fdf",
+      "plugins/rippletide/src/rippletide/__init__.py": "89727a928b148cbd2a272592ed92d2abe182dac30ffc51820d252f35dfb5e074",
+      "plugins/rippletide/src/rippletide/__main__.py": "74b1eff034e9ddf1a3dc2d8e11b3e774e03c32f64012cd25be133af22877d994"
+    }
+  },
+  "resources": {
+    "samples": 529,
+    "first_sample_at": "2026-09-18T15:12:33.626416+00:00",
+    "last_sample_at": "2026-09-18T17:41:43.598812+00:00",
+    "observed_wall_seconds": 8949.972396,
+    "peak_process_rss_bytes": 1948524544,
+    "minimum_system_available_bytes": 222597120,
+    "last_process_cpu_seconds": 24840.1875,
+    "note": "Samples cover the stated interval; Windows peak memory and cumulative CPU counters cover the process lifetime. Not energy or monetary cost.",
+    "sampling_gaps_over_60_seconds": [
+      {
+        "from": "2026-09-18T16:30:04.164693+00:00",
+        "to": "2026-09-18T17:31:23.539268+00:00",
+        "wall_seconds": 3679.374575,
+        "process_cpu_seconds_increase": 9.65625
+      }
+    ]
+  },
+  "model_inference": {
+    "current": {
+      "timed_test_cases": 66,
+      "median_ms": 9111.414,
+      "maximum_ms": 14405.04,
+      "within_production_two_seconds": 0,
+      "residual_adjustment_overhead_included": null
+    },
+    "memory": {
+      "timed_test_cases": 66,
+      "median_ms": 14699.530999999999,
+      "maximum_ms": 22997.329,
+      "within_production_two_seconds": 0,
+      "residual_adjustment_overhead_included": null
+    },
+    "residual": {
+      "timed_test_cases": 66,
+      "median_ms": 14699.530999999999,
+      "maximum_ms": 22997.329,
+      "within_production_two_seconds": 0,
+      "residual_adjustment_overhead_included": false
+    },
+    "lora": {
+      "timed_test_cases": 66,
+      "median_ms": 15188.791000000001,
+      "maximum_ms": 18545.678,
+      "within_production_two_seconds": 0,
+      "residual_adjustment_overhead_included": null
+    }
+  },
+  "saved_rules_reference": {
+    "level": "supplemental unconditional saved-preference rule diagnostic",
+    "added_after_main_run_started": true,
+    "used_for_training_or_selection": false,
+    "limitation": "Existing per-operation prefer rules are unconditional; the synthetic preferences are conditional on task suitability.",
+    "summary": {
+      "all": {
+        "matched": 48,
+        "total": 72,
+        "rate": 0.6666666666666666
+      },
+      "preference": {
+        "matched": 36,
+        "total": 36,
+        "rate": 1.0
+      },
+      "objective": {
+        "matched": 10,
+        "total": 30,
+        "rate": 0.3333333333333333
+      },
+      "per_user": {
+        "developer_a": {
+          "matched": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "developer_b": {
+          "matched": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "developer_c": {
+          "matched": 12,
+          "total": 12,
+          "rate": 1.0
+        }
+      },
+      "acceptable": 48,
+      "errors": 4,
+      "defers": 4,
+      "median_ms": 6.143,
+      "p95_ms": 22.17
+    }
+  }
+}

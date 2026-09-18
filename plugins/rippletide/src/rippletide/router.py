@@ -50,22 +50,26 @@ def append_event(path: Path, event: dict):
     path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     line = (json.dumps(event, ensure_ascii=False, allow_nan=False) + "\n").encode()
     # An advisory file lock keeps entire JSONL lines intact across processes.
-    import fcntl
     descriptor = os.open(path, os.O_APPEND | os.O_CREAT | os.O_WRONLY, 0o600)
     with os.fdopen(descriptor, "ab", buffering=0) as stream:
         # A competing writer must not make routing wait beyond its deadline.
         # If busy, the response explicitly reports log_error instead of claiming a trace was saved.
-        fcntl.flock(stream.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        from rippletide.portable import lock_file, unlock_file
+        lock_file(stream.fileno())
         try:
             stream.write(line)
         finally:
-            fcntl.flock(stream.fileno(), fcntl.LOCK_UN)
+            unlock_file(stream.fileno())
 
 
 class Router:
-    def __init__(self, *, data_dir: Path | None = None, worker=None, model: str | None = None):
+    def __init__(self, *, data_dir: Path | None = None, worker=None, model: str | None = None,
+                 timeout_seconds: float = ROUTE_TIMEOUT_SECONDS):
         self.data_dir = data_dir or data_directory()
         self.model = model_spec(model if model is not None else getattr(worker, "model", None)).alias
+        if not math.isfinite(timeout_seconds) or not 0 < timeout_seconds <= 120:
+            raise ValueError("Routing timeout must be between 0 and 120 seconds")
+        self.timeout_seconds = timeout_seconds
         if worker is not None and getattr(worker, "model", self.model) != self.model:
             raise ValueError("Configured router model does not match supplied worker")
         self.worker = worker if worker is not None else WorkerManager(self.data_dir, model=self.model)
@@ -87,9 +91,10 @@ class Router:
                 "invocation": selected.invocation if selected else None,
                 "input_schema": selected.input_schema if selected else None,
                 "elapsed_ms": round((time.perf_counter() - started) * 1000, 3),
+                "timeout_seconds": self.timeout_seconds,
             }
             if diagnostics:
-                for key in ("score", "score_kind", "input_tokens", "observations_used", "inference_ms", "worker_pid", "worker_state", "prompt_version", "prompt_sha256", "output_tokens", "readout_tokens", "label", "label_token_id"):
+                for key in ("score", "score_kind", "input_tokens", "observations_used", "inference_ms", "worker_pid", "worker_state", "prompt_version", "prompt_sha256", "output_tokens", "readout_tokens", "label", "label_token_id", "candidate_ids", "candidate_logits", "candidate_probabilities", "personalization"):
                     if key in diagnostics:
                         response[key] = diagnostics[key]
             summary = {
@@ -174,7 +179,7 @@ class Router:
             "recent_observations": request.recent_observations,
             "candidates": [{"id": cap.id, "kind": cap.kind, "description": cap.description} for cap in candidates],
         }
-        remaining = ROUTE_TIMEOUT_SECONDS - (time.perf_counter() - started)
+        remaining = self.timeout_seconds - (time.perf_counter() - started)
         if remaining <= 0:
             return finish("ROUTER_TIMEOUT")
         try:
@@ -183,7 +188,7 @@ class Router:
             return finish("MODEL_ERROR")
         if not isinstance(result, dict):
             return finish("INVALID_MODEL_OUTPUT")
-        if time.perf_counter() - started > ROUTE_TIMEOUT_SECONDS:
+        if time.perf_counter() - started > self.timeout_seconds:
             return finish("ROUTER_TIMEOUT", diagnostics=result)
         score = result.get("score")
         if score is not None and (not isinstance(score, (float, int)) or not math.isfinite(score) or not 0 <= score <= 1):
@@ -227,7 +232,7 @@ class Router:
             "ready": configuration_valid and bool(available) and (config.variant == "C" or worker["ready"]),
             "routing_available": bool(available) and config.variant in {"C", "D"},
             "variant": config.variant, "registry_version": config.registry_version,
-            "platform_supported": supported_platform(), "model_installed": installed,
+            "platform_supported": supported_platform() or model_spec(self.model).adapter == "torch-direct-logit", "model_installed": installed,
             "model_identity": model_identity(self.model), "worker": worker,
             "supported_capabilities": capabilities, "available_capabilities": available,
             "paths": {"data_dir": str(self.data_dir), "source": artifacts.get("source_path"), "weights": artifacts.get("weights_path"), "log": path},

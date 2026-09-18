@@ -12,6 +12,10 @@ from rippletide.router import Router
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "learning":
+        from rippletide.learning import main as learning_main
+        learning_main(sys.argv[2:])
+        return
     parser = argparse.ArgumentParser(prog="rippletide")
     sub = parser.add_subparsers(dest="command", required=True)
     setup = sub.add_parser("setup", help="Download, verify, and load the exact pinned engine and weights")

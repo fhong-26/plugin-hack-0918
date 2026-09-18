@@ -13,7 +13,8 @@ def main():
         print("Rippletide requires uv on PATH. See the project README for setup.", file=sys.stderr)
         return 1
     root = Path(__file__).resolve().parents[1]
-    os.execv(uv, [uv, "run", "--frozen", "--python", "3.12", "--project", str(root), "rippletide", "serve"])
+    extra = ["--extra", "cpu-lab"] if os.environ.get("RIPPLETIDE_MODEL") == "qwen3-0.6b-torch" else []
+    os.execv(uv, [uv, "run", "--frozen", "--python", "3.12", "--project", str(root), *extra, "rippletide", "serve"])
 
 
 if __name__ == "__main__":

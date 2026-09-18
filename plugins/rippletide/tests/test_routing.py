@@ -126,15 +126,16 @@ def test_report_records_decisions_but_never_claims_execution(router, project):
 
 
 def test_busy_log_writer_does_not_block_routing(router, project):
-    import fcntl
+    from rippletide.portable import lock_file, unlock_file
     path = project / ".rippletide" / "decisions.jsonl"
     with path.open("ab") as holder:
-        fcntl.flock(holder.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        lock_file(holder.fileno())
         started = time.perf_counter()
         result = call(router, project, facts={"filename": "sessions.py"})
         assert time.perf_counter() - started < 0.5
         assert result["status"] == "selected"
         assert result["log_error"]
+        unlock_file(holder.fileno())
 
 
 def test_explicit_preflight_phase_is_recorded_separately(router, project, monkeypatch):

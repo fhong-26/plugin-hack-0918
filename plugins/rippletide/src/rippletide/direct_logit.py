@@ -9,6 +9,7 @@ from pathlib import Path
 from rippletide.artifacts import read_artifacts, supported_platform
 from rippletide.catalog import model_spec
 from rippletide.identity import INPUT_TOKEN_LIMIT
+from rippletide.personalization import Personalizer, adjusted_scores, memory_text, softmax
 
 LABELS = tuple(string.ascii_uppercase)
 DEFER_LABEL = "Z"
@@ -38,6 +39,8 @@ def messages_for(packet: dict, observations: list[dict]) -> list[dict]:
         "Z: Defer; no suitable capability or unclear task.\nTask data (JSON):\n"
         + json.dumps(context, ensure_ascii=False, sort_keys=True)
         + "\n\nWhich capability should the assistant call next?")
+    if packet.get("preference_memory"):
+        task += memory_text(packet["preference_memory"], packet["candidates"], list(LABELS))
     return [{"role": "system", "content": system},
         {"role": "user", "content": task}]
 
@@ -53,7 +56,7 @@ def prepare_input(tokenizer, packet: dict) -> tuple[list[int], list[dict]]:
 
 
 class DirectLogitEngine:
-    def __init__(self, data_dir: Path, model: str):
+    def __init__(self, data_dir: Path, model: str, *, personalize: bool = True):
         if not supported_platform():
             raise RuntimeError("Apple Silicon MLX is required")
         spec = model_spec(model)
@@ -63,6 +66,12 @@ class DirectLogitEngine:
         self.mx = mx
         self.model, self.tokenizer = load(artifacts["weights_path"], tokenizer_config={"trust_remote_code": False})
         self.spec = spec
+        self.personalizer = Personalizer(enabled=personalize)
+        from rippletide.identity import model_identity
+        self.personalizer.validate_base(model_identity(spec.alias), "mlx")
+        if self.personalizer.adapter_path:
+            from mlx_lm.tuner.utils import load_adapters
+            self.model = load_adapters(self.model, str(self.personalizer.adapter_path))
         self.label_ids = validated_label_ids(self.tokenizer)
         # Shader compilation belongs to startup, not the first measured decision.
         warmup = {"goal": "Find the current specification", "operation": "knowledge_lookup",
@@ -71,6 +80,7 @@ class DirectLogitEngine:
         self.predict(warmup)
 
     def predict(self, packet: dict) -> dict:
+        packet = self.personalizer.packet(packet)
         candidates = packet["candidates"]
         if not 1 <= len(candidates) <= 25:
             return {"status": "defer", "reason_code": "TOO_MANY_CANDIDATES"}
@@ -87,10 +97,15 @@ class DirectLogitEngine:
         # state from one routing request leaking into the next request.
         from mlx_lm.models.cache import make_prompt_cache
         logits = self.model(self.mx.array(tokens)[None], cache=make_prompt_cache(self.model))[:, -1, :]
-        scores = self.mx.softmax(logits[0, allowed].astype(self.mx.float32))
-        self.mx.eval(scores)
-        index = int(self.mx.argmax(scores).item())
-        common.update(score=float(scores[index].item()), score_kind="uncalibrated_candidate_softmax",
+        selected_logits = logits[0, allowed].astype(self.mx.float32)
+        self.mx.eval(selected_logits)
+        raw = selected_logits.tolist()
+        scores = softmax(adjusted_scores(packet, raw, self.personalizer.policy))
+        index = max(range(len(scores)), key=scores.__getitem__)
+        common.update(score=float(scores[index]), score_kind="uncalibrated_candidate_softmax",
+            candidate_ids=[c["id"] for c in candidates] + ["defer"],
+            candidate_logits=raw, candidate_probabilities=scores,
+            personalization=self.personalizer.identity(),
             inference_ms=round((time.perf_counter() - started) * 1000, 3),
             label=labels[index], label_token_id=self.label_ids[labels[index]])
         if labels[index] == DEFER_LABEL:

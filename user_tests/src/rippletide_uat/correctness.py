@@ -232,12 +232,9 @@ def _run_judge(command, *, cwd, environment, prompt, timeout, stdout_path, stder
             process.communicate(prompt, timeout=timeout)
         except subprocess.TimeoutExpired:
             timed_out = True
-            os.killpg(process.pid, signal.SIGTERM)
-            try:
-                process.communicate(timeout=5)
-            except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL)
-                process.communicate()
+            from .paired_host import terminate_owned
+            terminate_owned(process)
+            process.communicate()
     stdout_path.chmod(0o600)
     stderr_path.chmod(0o600)
     return process.returncode, timed_out, time.monotonic() - start

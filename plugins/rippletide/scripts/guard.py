@@ -8,7 +8,6 @@ transcript path and turn. Never add telemetry arguments to third-party tools.
 
 import argparse
 from datetime import datetime, timezone
-import fcntl
 import hashlib
 import json
 import os
@@ -17,6 +16,18 @@ import shlex
 import sqlite3
 import sys
 import time
+
+
+def lock_event_file(fd):
+    # Hooks remain standard-library-only, including before package setup.
+    if os.name == "nt":
+        import msvcrt
+        os.lseek(fd, 0, os.SEEK_SET)
+        msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+        os.lseek(fd, 0, os.SEEK_END)
+    else:
+        import fcntl
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
 
 OPERATIONS = {"repository_search", "knowledge_lookup", "specialist_assignment"}
@@ -230,7 +241,7 @@ class Guard:
         payload = (json.dumps(entry, ensure_ascii=False) + "\n").encode()
         fd = os.open(self.events, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
         try:
-            fcntl.flock(fd, fcntl.LOCK_EX)
+            lock_event_file(fd)
             while payload:
                 payload = payload[os.write(fd, payload):]
         finally:

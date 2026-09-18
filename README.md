@@ -2,7 +2,7 @@
 
 Rippletide is a local Codex plugin that chooses registered tools and specialists using explicit preferences first, then a small model. Codex supplies arguments, executes the choice, and interprets the result. Hooks check that supported calls follow a fresh routing decision.
 
-**Status:** Experimental pilot with a paired test runner, routing checks, and four local model options. The first fixture pair was slower with Rippletide; the Linear/AGE-1349 enabled attempt stopped after incorrect tool selections. [Paired evaluation evidence](docs/PAIRED_RESULTS.md) records these results and limitations. Faster/cheaper/better is not established. [Original pilot evidence](docs/PILOT_RESULTS.md) is historical.
+**Status:** Experimental pilot with a paired test runner, routing checks, four MLX model options and an explicit CPU research backend. Opt-in personalization now includes memory, a learned scoring policy and LoRA. The [personalization lab report](docs/PERSONALIZATION_LAB_REPORT.md) separates implemented mechanisms from measured benefit. The first fixture pair was slower with Rippletide; the Linear/AGE-1349 enabled attempt stopped after incorrect tool selections. [Paired evaluation evidence](docs/PAIRED_RESULTS.md) records those earlier results. Faster/cheaper/better is not established.
 
 ## Start a user test
 
@@ -38,6 +38,7 @@ resource contention. One pair cannot establish speed, cost, or determinism.
 - [Plugin setup](plugins/rippletide/README.md): local engine, MCP operations, preferences.
 - [User-test kit](user_tests/README.md): fresh projects, real MCPs, specialist agents, U01–U09.
 - [Shared contract](docs/CONTRACT.md): registry, routing API, event formats.
+- [Personalization experiment](experiments/README.md): matched before/after tool-choice comparisons, training controls and reproducible CPU commands.
 - [Original ChatGPT response](chatgpt-response-prd-source.md): preserved source material.
 
 ## First version
@@ -68,6 +69,10 @@ uv run --locked --project user_tests rippletide-uat run --repo ~/projects/my-pro
 ```
 
 See [model provenance and configuration](plugins/rippletide/README.md#model-options).
+The separate `qwen3-0.6b-torch` alias uses pinned official Qwen weights with a
+portable CPU backend for the personalization experiment. It is never selected
+as an automatic replacement for MLX; see the experiment's hardware and latency
+limitations before using it for routing.
 
 ## Setup
 
@@ -141,4 +146,4 @@ command in this project recursively deletes model data or prior test attempts.
 3. Dedicated Linear/Notion acceptance once disposable project/page IDs and connectivity are supplied.
 4. Full 40-task benchmark, followed by any fine-tuning or RL work.
 
-Faster execution, lower token usage, and more consistent choices are goals to measure. The [PRD](PRD.md) defines proposed targets and distinguishes a completed implementation from a validated product. Fine-tuning and RL are later work.
+Faster execution, lower token usage, and more consistent choices are goals to measure. The [PRD](PRD.md) defines proposed targets and distinguishes implementation from a validated product. The separate personalization study now implements and evaluates LoRA; reinforcement learning remains future work.

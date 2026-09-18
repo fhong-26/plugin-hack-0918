@@ -1,5 +1,9 @@
 .DS_Store
 .venv/
+.lab-venv/
+.lab-dml-venv/
+.lab-cache/
+.lab-runs/
 __pycache__/
 *.py[cod]
 .pytest_cache/

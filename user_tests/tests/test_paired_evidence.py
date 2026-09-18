@@ -254,7 +254,9 @@ def test_share_exports_omit_sensitive_free_text_and_prevent_xss(tmp_path):
         assert "PRIVATE123" not in exported and "alice" not in exported and "evil.example" not in exported
         assert "<script>" not in exported and 'alert("secret")' not in exported
     assert "PRIVATE123" in (tmp_path / "evidence-private.json").read_text()
-    assert (tmp_path / "evidence-private.json").stat().st_mode & 0o777 == 0o600
+    import os
+    if os.name != "nt":
+        assert (tmp_path / "evidence-private.json").stat().st_mode & 0o777 == 0o600
     assert public_report_pair(tmp_path) == read_json(tmp_path / "report.json")
 
 

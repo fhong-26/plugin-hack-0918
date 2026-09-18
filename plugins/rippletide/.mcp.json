@@ -4,7 +4,7 @@
       "command": "python3",
       "args": ["./scripts/launch.py"],
       "cwd": ".",
-      "env_vars": ["RIPPLETIDE_MODEL", "RIPPLETIDE_DATA_DIR", "RIPPLETIDE_RUN_DIR", "RIPPLETIDE_RUN_ID", "RIPPLETIDE_PHASE", "RIPPLETIDE_PROJECT_ROOT"],
+      "env_vars": ["RIPPLETIDE_MODEL", "RIPPLETIDE_DATA_DIR", "RIPPLETIDE_RUN_DIR", "RIPPLETIDE_RUN_ID", "RIPPLETIDE_PHASE", "RIPPLETIDE_PROJECT_ROOT", "RIPPLETIDE_PROFILE", "RIPPLETIDE_EXPERIMENT_TIMEOUT", "RIPPLETIDE_CPU_THREADS"],
       "startup_timeout_sec": 120,
       "tool_timeout_sec": 10
     }
